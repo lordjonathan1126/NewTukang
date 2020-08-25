@@ -10,7 +10,31 @@ import SwiftUI
 
 struct AppTabBar: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        TabView{
+            HomeView()
+                .tabItem{
+                    VStack {
+                        Image(systemName: "rectangle.3.offgrid")
+                        Text("Home")
+                    }.padding()
+            }.tag(0)
+            BookingView()
+                .tabItem{
+                    VStack{
+                        Image(systemName: "calendar")
+                        Text("Booking")
+                    }.padding()
+            }.tag(1)
+            
+            
+            ProfileView()
+                .tabItem{
+                    VStack{
+                        Image(systemName: "person.circle")
+                        Text("Profile")
+                    }.padding()
+            }.tag(2)
+        }.accentColor(.purple)
     }
 }
 

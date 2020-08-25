@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  ProfileVIew.swift
 //  NewTukang
 //
 //  Created by Jonathan Ng on 21/08/2020.
@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ProfileView: View {
     var body: some View {
-        AppTabBar()
+        Text("Profile View")
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct ProfileVIew_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ProfileView()
     }
 }

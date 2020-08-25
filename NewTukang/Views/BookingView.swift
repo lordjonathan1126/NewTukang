@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  BookingView.swift
 //  NewTukang
 //
 //  Created by Jonathan Ng on 21/08/2020.
@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct BookingView: View {
     var body: some View {
-        AppTabBar()
+        Text("Booking View")
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct BookingView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        BookingView()
     }
 }
