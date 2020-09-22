@@ -34,7 +34,7 @@ struct AppTabBar: View {
                         Text("Profile")
                     }.padding()
             }.tag(2)
-        }.accentColor(.purple)
+        }.accentColor(Color("Accent"))
     }
 }
 

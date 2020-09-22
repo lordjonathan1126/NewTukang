@@ -9,8 +9,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var webService = WebService()
     var body: some View {
-        AppTabBar()
+        HomeView()
     }
 }
 

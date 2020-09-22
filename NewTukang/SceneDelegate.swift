@@ -32,6 +32,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView: contentView)
             self.window = window
+            
+            //Set our tintColor her to the root window controller
+            self.window?.tintColor = UIColor(named:"Accent")
             window.makeKeyAndVisible()
         }
     }
