@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import URLImage
 
 struct HomeView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -17,7 +16,7 @@ struct HomeView: View {
                 Color("Background")
                     .edgesIgnoringSafeArea(.all)
                 VStack {
-                    TitleBar()
+                    //TitleBar()
                     ScrollView{
                         if #available(iOS 14.0, *) {
                             LazyVStack{
@@ -46,9 +45,9 @@ struct HomeView: View {
                     }
                 }
             }
-            .navigationBarHidden(true)
+            //.navigationBarHidden(true)
             .navigationBarTitle("Tukang")
-            .edgesIgnoringSafeArea([.top])
+            //.edgesIgnoringSafeArea([.top])
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
@@ -207,7 +206,7 @@ struct TrendingView: View {
     
     var body: some View{
         if #available(iOS 14.0, *) {
-           VStack(alignment:.leading){
+            VStack(alignment:.leading){
                 VStack(alignment: .leading) {
                     Text("\(title)")
                         .font(.title)
@@ -261,6 +260,7 @@ struct TrendingCards: View{
     var desc:String = "Description"
     var duration:String = "120"
     var imageUrl:String
+    let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
     var stylists: FetchRequest<CoreStylist>
     
@@ -274,25 +274,15 @@ struct TrendingCards: View{
         self.price = price
         self.desc = desc
         self.duration = duration
-       
+        
         self.imageUrl = imageUrl
     }
     
     var body: some View{
         VStack{
-            URLImage(URL(string: imageUrl)!, placeholder: {_ in
-                Image("Beauty")
-                    .resizable()
-                    .frame(width: 100.0, height: 100.0)
-            }){proxy in
-                proxy.image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .clipped()
-                    .frame(width: 240 , height: 160)
-                    .cornerRadius(10)
-
-            }   
+           UrlImageView(urlString: imageUrl)
+            .clipped()
+            .frame(width: 240)
             Spacer()
             VStack(alignment: .leading) {
                 HStack {
@@ -307,18 +297,18 @@ struct TrendingCards: View{
             }
             VStack(alignment:.leading){
                 //Text("\(desc)")
-                 //   .lineLimit(2)
-                  //  .fixedSize(horizontal: false, vertical: true)
-                  //  .font(.body)
-                  //  .foregroundColor(.secondary)
+                //   .lineLimit(2)
+                //  .fixedSize(horizontal: false, vertical: true)
+                //  .font(.body)
+                //  .foregroundColor(.secondary)
                 Text("\(duration) min")
                     .font(.body)
                     .foregroundColor(.secondary)
                 HStack{
                     ForEach(stylists.wrappedValue, id: \.self){ stylist in
                         Text("By: \(stylist.name ?? "Unknown Stylist")")
-                        .font(.body)
-                        .foregroundColor(.secondary)
+                            .font(.body)
+                            .foregroundColor(.secondary)
                     }
                     Spacer()
                     Text("\(price, specifier: "%.2f")")

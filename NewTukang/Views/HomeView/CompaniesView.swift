@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import URLImage
 
 struct CompaniesView: View {
     @FetchRequest(
@@ -54,19 +53,12 @@ struct CompanyCard: View{
     var body: some View{
         NavigationLink(destination: CompanyDetailView(companyId: companyId, title:companyName)){
             HStack{
-                URLImage((URL(string: imageName) ?? urlPath) , placeholder: {_ in
-                    Image("Beauty")
-                        .resizable()
-                        .frame(width: 100.0, height: 100.0)
-                }){proxy in
-                    proxy.image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
+                UrlImageView(urlString: imageName)
                         .clipShape(Circle())
                         .frame(width: 100, height: 100)
                         .overlay(Circle().stroke(Color("Accent")))
                         .padding()
-                }
+                
                 
                 Spacer()
                 VStack(alignment: .leading){

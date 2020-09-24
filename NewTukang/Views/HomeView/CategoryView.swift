@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import URLImage
 
 struct CategoryView: View {
     var posts: FetchRequest<CorePost>
@@ -27,7 +26,7 @@ struct CategoryView: View {
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
                 if #available(iOS 14.0, *) {
-                    VStack{
+                    LazyVStack{
                         ForEach(posts.wrappedValue, id: \.self){ post in
                             NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)")){
                                 PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)")
@@ -65,6 +64,7 @@ struct PostCards: View{
     var price: Double = 10.00
     var desc:String = "Description"
     var duration:String = "120"
+    let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
     var stylists: FetchRequest<CoreStylist>
     init(stylistId:String, imageName:String, title:String, price:Double, desc:String, duration:String){
@@ -78,19 +78,11 @@ struct PostCards: View{
         self.desc = desc
         self.duration = duration
     }
+    
     var body: some View {
         VStack{
-            URLImage(URL(string: imageName)!, placeholder: {_ in
-                Image("Beauty")
-                    .resizable()
-                    .frame(width: 100.0, height: 100.0)
-            }){proxy in
-                proxy.image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .clipped()
-                    .cornerRadius(10)
-            }
+                UrlImageView(urlString: "\(imageName)")
+            
             
             Spacer()
             VStack(alignment: .leading) {

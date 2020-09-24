@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import URLImage
 
 struct StylistDetailView: View {
     var posts: FetchRequest<CorePost>

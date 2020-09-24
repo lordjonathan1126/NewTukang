@@ -19,7 +19,6 @@
 		FC1B0B1625146276001A36C4 /* CompaniesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1B0B1525146276001A36C4 /* CompaniesView.swift */; };
 		FC1B0B1B2514628C001A36C4 /* StylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1B0B1A2514628C001A36C4 /* StylistView.swift */; };
 		FC27E64B2509FBFA0069A052 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC27E64A2509FBFA0069A052 /* CoreDataManager.swift */; };
-		FC3BDFFC25186DEF00D2DFB9 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = FC3BDFFB25186DEF00D2DFB9 /* URLImage */; };
 		FC3BE01B25188A7400D2DFB9 /* CoreCompany+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3BE01525188A7400D2DFB9 /* CoreCompany+CoreDataClass.swift */; };
 		FC3BE01C25188A7400D2DFB9 /* CoreCompany+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3BE01625188A7400D2DFB9 /* CoreCompany+CoreDataProperties.swift */; };
 		FC3BE01D25188A7400D2DFB9 /* CorePost+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3BE01725188A7400D2DFB9 /* CorePost+CoreDataClass.swift */; };
@@ -29,10 +28,11 @@
 		FC3BE03F25189B9400D2DFB9 /* Beauty.png in Resources */ = {isa = PBXBuildFile; fileRef = FC3BE02825189A2500D2DFB9 /* Beauty.png */; };
 		FC40E62825149AC600E27E3F /* CompanyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC40E62725149AC600E27E3F /* CompanyDetailView.swift */; };
 		FC42954D24F37A3C005B894A /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC42954C24F37A3C005B894A /* SearchView.swift */; };
-		FC59896F24EF7402000C3DF3 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FC59896E24EF7402000C3DF3 /* IQKeyboardManagerSwift */; };
 		FC74D5F6250B30A200A6A0CF /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC74D5F5250B30A200A6A0CF /* CategoryView.swift */; };
 		FC74D5F8250B30B100A6A0CF /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC74D5F7250B30B100A6A0CF /* DetailView.swift */; };
 		FC78B87B250B5CF8003F26F6 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC78B87A250B5CF8003F26F6 /* BlurView.swift */; };
+		FC90FD59251B3DDF00FA02C4 /* UrlImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC90FD58251B3DDF00FA02C4 /* UrlImageView.swift */; };
+		FC90FD5E251B3E0100FA02C4 /* UrlImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC90FD5D251B3E0100FA02C4 /* UrlImageModel.swift */; };
 		FC912C7E251378D80014D16C /* StylistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC912C7D251378D80014D16C /* StylistDetailView.swift */; };
 		FCE67D4124EF6C8A0031A79B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE67D4024EF6C8A0031A79B /* AppDelegate.swift */; };
 		FCE67D4324EF6C8A0031A79B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE67D4224EF6C8A0031A79B /* SceneDelegate.swift */; };
@@ -93,6 +93,8 @@
 		FC74D5F5250B30A200A6A0CF /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		FC74D5F7250B30B100A6A0CF /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		FC78B87A250B5CF8003F26F6 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		FC90FD58251B3DDF00FA02C4 /* UrlImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlImageView.swift; sourceTree = "<group>"; };
+		FC90FD5D251B3E0100FA02C4 /* UrlImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlImageModel.swift; sourceTree = "<group>"; };
 		FC912C7D251378D80014D16C /* StylistDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylistDetailView.swift; sourceTree = "<group>"; };
 		FCE67D3D24EF6C8A0031A79B /* Tukang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tukang.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCE67D4024EF6C8A0031A79B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,8 +123,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC3BDFFC25186DEF00D2DFB9 /* URLImage in Frameworks */,
-				FC59896F24EF7402000C3DF3 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,8 +182,8 @@
 				FC1B0B1A2514628C001A36C4 /* StylistView.swift */,
 				FC912C7D251378D80014D16C /* StylistDetailView.swift */,
 				FC1B0B1525146276001A36C4 /* CompaniesView.swift */,
-				FC74D5F7250B30B100A6A0CF /* DetailView.swift */,
 				FC42954C24F37A3C005B894A /* SearchView.swift */,
+				FC74D5F7250B30B100A6A0CF /* DetailView.swift */,
 				FC40E62725149AC600E27E3F /* CompanyDetailView.swift */,
 			);
 			path = HomeView;
@@ -262,6 +262,7 @@
 				FC74D5F2250B24A600A6A0CF /* HomeView */,
 				FCE67D7C24EF6FDB0031A79B /* BookingView.swift */,
 				FCE67D7824EF6FB00031A79B /* ProfileView.swift */,
+				FC90FD58251B3DDF00FA02C4 /* UrlImageView.swift */,
 				FC78B87A250B5CF8003F26F6 /* BlurView.swift */,
 			);
 			path = Views;
@@ -279,6 +280,7 @@
 				FC1459AB25131C1F0015DC2F /* Service.swift */,
 				FC1459A825131C1F0015DC2F /* Stat.swift */,
 				FC1459A925131C1F0015DC2F /* Stylist.swift */,
+				FC90FD5D251B3E0100FA02C4 /* UrlImageModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -308,8 +310,6 @@
 			);
 			name = NewTukang;
 			packageProductDependencies = (
-				FC59896E24EF7402000C3DF3 /* IQKeyboardManagerSwift */,
-				FC3BDFFB25186DEF00D2DFB9 /* URLImage */,
 			);
 			productName = NewTukang;
 			productReference = FCE67D3D24EF6C8A0031A79B /* Tukang.app */;
@@ -384,8 +384,6 @@
 			);
 			mainGroup = FCE67D3424EF6C8A0031A79B;
 			packageReferences = (
-				FC59896D24EF7402000C3DF3 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
-				FC3BDFFA25186DEF00D2DFB9 /* XCRemoteSwiftPackageReference "url-image" */,
 			);
 			productRefGroup = FCE67D3E24EF6C8A0031A79B /* Products */;
 			projectDirPath = "";
@@ -434,6 +432,7 @@
 				FC1459B525131C1F0015DC2F /* Delta.swift in Sources */,
 				FC1459B425131C1F0015DC2F /* Service.swift in Sources */,
 				FC3BE01D25188A7400D2DFB9 /* CorePost+CoreDataClass.swift in Sources */,
+				FC90FD5E251B3E0100FA02C4 /* UrlImageModel.swift in Sources */,
 				FC3BE01F25188A7400D2DFB9 /* CoreStylist+CoreDataClass.swift in Sources */,
 				FC1B0B1B2514628C001A36C4 /* StylistView.swift in Sources */,
 				FC3BE01C25188A7400D2DFB9 /* CoreCompany+CoreDataProperties.swift in Sources */,
@@ -441,6 +440,7 @@
 				FC42954D24F37A3C005B894A /* SearchView.swift in Sources */,
 				FC3BE01E25188A7400D2DFB9 /* CorePost+CoreDataProperties.swift in Sources */,
 				FCE67D7924EF6FB00031A79B /* ProfileView.swift in Sources */,
+				FC90FD59251B3DDF00FA02C4 /* UrlImageView.swift in Sources */,
 				FC3BE01B25188A7400D2DFB9 /* CoreCompany+CoreDataClass.swift in Sources */,
 				FC912C7E251378D80014D16C /* StylistDetailView.swift in Sources */,
 				FCE67D4124EF6C8A0031A79B /* AppDelegate.swift in Sources */,
@@ -561,7 +561,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -616,7 +616,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -636,7 +636,7 @@
 				DEVELOPMENT_TEAM = 65PN49W5R6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = NewTukang/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -659,7 +659,7 @@
 				DEVELOPMENT_TEAM = 65PN49W5R6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = NewTukang/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -796,38 +796,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		FC3BDFFA25186DEF00D2DFB9 /* XCRemoteSwiftPackageReference "url-image" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dmytro-anokhin/url-image.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.9.19;
-			};
-		};
-		FC59896D24EF7402000C3DF3 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.5.6;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		FC3BDFFB25186DEF00D2DFB9 /* URLImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FC3BDFFA25186DEF00D2DFB9 /* XCRemoteSwiftPackageReference "url-image" */;
-			productName = URLImage;
-		};
-		FC59896E24EF7402000C3DF3 /* IQKeyboardManagerSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FC59896D24EF7402000C3DF3 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
-			productName = IQKeyboardManagerSwift;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		FCE67D4424EF6C8A0031A79B /* NewTukang.xcdatamodeld */ = {

@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import URLImage
 
 struct StylistView: View {
     @FetchRequest(
@@ -22,16 +21,16 @@ struct StylistView: View {
             ScrollView{
                 if #available(iOS 14.0, *) {
                     LazyVStack(spacing: 14){
-                        ForEach(_stylists.wrappedValue, id: \.self){ stylist in
+                    ForEach(_stylists.wrappedValue, id: \.self){ stylist in
                             StylistCard( imageName:"\(stylist.img!)", stylistId:"\(stylist.id)",stylistName: "\(stylist.name!)", location: "\(stylist.location!)")
                         }
                     }
                 }else{
-                    VStack(spacing: 14){
-                        ForEach(_stylists.wrappedValue, id: \.self){ stylist in
+                    //VStack(spacing: 14){
+                    List(_stylists.wrappedValue, id: \.self){ stylist in
                             StylistCard( imageName:"\(stylist.img!)" , stylistId:"\(stylist.id)", stylistName: "\(stylist.name!)", location: "\(stylist.location!)" )
                         }
-                    }
+                    //}
                 }
             }
         }.navigationBarTitle("Stylist", displayMode: .inline)
@@ -54,19 +53,12 @@ struct StylistCard: View{
     var body: some View{
         NavigationLink(destination: StylistDetailView(stylistId: stylistId, title: "\(stylistName)")){
             HStack{
-                URLImage((URL(string: imageName) ?? urlPath) , placeholder: {_ in
-                    Image("Beauty")
-                        .resizable()
-                        .frame(width: 100.0, height: 100.0)
-                }){proxy in
-                    proxy.image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
+                UrlImageView(urlString: "\(imageName)")
                         .clipShape(Circle())
                         .frame(width: 100, height: 100)
-                        .overlay(Circle().stroke(Color("Accent")))
-                        .padding()
-                }
+                       .overlay(Circle().stroke(Color("Accent")))
+                       .padding()
+                
                 
                 Spacer()
                 VStack(alignment: .center){

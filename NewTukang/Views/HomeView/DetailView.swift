@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import URLImage
 
 struct DetailView: View {
     var posts: FetchRequest<CorePost>
@@ -30,15 +29,9 @@ struct DetailView: View {
                 ScrollView{
                     VStack(alignment: .leading, spacing: 12){
                         
-                        URLImage(URL(string: post.img!) ?? urlPath, placeholder: {_ in
-                            Image("Beauty")
-                                .resizable()
-                                .frame(width: 100.0, height: 100.0)
-                        }){proxy in
-                            proxy.image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        }
+                        UrlImageView(urlString: "\(post.img!)")
+                            
+                        
                         Text("What you will get")
                             .font(.title)
                             .foregroundColor(Color("Accent"))
@@ -108,24 +101,11 @@ struct AboutStylist: View{
                     .lineLimit(nil)
                 }.padding(.trailing)
                 Spacer()
+                UrlImageView(urlString: "\(stylist.img!)")
+                    .clipShape(Circle())
+                    .frame(width: 100, height: 100)
+                    .clipped()
                 
-                URLImage(URL(string: stylist.img!) ?? urlPath , placeholder: {_ in
-                    Image("Beauty")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .clipShape(Circle())
-                        .frame(width: 70, height: 70)
-                        .overlay(Circle().stroke(Color("Accent")))
-                        .padding()
-                }){proxy in
-                    proxy.image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .clipShape(Circle())
-                        .frame(width: 70, height: 70)
-                        .overlay(Circle().stroke(Color("Accent")))
-                        .padding()
-                }
                     
             }.padding(.horizontal)
             }.buttonStyle(PlainButtonStyle())
