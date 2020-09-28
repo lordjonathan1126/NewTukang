@@ -31,30 +31,22 @@ struct StylistDetailView: View {
                     LazyVStack {
                         AboutStylist(stylistId: stylistId)
                         LazyVStack{
+                            HStack {
+                                Text("Posts")
+                                    .font(.title)
+                                    .bold()
+                                    .padding(.leading)
+                                Spacer()
+                            }
                             ForEach(posts.wrappedValue, id: \.self){ post in
-                                NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)")){
-                                    PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)")
+                                NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                    PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                         .padding()
                                 }.buttonStyle(PlainButtonStyle())
                             }
                         }
                     }
                     
-                }
-            } else {
-                // Fallback on earlier versions
-                ScrollView{
-                    VStack {
-                        AboutStylist(stylistId: stylistId)
-                        VStack{
-                            ForEach(posts.wrappedValue, id: \.self){ post in
-                                NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)")){
-                                    PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)")
-                                        .padding()
-                                }.buttonStyle(PlainButtonStyle())
-                            }
-                        }
-                    }
                 }
             }
         }.navigationBarTitle("\(title)", displayMode: .inline)

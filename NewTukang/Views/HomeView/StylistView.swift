@@ -11,7 +11,7 @@ import SwiftUI
 struct StylistView: View {
     @FetchRequest(
         entity: CoreStylist.entity(),
-        sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)]
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: false)]
     ) var stylists: FetchedResults<CoreStylist>
     
     var body: some View {
@@ -25,15 +25,9 @@ struct StylistView: View {
                             StylistCard( imageName:"\(stylist.img!)", stylistId:"\(stylist.id)",stylistName: "\(stylist.name!)", location: "\(stylist.location!)")
                         }
                     }
-                }else{
-                    //VStack(spacing: 14){
-                    List(_stylists.wrappedValue, id: \.self){ stylist in
-                            StylistCard( imageName:"\(stylist.img!)" , stylistId:"\(stylist.id)", stylistName: "\(stylist.name!)", location: "\(stylist.location!)" )
-                        }
-                    //}
                 }
             }
-        }.navigationBarTitle("Stylist", displayMode: .inline)
+        }.navigationBarTitle("Stylists", displayMode: .inline)
     }
 }
 
@@ -58,19 +52,23 @@ struct StylistCard: View{
                         .frame(width: 100, height: 100)
                        .overlay(Circle().stroke(Color("Accent")))
                        .padding()
-                
-                
                 Spacer()
-                VStack(alignment: .center){
-                    Text("\(stylistName)")
-                        .font(.title)
-                    Text("\(location)")
-                        .foregroundColor(Color("Accent"))
+                VStack(alignment: .trailing){
+                    HStack {
+                        Spacer()
+                        Text("\(stylistName)")
+                            .font(.title)
+                    }
+                    HStack {
+                        Spacer()
+                        Text("\(location)")
+                            .foregroundColor(Color("Accent"))
+                    }
                 }.padding()
             }
             .background(Color("Background"))
             .cornerRadius(12)
-            .shadow(color: Color("LightShadow"), radius: 5, x: -5, y: -5)
+            .shadow(color: Color("LightShadow"), radius: 5, x: -8, y: -8)
             .shadow(color: Color("DarkShadow"), radius: 5, x: 8, y: 8)
             .blendMode(.overlay)
             .padding(.top)

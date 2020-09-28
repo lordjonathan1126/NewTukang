@@ -35,32 +35,35 @@ struct CompanyDetailView: View {
             ScrollView{
                 if #available(iOS 14.0, *) {
                     LazyVStack(spacing: 14){
-                        VStack (alignment: .leading){
+                           
+                        ForEach(companies.wrappedValue, id: \.self){ company in
                             HStack {
-                                Text("Stylist")
-                                    .font(.title)
-                                    .bold()
+                                UrlImageView(urlString: "\(company.img!)")
+                                    .clipShape(Circle())
+                                    .frame(width: 70, height: 70)
+                                    .overlay(Circle().stroke(Color("Accent")))
+                                    .clipped()
                                     .padding()
                                 Spacer()
-                            }
+                                VStack(alignment: .trailing) {
+                                    Text("\(company.name!)")
+                                        .font(.title)
+                                        .bold()
+                                }
+                            }.padding(.horizontal)
+                            Text("\(company.desc!)")
+                                .padding(.horizontal)
+                        }
+                        
+                        HStack {
+                            Text("Stylist")
+                                .font(.title)
+                                .bold()
+                                .padding()
+                            Spacer()
                         }
                         ForEach(stylists.wrappedValue, id: \.self){ stylist in
                             StylistCard( imageName:"\(stylist.img!)" ,stylistId:"\(stylist.id)",stylistName: "\(stylist.name!)", location: "\(stylist.location!)")
-                        }
-                    }
-                }else{
-                    VStack(spacing: 14){
-                        VStack (alignment: .leading){
-                            HStack {
-                                Text("Stylist")
-                                    .font(.title)
-                                    .bold()
-                                    .padding()
-                                Spacer()
-                            }
-                        }
-                        ForEach(stylists.wrappedValue, id: \.self){ stylist in
-                            StylistCard( imageName:"\(stylist.img!)" ,stylistId:"\(stylist.id)", stylistName: "\(stylist.name!)", location: "\(stylist.location!)" )
                         }
                     }
                 }

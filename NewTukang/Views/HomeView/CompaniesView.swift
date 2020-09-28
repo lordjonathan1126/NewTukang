@@ -11,7 +11,7 @@ import SwiftUI
 struct CompaniesView: View {
     @FetchRequest(
         entity: CoreCompany.entity(),
-        sortDescriptors: [ NSSortDescriptor(keyPath: \CoreCompany.id, ascending: true)]
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CoreCompany.id, ascending: false)]
     ) var companies: FetchedResults<CoreCompany>
     
     var body: some View {
@@ -25,14 +25,7 @@ struct CompaniesView: View {
                             CompanyCard(imageName: "\(company.img!)", companyId: "\(company.id)", companyName: "\(company.name!)" , desc: "\(company.desc!)")
                         }
                     }
-                }else{
-                    VStack(spacing: 14){
-                        ForEach(_companies.wrappedValue, id: \.self){ company in
-                            CompanyCard(imageName: "\(company.img!)", companyId: "\(company.id)", companyName: "\(company.name!)" , desc: "\(company.desc!)")
-                        }
-                    }
-                }
-            }
+                }            }
         }.navigationBarTitle("Companies", displayMode: .inline)
     }
 }
@@ -61,9 +54,12 @@ struct CompanyCard: View{
                 
                 
                 Spacer()
-                VStack(alignment: .leading){
-                    Text("\(companyName)")
-                        .font(.headline)
+                VStack(alignment: .trailing){
+                    HStack {
+                        Spacer()
+                        Text("\(companyName)")
+                            .font(.headline)
+                    }
                 }.padding()
             }
             .background(Color("Background"))

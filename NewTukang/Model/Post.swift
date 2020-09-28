@@ -15,7 +15,7 @@ import Foundation
 struct Post : Codable {
 	let postID : Int?
 	let img : String?
-	let imgs : [Int]?
+	let imgs : [String]?
 	let createDate : Date?
 	let endDate : Date?
 	let stylistID : Int?
@@ -42,7 +42,7 @@ struct Post : Codable {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
 		postID = try values.decodeIfPresent(Int.self, forKey: .postID)
 		img = try values.decodeIfPresent(String.self, forKey: .img)
-		imgs = try values.decodeIfPresent([Int].self, forKey: .imgs)
+		imgs = try values.decodeIfPresent([String].self, forKey: .imgs)
 		createDate = try values.decodeIfPresent(Date.self, forKey: .createDate)
 		endDate = try values.decodeIfPresent(Date.self, forKey: .endDate)
 		stylistID = try values.decodeIfPresent(Int.self, forKey: .stylistID)
