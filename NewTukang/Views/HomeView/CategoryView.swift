@@ -74,7 +74,7 @@ struct PostCards: View{
     init(stylistId:String, imageName:String, title:String, price:Double, desc:String, duration:String, discount:Double){
         stylists = FetchRequest<CoreStylist>(
             entity: CoreStylist.entity(),
-            sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
+            sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: false)],
             predicate: NSPredicate(format: "id == %@", stylistId))
         self.imageName = imageName
         self.title = title
@@ -105,9 +105,7 @@ struct PostCards: View{
                     }
                     Spacer()
                 }
-                    
             }
-            
             Spacer()
             VStack(alignment: .leading) {
                 HStack {
@@ -134,7 +132,6 @@ struct PostCards: View{
                     Text("\(stylist.name ?? "Unknown Stylist")")
                         .bold()
                 }
-                
                 HStack{
                     Spacer()
                     Text("\((price - discount), specifier: "%.2f")")

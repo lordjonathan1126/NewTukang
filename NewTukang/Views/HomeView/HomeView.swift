@@ -159,7 +159,7 @@ struct SearchBar: View{
 struct TrendingView: View {
     @FetchRequest(
         entity: CorePost.entity(),
-        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)]
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: false)]
     ) var posts: FetchedResults<CorePost>
     var title:String = "Top Trending"
     

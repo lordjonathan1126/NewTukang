@@ -30,7 +30,6 @@ struct DetailView: View {
         self.stylistId = stylistId
         self.title = title
         self.postId = postId
-        
     }
     var body: some View {
         ForEach(posts.wrappedValue, id: \.self){ post in
@@ -76,7 +75,11 @@ struct DetailView: View {
                                 }
                                 ForEach(stylists.wrappedValue, id: \.self){stylist in
                                     AboutCompany(companyId: "\(stylist.companyId)")
+                                    
                                 }
+                            }
+                            ForEach(stylists.wrappedValue, id: \.self){stylist in
+                            MeetTheTeam(companyId: "\(stylist.companyId)")
                             }
                             SimilarView(serviceTypeId: serviceTypeId)
                         }
@@ -157,7 +160,6 @@ struct AboutStylist: View{
                 }
             }.buttonStyle(PlainButtonStyle())
         }
-        
     }
 }
 
@@ -211,29 +213,108 @@ struct AboutCompany :View {
         self.companyId = companyId
     }
     var body: some View{
-        ForEach(companies.wrappedValue, id: \.self){ company in
-            NavigationLink(destination: CompanyDetailView(companyId: companyId, title: company.name!)){
-                VStack {
-                    HStack{
-                        UrlImageView(urlString: "\(company.img!)")
-                            .clipShape(Circle())
-                            .frame(width: 70, height: 70)
-                            .overlay(Circle().stroke(Color("Accent")))
-                            .clipped()
-                            .padding()
-                        Spacer()
-                        VStack(alignment: .trailing){
-                            Text("\(company.name!)")
-                                .font(.title)
-                                .bold()
-                        }.padding()
-                    }
-                    Text("\(company.desc ?? "No description available.")")
-                        .lineLimit(nil)
-                        .padding(.horizontal)
-                }
-            }.buttonStyle(PlainButtonStyle())
+        LazyVStack {
+            ForEach(companies.wrappedValue, id: \.self){ company in
+                NavigationLink(destination: CompanyDetailView(companyId: companyId, title: company.name!)){
+                    VStack {
+                        HStack{
+                            UrlImageView(urlString: "\(company.img!)")
+                                .clipShape(Circle())
+                                .frame(width: 70, height: 70)
+                                .overlay(Circle().stroke(Color("Accent")))
+                                .clipped()
+                                .padding()
+                            Spacer()
+                            VStack(alignment: .trailing){
+                                Text("\(company.name!)")
+                                    .font(.title)
+                                    .bold()
+                            }.padding(.trailing)
+                        }
+                        Text("\(company.desc ?? "No description available.")")
+                            .lineLimit(nil)
+                            .padding(.horizontal)
+                    }.padding()
+                }.buttonStyle(PlainButtonStyle())
+            }
         }
+    }
+}
+
+struct MeetTheTeam:View {
+    var companyId:String = "1"
+    var stylists: FetchRequest<CoreStylist>
+    
+    init(companyId:String){
+        stylists = FetchRequest<CoreStylist>(
+            entity: CoreStylist.entity(),
+            sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
+            predicate: NSPredicate(format: "companyId == %@", companyId))
+        self.companyId = companyId
+    }
+    var body: some View{
+        VStack {
+            HStack {
+                Text("Meet The Team")
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .bold()
+                    .padding(.leading)
+                Spacer()
+            }
+            ScrollView(.horizontal, showsIndicators: false){
+                LazyHStack(spacing:20){
+                ForEach(stylists.wrappedValue, id: \.self){ stylist in
+                    HorizontalStylistCard(image: "\(stylist.img!)", name:"\(stylist.name!)", location: "\(stylist.location!)", stylistId: "\(stylist.id)")
+                }
+            }.padding()
+            }
+        }
+    }
+}
+
+struct HorizontalStylistCard: View{
+    var image:String = ""
+    var name:String = "Unknown"
+    var location:String = "Unknown"
+    var stylistId:String = "1"
+    
+    init(image:String, name:String, location:String, stylistId:String) {
+        self.image = image
+        self.name = name
+        self.location = location
+        self.stylistId = stylistId
+    }
+    
+    var body: some View{
+        NavigationLink(destination: StylistDetailView(stylistId: stylistId, title: name)){
+            VStack{
+                UrlImageView(urlString: image)
+                    .frame(width: 200, height: 200, alignment: .top)
+                .fixedSize()
+                Spacer()
+                VStack{
+                    HStack{
+                            Text("\(name)")
+                                .font(.headline)
+                                .bold()
+                        Spacer()
+                    }
+                    HStack {
+                        Text("\(location)")
+                            .font(.headline)
+                            .foregroundColor(Color("Accent"))
+                        Spacer()
+                    }
+                }.padding()
+            }
+            .padding()
+            .frame(width: 200, height: 260)
+            .background(Color("Background"))
+            .cornerRadius(12)
+            .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
+            .blendMode(.overlay)
+        }.buttonStyle(PlainButtonStyle())
+        
     }
 }
 

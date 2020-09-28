@@ -179,12 +179,12 @@
 			isa = PBXGroup;
 			children = (
 				FCE67D7624EF6FA40031A79B /* HomeView.swift */,
+				FC74D5F7250B30B100A6A0CF /* DetailView.swift */,
 				FC74D5F5250B30A200A6A0CF /* CategoryView.swift */,
 				FC1B0B1A2514628C001A36C4 /* StylistView.swift */,
 				FC912C7D251378D80014D16C /* StylistDetailView.swift */,
 				FC1B0B1525146276001A36C4 /* CompaniesView.swift */,
 				FC42954C24F37A3C005B894A /* SearchView.swift */,
-				FC74D5F7250B30B100A6A0CF /* DetailView.swift */,
 				FC40E62725149AC600E27E3F /* CompanyDetailView.swift */,
 			);
 			path = HomeView;
