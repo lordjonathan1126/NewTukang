@@ -216,10 +216,29 @@ struct TrendingCards: View{
     
     var body: some View{
         VStack{
-            UrlImageView(urlString: imageUrl)
-                .frame(width: 200, height: 200, alignment: .top)
-                .fixedSize()
-            
+            ZStack{
+                UrlImageView(urlString: imageUrl)
+                    .frame(width: 200, height: 200, alignment: .top)
+                    .fixedSize()
+                
+                VStack {
+                    HStack{
+                        if(discount != 0){
+                            Text("-\((1 - ((price - discount) / (price))) * 100, specifier: "%.0f")%")
+                                .padding(.leading,7)
+                                .padding(.top, 7)
+                                .padding(.bottom, 3)
+                                .padding(.trailing, 3)
+                                .foregroundColor(.white)
+                                .background(Color("Accent"))
+                                .opacity(0.85)
+                                .cornerRadius(5.0)
+                        }
+                        Spacer()
+                    }
+                    Spacer()
+                }
+            }
             VStack(alignment: .leading) {
                 HStack {
                     Text(title)

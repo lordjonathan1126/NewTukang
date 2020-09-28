@@ -69,6 +69,7 @@ struct PostCards: View{
     var discount:Double = 0.0
     let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
+    
     var stylists: FetchRequest<CoreStylist>
     init(stylistId:String, imageName:String, title:String, price:Double, desc:String, duration:String, discount:Double){
         stylists = FetchRequest<CoreStylist>(
@@ -85,7 +86,28 @@ struct PostCards: View{
     
     var body: some View {
         VStack{
-            UrlImageView(urlString: "\(imageName)")
+            ZStack{
+                UrlImageView(urlString: "\(imageName)")
+                VStack {
+                    HStack{
+                        if (discount != 0){
+                            Text("-\((1 - ((price - discount) / (price))) * 100, specifier: "%.0f")%")
+                                .padding(.leading,7)
+                                .padding(.top, 7)
+                                .padding(.bottom, 3)
+                                .padding(.trailing, 3)
+                                .foregroundColor(.white)
+                                .background(Color("Accent"))
+                                .opacity(0.85)
+                                .cornerRadius(5.0)
+                        }
+                            Spacer()
+                    }
+                    Spacer()
+                }
+                    
+            }
+            
             Spacer()
             VStack(alignment: .leading) {
                 HStack {
@@ -122,7 +144,6 @@ struct PostCards: View{
                         Text("\(price, specifier: "%.2f")")
                             .strikethrough(true)
                     }
-                    
                 }
             }.padding(.horizontal)
             .padding(.bottom)

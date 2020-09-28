@@ -10,9 +10,11 @@ import SwiftUI
 
 struct DetailView: View {
     var posts: FetchRequest<CorePost>
+    var stylists: FetchRequest<CoreStylist>
     var stylistId:String
     var title:String
     var serviceTypeId:String
+    var postId:String
     let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
     init(stylistId:String, postId:String, title:String, serviceTypeId:String) {
@@ -20,9 +22,14 @@ struct DetailView: View {
             entity: CorePost.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)],
             predicate: NSPredicate(format: "postId == %@", postId))
+        stylists = FetchRequest<CoreStylist>(
+            entity: CoreStylist.entity(),
+            sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
+            predicate: NSPredicate(format: "id == %@", stylistId))
         self.serviceTypeId = serviceTypeId
         self.stylistId = stylistId
         self.title = title
+        self.postId = postId
         
     }
     var body: some View {
@@ -48,9 +55,29 @@ struct DetailView: View {
                                 .font(.body)
                                 .lineLimit(nil)
                                 .padding(.horizontal)
-                            //HorizontalImageScrollView()
-                            AboutStylist(stylistId: stylistId)
-                            MoreByStylistView(stylistId: stylistId)
+                            VStack {
+                                HStack {
+                                    Text("Stylist")
+                                        .font(.title)
+                                        .bold()
+                                        .padding(.leading)
+                                    Spacer()
+                                }
+                                AboutStylist(stylistId: stylistId)
+                            }
+                            PostsByStylistView(stylistId: stylistId)
+                            VStack {
+                                HStack {
+                                    Text("Company")
+                                        .font(.title)
+                                        .bold()
+                                        .padding(.leading)
+                                    Spacer()
+                                }
+                                ForEach(stylists.wrappedValue, id: \.self){stylist in
+                                    AboutCompany(companyId: "\(stylist.companyId)")
+                                }
+                            }
                             SimilarView(serviceTypeId: serviceTypeId)
                         }
                     }
@@ -134,82 +161,7 @@ struct AboutStylist: View{
     }
 }
 
-struct HorizontalImageScrollView: View {
-    var body: some View {
-        VStack(alignment:.leading) {
-            Text("Previous work on this style")
-                .font(.title)
-                .foregroundColor(Color("Accent"))
-                .padding(.leading)
-            ScrollView(.horizontal, showsIndicators: true){
-                HStack {
-                    Image("persona1")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 150)
-                        .cornerRadius(20)
-                    
-                    Image("barber1")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 150)
-                        .cornerRadius(20)
-                    
-                    Image("barber2")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 150)
-                        .cornerRadius(20)
-                    Image("nails")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 150)
-                        .cornerRadius(20)
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-            }
-        }
-    }
-}
-struct SimilarView: View {
-    var posts: FetchRequest<CorePost>
-    var serviceTypeId: String
-    
-    init(serviceTypeId:String) {
-        posts = FetchRequest<CorePost>(
-            entity: CorePost.entity(),
-            sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)],
-            predicate: NSPredicate(format: "serviceTypeId == %@", serviceTypeId))
-        self.serviceTypeId = serviceTypeId
-    }
-    
-    var body: some View{
-        if #available(iOS 14.0, *) {
-            VStack(alignment:.leading){
-                VStack(alignment: .leading) {
-                    Text("Similar Posts")
-                        .font(.title)
-                        .fontWeight(.bold)
-                }.padding(.leading)
-                
-                ScrollView(.horizontal, showsIndicators: false){
-                    LazyHStack(spacing: 20){
-                        ForEach (posts.wrappedValue, id: \.self){ post in
-                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(serviceTypeId)")){
-                                TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
-                            }.buttonStyle(PlainButtonStyle())
-                        }
-                    }.frame(height: 345, alignment: .center)
-                    .padding()
-                }
-            }
-            .padding(.top)
-        }
-    }
-}
-
-struct MoreByStylistView: View {
+struct PostsByStylistView: View {
     var posts: FetchRequest<CorePost>
     var stylistId: String
     
@@ -225,7 +177,7 @@ struct MoreByStylistView: View {
         if #available(iOS 14.0, *) {
             VStack(alignment:.leading){
                 VStack(alignment: .leading) {
-                    Text("More by Stylist")
+                    Text("Posts by Stylist")
                         .font(.title)
                         .fontWeight(.bold)
                 }.padding(.leading)
@@ -245,4 +197,82 @@ struct MoreByStylistView: View {
         }
     }
 }
+
+struct AboutCompany :View {
+    var companies: FetchRequest<CoreCompany>
+    var companyId:String = "1"
+    let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
+    
+    init(companyId:String){
+        companies = FetchRequest<CoreCompany>(
+            entity: CoreCompany.entity(),
+            sortDescriptors: [ NSSortDescriptor(keyPath: \CoreCompany.id, ascending: false)],
+            predicate: NSPredicate(format: "id == %@", companyId))
+        self.companyId = companyId
+    }
+    var body: some View{
+        ForEach(companies.wrappedValue, id: \.self){ company in
+            NavigationLink(destination: CompanyDetailView(companyId: companyId, title: company.name!)){
+                VStack {
+                    HStack{
+                        UrlImageView(urlString: "\(company.img!)")
+                            .clipShape(Circle())
+                            .frame(width: 70, height: 70)
+                            .overlay(Circle().stroke(Color("Accent")))
+                            .clipped()
+                            .padding()
+                        Spacer()
+                        VStack(alignment: .trailing){
+                            Text("\(company.name!)")
+                                .font(.title)
+                                .bold()
+                        }.padding()
+                    }
+                    Text("\(company.desc ?? "No description available.")")
+                        .lineLimit(nil)
+                        .padding(.horizontal)
+                }
+            }.buttonStyle(PlainButtonStyle())
+        }
+    }
+}
+
+struct SimilarView: View {
+    var posts: FetchRequest<CorePost>
+    var serviceTypeId: String
+    
+    init(serviceTypeId:String) {
+        posts = FetchRequest<CorePost>(
+            entity: CorePost.entity(),
+            sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)],
+            predicate: NSPredicate(format: "serviceTypeId == %@", serviceTypeId))
+        self.serviceTypeId = serviceTypeId
+    }
+    
+    var body: some View {
+        if #available(iOS 14.0, *) {
+            VStack(alignment:.leading){
+                VStack(alignment: .leading) {
+                    Text("Similar Posts")
+                        .font(.title)
+                        .fontWeight(.bold)
+                }.padding(.leading)
+                
+                ScrollView(.horizontal, showsIndicators: false){
+                    LazyHStack(spacing: 20){
+                        ForEach (posts.wrappedValue, id: \.self){ post in
+                                NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(serviceTypeId)")){
+                                    TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                                }.buttonStyle(PlainButtonStyle())
+                        }
+                    }.frame(height: 345, alignment: .center)
+                    .padding()
+                }
+            }
+            .padding(.top)
+        }
+    }
+}
+
+
 
