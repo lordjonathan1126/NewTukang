@@ -46,7 +46,6 @@ struct StylistDetailView: View {
                             }
                         }
                     }
-                    
                 }
             }
         }.navigationBarTitle("\(title)", displayMode: .inline)
@@ -74,27 +73,27 @@ struct AboutStylist2: View{
     
     var body: some View{
         ForEach(stylists.wrappedValue, id: \.self){stylist in
-                VStack {
-                    HStack{
-                        UrlImageView(urlString: "\(stylist.img!)")
-                            .clipShape(Circle())
-                            .frame(width: 70, height: 70)
-                            .overlay(Circle().stroke(Color("Accent")))
-                            .clipped()
-                            .padding()
-                        Spacer()
-                        VStack(alignment: .trailing){
-                            Text("\(stylist.name!)")
-                                .font(.title)
-                                .bold()
-                            Text("\(stylist.location!)")
-                                .foregroundColor(Color("Accent"))
-                        }.padding()
-                    }
-                    Text("\(stylist.desc ?? "No description available.")")
-                        .lineLimit(nil)
-                        .padding(.horizontal)
+            VStack {
+                HStack{
+                    UrlImageView(urlString: "\(stylist.img!)")
+                        .clipShape(Circle())
+                        .frame(width: 70, height: 70)
+                        .overlay(Circle().stroke(Color("Accent")))
+                        .clipped()
+                        .padding()
+                    Spacer()
+                    VStack(alignment: .trailing){
+                        Text("\(stylist.name!)")
+                            .font(.title)
+                            .bold()
+                        Text("\(stylist.location!)")
+                            .foregroundColor(Color("Accent"))
+                    }.padding()
                 }
+                Text("\(stylist.desc ?? "No description available.")")
+                    .lineLimit(nil)
+                    .padding(.horizontal)
+            }
         }
     }
 }

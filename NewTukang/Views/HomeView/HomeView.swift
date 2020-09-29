@@ -16,17 +16,16 @@ struct HomeView: View {
                 Color("Background")
                     .edgesIgnoringSafeArea(.all)
                 ScrollView{
-                        LazyVStack{
-                            //SearchBar()
-                            OurServiceView()
-                            TrendingView(title: "Top Trending")
-                            TrendingView(title: "Most Popular")
-                            //SpecialistView()
-                            StylistCompanyListView()
-                                .padding(.top)
-                            Spacer()
-                        }
-                
+                    LazyVStack{
+                        //SearchBar()
+                        OurServiceView()
+                        TrendingView(title: "Top Trending")
+                        TrendingView(title: "Most Popular")
+                        //SpecialistView()
+                        StylistCompanyListView()
+                            .padding(.top)
+                        Spacer()
+                    }
                 }
             }
             //.navigationBarHidden(true)
@@ -44,28 +43,28 @@ struct HomeView_Previews: PreviewProvider {
 
 struct OurServiceView: View{
     var body: some View{
-            LazyVStack(alignment:.leading){
-                Text("Our Services")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.leading)
-                ScrollView(.horizontal, showsIndicators: false){
-                    LazyHStack(spacing: 18){
-                        NavigationLink(destination: CategoryView( serviceTypeId:"1", title: "Hair")){
-                            CategoryButton(title: "Hair", imageName: "Hair")
-                        }.buttonStyle(PlainButtonStyle())
-                        NavigationLink(destination: CategoryView( serviceTypeId:"2", title: "Nail")){
-                            CategoryButton(title: "Nail", imageName: "Nail")
-                        }.buttonStyle(PlainButtonStyle())
-                        NavigationLink(destination: CategoryView( serviceTypeId:"4", title: "Massage")){
-                            CategoryButton(title: "Beauty", imageName: "Spa")
-                        }.buttonStyle(PlainButtonStyle())
-                        NavigationLink(destination: CategoryView( serviceTypeId:"3", title: "Spa")){
-                            CategoryButton(title: "Lash", imageName: "Lash")
-                        }.buttonStyle(PlainButtonStyle())
-                    }.padding()
-                }
-            }.frame(minWidth: 0, maxWidth: .infinity)
+        LazyVStack(alignment:.leading){
+            Text("Our Services")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.leading)
+            ScrollView(.horizontal, showsIndicators: false){
+                LazyHStack(spacing: 18){
+                    NavigationLink(destination: CategoryView( serviceTypeId:"1", title: "Hair")){
+                        CategoryButton(title: "Hair", imageName: "Hair")
+                    }.buttonStyle(PlainButtonStyle())
+                    NavigationLink(destination: CategoryView( serviceTypeId:"2", title: "Nail")){
+                        CategoryButton(title: "Nail", imageName: "Nail")
+                    }.buttonStyle(PlainButtonStyle())
+                    NavigationLink(destination: CategoryView( serviceTypeId:"4", title: "Massage")){
+                        CategoryButton(title: "Beauty", imageName: "Spa")
+                    }.buttonStyle(PlainButtonStyle())
+                    NavigationLink(destination: CategoryView( serviceTypeId:"3", title: "Spa")){
+                        CategoryButton(title: "Lash", imageName: "Lash")
+                    }.buttonStyle(PlainButtonStyle())
+                }.padding()
+            }
+        }.frame(minWidth: 0, maxWidth: .infinity)
         
     }
 }
@@ -96,7 +95,6 @@ struct CategoryButton: View {
             .shadow(color: Color("DarkShadow"), radius: 5, x: 5, y: 5)
         }
     }
-    
 }
 
 struct SearchBar: View{
@@ -136,24 +134,24 @@ struct TrendingView: View {
     var title:String = "Top Trending"
     
     var body: some View{
-            VStack(alignment:.leading){
-                VStack(alignment: .leading) {
-                    Text("\(title)")
-                        .font(.title)
-                        .fontWeight(.bold)
-                }.padding(.leading)
-                ScrollView(.horizontal, showsIndicators: false){
-                    LazyHStack(spacing: 20){
-                        ForEach (posts, id: \.self){ post in
-                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                                TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
-                            }.buttonStyle(PlainButtonStyle())
-                        }
-                    }.frame(height: 345, alignment: .center)
-                    .padding()
-                }
+        VStack(alignment:.leading){
+            VStack(alignment: .leading) {
+                Text("\(title)")
+                    .font(.title)
+                    .fontWeight(.bold)
+            }.padding(.leading)
+            ScrollView(.horizontal, showsIndicators: false){
+                LazyHStack(spacing: 20){
+                    ForEach (posts, id: \.self){ post in
+                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                            TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                        }.buttonStyle(PlainButtonStyle())
+                    }
+                }.frame(height: 345, alignment: .center)
+                .padding()
             }
-            .padding(.top)
+        }
+        .padding(.top)
     }
 }
 

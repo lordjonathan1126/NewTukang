@@ -29,19 +29,19 @@ struct SearchView: View {
                             .bold()
                             .foregroundColor(.white)
                     }.frame(width: 280, height: 40)
-                        .background(Color("Accent"))
-                        .cornerRadius(10)
-                        .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
-                        .padding()
+                    .background(Color("Accent"))
+                    .cornerRadius(10)
+                    .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
+                    .padding()
                 }
             }
             .navigationBarItems(trailing: Button(action: {
                 self.presentationMode.wrappedValue.dismiss()
             }) {
                 Image(systemName: "xmark.circle")
-                .foregroundColor(Color("Accent"))
+                    .foregroundColor(Color("Accent"))
             })
-                .navigationBarTitle("Search", displayMode: .inline)
+            .navigationBarTitle("Search", displayMode: .inline)
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
@@ -83,9 +83,9 @@ struct ServiceTypeButton: View {
                 .bold()
                 .padding(10)
         }.background(RoundedRectangle(cornerRadius: 3)
-            .fill(Color("Background"))
-            .shadow(color: Color("LightShadow"), radius: 2, x: -2, y: -2)
-            .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
+                        .fill(Color("Background"))
+                        .shadow(color: Color("LightShadow"), radius: 2, x: -2, y: -2)
+                        .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
         )
     }
 }
@@ -120,8 +120,8 @@ struct PriceRangeButton: View {
                 .padding(10)
         }
         .background(Color("Background")
-        .shadow(color: Color("LightShadow"), radius: 3, x: -3, y: -3)
-        .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
+                        .shadow(color: Color("LightShadow"), radius: 3, x: -3, y: -3)
+                        .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
         )
     }
 }

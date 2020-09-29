@@ -33,9 +33,7 @@ struct CompanyDetailView: View {
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
-                if #available(iOS 14.0, *) {
                     LazyVStack(spacing: 14){
-                           
                         ForEach(companies.wrappedValue, id: \.self){ company in
                             HStack {
                                 UrlImageView(urlString: "\(company.img!)")
@@ -54,7 +52,6 @@ struct CompanyDetailView: View {
                             Text("\(company.desc!)")
                                 .padding(.horizontal)
                         }
-                        
                         HStack {
                             Text("Stylist")
                                 .font(.title)
@@ -70,7 +67,6 @@ struct CompanyDetailView: View {
                             }.padding()
                         }
                     }
-                }
             }
         }
         .navigationBarTitle("\(title)", displayMode: .inline)

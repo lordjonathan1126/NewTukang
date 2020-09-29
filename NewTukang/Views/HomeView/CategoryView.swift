@@ -27,23 +27,20 @@ struct CategoryView: View {
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
-                if #available(iOS 14.0, *) {
-                    LazyVStack{
-                        ForEach(posts.wrappedValue, id: \.self){ post in
-                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                                PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
-                                    .padding()
-                            }.buttonStyle(PlainButtonStyle())
-                        }
+                LazyVStack{
+                    ForEach(posts.wrappedValue, id: \.self){ post in
+                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                            PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
+                                .padding()
+                        }.buttonStyle(PlainButtonStyle())
                     }
                 }
+                
             }
         }
         .navigationBarTitle("\(title)", displayMode: .inline)
     }
 }
-
-
 
 struct CategoryView_Previews: PreviewProvider {
     static var previews: some View {
@@ -91,7 +88,7 @@ struct PostCards: View{
                                 .opacity(0.85)
                                 .cornerRadius(5.0)
                         }
-                            Spacer()
+                        Spacer()
                     }
                     Spacer()
                 }

@@ -27,11 +27,11 @@ class WebService: ObservableObject{
             do{
                 let jsonDecoder = JSONDecoder()
                 let responseModel = try jsonDecoder.decode(Json4Swift_Base.self, from: data!)
-             DispatchQueue.main.async{
-                 self.posts = responseModel.delta!.post!
-                 self.stylists = responseModel.delta!.stylist!
-                 cdManager.savePost(self.posts)
-             }
+                DispatchQueue.main.async{
+                    self.posts = responseModel.delta!.post!
+                    self.stylists = responseModel.delta!.stylist!
+                    cdManager.savePost(self.posts)
+                }
                 
                 DispatchQueue.main.async{
                     self.companies = responseModel.delta!.company!

@@ -25,8 +25,6 @@ struct AppTabBar: View {
                         Text("Booking")
                     }.padding()
             }.tag(1)
-            
-            
             ProfileView()
                 .tabItem{
                     VStack{

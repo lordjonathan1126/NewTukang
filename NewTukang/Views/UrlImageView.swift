@@ -19,10 +19,9 @@ struct UrlImageView: View {
         Image(uiImage: urlImageModel.image ?? UrlImageView.defaultImage!)
             .resizable()
             .scaledToFit()
-          
     }
     
-    static var defaultImage = UIImage(named: "Beauty")
+    static var defaultImage = UIImage(named: "Tukang-Icon")
 }
 
 struct UrlImageView_Previews: PreviewProvider {

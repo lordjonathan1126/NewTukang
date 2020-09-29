@@ -25,7 +25,8 @@ struct CompaniesView: View {
                             CompanyCard(imageName: "\(company.img!)", companyId: "\(company.id)", companyName: "\(company.name!)" , desc: "\(company.desc!)")
                         }
                     }
-                }            }
+                }
+            }
         }.navigationBarTitle("Companies", displayMode: .inline)
     }
 }
@@ -47,12 +48,10 @@ struct CompanyCard: View{
         NavigationLink(destination: CompanyDetailView(companyId: companyId, title:companyName)){
             HStack{
                 UrlImageView(urlString: imageName)
-                        .clipShape(Circle())
-                        .frame(width: 100, height: 100)
-                        .overlay(Circle().stroke(Color("Accent")))
-                        .padding()
-                
-                
+                    .clipShape(Circle())
+                    .frame(width: 100, height: 100)
+                    .overlay(Circle().stroke(Color("Accent")))
+                    .padding()
                 Spacer()
                 VStack(alignment: .trailing){
                     HStack {
