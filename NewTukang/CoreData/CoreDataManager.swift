@@ -36,6 +36,7 @@ class CoreDataManager : NSObject{
             newPost.setValue(post.stat?.p, forKey: "stat_p")
             newPost.setValue(post.stat?.v, forKey: "stat_v")
             newPost.setValue(post.stylistID, forKey: "stylistId")
+            newPost.setValue(post.imgs, forKey: "imgs")
         }
         
         do {
@@ -59,6 +60,7 @@ class CoreDataManager : NSObject{
             newCompany.setValue(company.mobile, forKey: "mobile")
             newCompany.setValue(company.notes?.desc, forKey: "desc")
             newCompany.setValue(company.name, forKey: "name")
+            newCompany.setValue(company.imgs, forKey: "imgs")
         }
         
         do {
@@ -79,8 +81,11 @@ class CoreDataManager : NSObject{
             newStylist.setValue(stylist.id, forKey: "id")
             newStylist.setValue(stylist.name, forKey: "name")
             newStylist.setValue(stylist.mobile, forKey: "mobile")
-            newStylist.setValue(stylist.location, forKey: "location")
+            newStylist.setValue(stylist.location?.city, forKey: "location")
+            newStylist.setValue(stylist.location?.lon, forKey: "lon")
+            newStylist.setValue(stylist.location?.lat, forKey: "lat")
             newStylist.setValue(stylist.img, forKey: "img")
+            newStylist.setValue(stylist.imgs, forKey: "imgs")
             newStylist.setValue(stylist.createDate, forKey: "createDate")
             newStylist.setValue(stylist.loginDate, forKey: "loginDate")
             newStylist.setValue(stylist.companyID, forKey: "companyId")

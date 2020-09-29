@@ -2,7 +2,7 @@
 //  CoreCompany+CoreDataProperties.swift
 //  NewTukang
 //
-//  Created by Jonathan Ng on 21/09/2020.
+//  Created by Jonathan Ng on 29/09/2020.
 //  Copyright © 2020 Jonathan Ng. All rights reserved.
 //
 //
@@ -21,6 +21,7 @@ extension CoreCompany {
     @NSManaged public var desc: String?
     @NSManaged public var id: Int64
     @NSManaged public var img: String?
+    @NSManaged public var imgs: [String]?
     @NSManaged public var mobile: String?
     @NSManaged public var name: String?
     @NSManaged public var stylist: NSSet?

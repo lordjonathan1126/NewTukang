@@ -29,7 +29,7 @@ struct StylistDetailView: View {
             if #available(iOS 14.0, *) {
                 ScrollView{
                     LazyVStack {
-                        AboutStylist(stylistId: stylistId)
+                        AboutStylist2(stylistId: stylistId)
                         LazyVStack{
                             HStack {
                                 Text("Posts")
@@ -59,3 +59,42 @@ struct StylistDetailView_Previews: PreviewProvider {
     }
 }
 
+struct AboutStylist2: View{
+    var stylists: FetchRequest<CoreStylist>
+    var stylistId:String = "1"
+    let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
+    
+    init(stylistId:String){
+        stylists = FetchRequest<CoreStylist>(
+            entity: CoreStylist.entity(),
+            sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
+            predicate: NSPredicate(format: "id == %@", stylistId))
+        self.stylistId = stylistId
+    }
+    
+    var body: some View{
+        ForEach(stylists.wrappedValue, id: \.self){stylist in
+                VStack {
+                    HStack{
+                        UrlImageView(urlString: "\(stylist.img!)")
+                            .clipShape(Circle())
+                            .frame(width: 70, height: 70)
+                            .overlay(Circle().stroke(Color("Accent")))
+                            .clipped()
+                            .padding()
+                        Spacer()
+                        VStack(alignment: .trailing){
+                            Text("\(stylist.name!)")
+                                .font(.title)
+                                .bold()
+                            Text("\(stylist.location!)")
+                                .foregroundColor(Color("Accent"))
+                        }.padding()
+                    }
+                    Text("\(stylist.desc ?? "No description available.")")
+                        .lineLimit(nil)
+                        .padding(.horizontal)
+                }
+        }
+    }
+}

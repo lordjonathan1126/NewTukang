@@ -19,7 +19,7 @@ class WebService: ObservableObject{
     
     func getPosts(){
         let cdManager = CoreDataManager()
-        let url = URL(string: "https://m5.tunai.io/tukang/post2")
+        let url = URL(string: "https://m5.tunai.io/tukang/post")
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
             guard data != nil else{
                 return

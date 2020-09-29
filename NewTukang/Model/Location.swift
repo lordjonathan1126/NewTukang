@@ -12,44 +12,23 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
-struct Stylist : Codable {
-	let id : Int?
-	let mobile : String?
-	let loginDate : Date?
-	let createDate : Date?
-	let notes : Notes?
-	let location : Location?
-	let name : String?
-	let companyID : Int?
-	let img : String?
-	let imgs : [String]?
+struct Location : Codable {
+	let city : String?
+	let lat : Double?
+	let lon : Double?
 
 	enum CodingKeys: String, CodingKey {
 
-		case id = "id"
-		case mobile = "mobile"
-		case loginDate = "loginDate"
-		case createDate = "createDate"
-		case notes = "notes"
-		case location = "location"
-		case name = "name"
-		case companyID = "companyID"
-		case img = "img"
-		case imgs = "imgs"
+		case city = "city"
+		case lat = "lat"
+		case lon = "lon"
 	}
 
 	init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
-		id = try values.decodeIfPresent(Int.self, forKey: .id)
-		mobile = try values.decodeIfPresent(String.self, forKey: .mobile)
-		loginDate = try values.decodeIfPresent(Date.self, forKey: .loginDate)
-		createDate = try values.decodeIfPresent(Date.self, forKey: .createDate)
-		notes = try values.decodeIfPresent(Notes.self, forKey: .notes)
-		location = try values.decodeIfPresent(Location.self, forKey: .location)
-		name = try values.decodeIfPresent(String.self, forKey: .name)
-		companyID = try values.decodeIfPresent(Int.self, forKey: .companyID)
-		img = try values.decodeIfPresent(String.self, forKey: .img)
-		imgs = try values.decodeIfPresent([String].self, forKey: .imgs)
+		city = try values.decodeIfPresent(String.self, forKey: .city)
+		lat = try values.decodeIfPresent(Double.self, forKey: .lat)
+		lon = try values.decodeIfPresent(Double.self, forKey: .lon)
 	}
 
 }

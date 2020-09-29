@@ -24,7 +24,6 @@ class UrlImageModel: ObservableObject {
             // print("Cache hit")
             return
         }
-        
         //print("Cache miss, loading from url")
         loadImageFromUrl()
     }

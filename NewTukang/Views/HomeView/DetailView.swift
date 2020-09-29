@@ -84,6 +84,7 @@ struct DetailView: View {
                             SimilarView(serviceTypeId: serviceTypeId)
                         }
                     }
+                    Spacer()
                     HStack {
                         VStack(alignment: .leading) {
                             Text("\(title)")
@@ -227,8 +228,9 @@ struct AboutCompany :View {
                             Spacer()
                             VStack(alignment: .trailing){
                                 Text("\(company.name!)")
-                                    .font(.title)
+                                    .font(.headline)
                                     .bold()
+                                    .lineLimit(2)
                             }.padding(.trailing)
                         }
                         Text("\(company.desc ?? "No description available.")")
@@ -308,7 +310,7 @@ struct HorizontalStylistCard: View{
                 }.padding()
             }
             .padding()
-            .frame(width: 200, height: 260)
+            .frame(width: 200, height: 270)
             .background(Color("Background"))
             .cornerRadius(12)
             .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)

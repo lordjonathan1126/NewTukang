@@ -29,7 +29,6 @@ struct HomeView: View {
                         }
                     }
                 }
-                
             }
             //.navigationBarHidden(true)
             .navigationBarTitle("Tukang")
@@ -159,7 +158,7 @@ struct SearchBar: View{
 struct TrendingView: View {
     @FetchRequest(
         entity: CorePost.entity(),
-        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: false)]
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)]
     ) var posts: FetchedResults<CorePost>
     var title:String = "Top Trending"
     
@@ -171,7 +170,6 @@ struct TrendingView: View {
                         .font(.title)
                         .fontWeight(.bold)
                 }.padding(.leading)
-                
                 ScrollView(.horizontal, showsIndicators: false){
                     LazyHStack(spacing: 20){
                         ForEach (posts, id: \.self){ post in
@@ -220,10 +218,9 @@ struct TrendingCards: View{
                 UrlImageView(urlString: imageUrl)
                     .frame(width: 200, height: 200, alignment: .top)
                     .fixedSize()
-                
                 VStack {
                     HStack{
-                        if(discount != 0){
+                        if (discount != 0){
                             Text("-\((1 - ((price - discount) / (price))) * 100, specifier: "%.0f")%")
                                 .padding(.leading,7)
                                 .padding(.top, 7)
@@ -275,7 +272,6 @@ struct TrendingCards: View{
         .frame(width: 200, height: 340)
         .background(Color("Background"))
         .cornerRadius(12)
-        //.shadow(color: Color("LightShadow"), radius: 1, x: -5, y: -5)
         .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
         .blendMode(.overlay)
     }

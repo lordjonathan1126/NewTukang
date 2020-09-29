@@ -42,7 +42,6 @@ struct StylistCard: View{
     var stylistId:String = "1"
     var stylistName:String = "Tammy How"
     var location:String = "KL"
-    let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
     var body: some View{
         NavigationLink(destination: StylistDetailView(stylistId: stylistId, title: "\(stylistName)")){

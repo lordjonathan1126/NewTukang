@@ -62,8 +62,12 @@ struct CompanyDetailView: View {
                                 .padding()
                             Spacer()
                         }
-                        ForEach(stylists.wrappedValue, id: \.self){ stylist in
-                            StylistCard( imageName:"\(stylist.img!)" ,stylistId:"\(stylist.id)",stylistName: "\(stylist.name!)", location: "\(stylist.location!)")
+                        ScrollView(.horizontal, showsIndicators: false){
+                            LazyHStack(spacing: 20){
+                                ForEach(stylists.wrappedValue, id: \.self){ stylist in
+                                    HorizontalStylistCard( image:"\(stylist.img!)" ,name:"\(stylist.name!)",location:"\(stylist.location!)" , stylistId: "\(stylist.id)")
+                                }
+                            }.padding()
                         }
                     }
                 }

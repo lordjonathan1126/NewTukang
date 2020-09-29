@@ -29,6 +29,7 @@
 		FC42954D24F37A3C005B894A /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC42954C24F37A3C005B894A /* SearchView.swift */; };
 		FC74D5F6250B30A200A6A0CF /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC74D5F5250B30A200A6A0CF /* CategoryView.swift */; };
 		FC74D5F8250B30B100A6A0CF /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC74D5F7250B30B100A6A0CF /* DetailView.swift */; };
+		FC7EFDFD2523002600842133 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7EFDFC2523002600842133 /* Location.swift */; };
 		FC90FD59251B3DDF00FA02C4 /* UrlImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC90FD58251B3DDF00FA02C4 /* UrlImageView.swift */; };
 		FC90FD5E251B3E0100FA02C4 /* UrlImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC90FD5D251B3E0100FA02C4 /* UrlImageModel.swift */; };
 		FC912C7E251378D80014D16C /* StylistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC912C7D251378D80014D16C /* StylistDetailView.swift */; };
@@ -91,6 +92,7 @@
 		FC43D8E724F3CD860096454D /* Tukang.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tukang.entitlements; sourceTree = "<group>"; };
 		FC74D5F5250B30A200A6A0CF /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		FC74D5F7250B30B100A6A0CF /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		FC7EFDFC2523002600842133 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		FC90FD58251B3DDF00FA02C4 /* UrlImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlImageView.swift; sourceTree = "<group>"; };
 		FC90FD5D251B3E0100FA02C4 /* UrlImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlImageModel.swift; sourceTree = "<group>"; };
 		FC912C7D251378D80014D16C /* StylistDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylistDetailView.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 		FCE6A3AF2500FF2A00493501 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FC7EFDFC2523002600842133 /* Location.swift */,
 				FC1459AD25131C1F0015DC2F /* Company.swift */,
 				FC1459AC25131C1F0015DC2F /* Delta.swift */,
 				FC1459AA25131C1F0015DC2F /* Json4Swift_Base.swift */,
@@ -457,6 +460,7 @@
 				FCE67D4824EF6C8A0031A79B /* ContentView.swift in Sources */,
 				FCE67D7724EF6FA40031A79B /* HomeView.swift in Sources */,
 				FC1459B725131C1F0015DC2F /* Post.swift in Sources */,
+				FC7EFDFD2523002600842133 /* Location.swift in Sources */,
 				FCE67D4324EF6C8A0031A79B /* SceneDelegate.swift in Sources */,
 				FCE6A3C42500FF8700493501 /* WebService.swift in Sources */,
 				FC40E62825149AC600E27E3F /* CompanyDetailView.swift in Sources */,

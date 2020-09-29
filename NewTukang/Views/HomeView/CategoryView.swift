@@ -36,15 +36,6 @@ struct CategoryView: View {
                             }.buttonStyle(PlainButtonStyle())
                         }
                     }
-                }else{
-                    VStack{
-                        ForEach(posts.wrappedValue, id: \.self){ post in
-                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                                PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
-                                    .padding()
-                            }.buttonStyle(PlainButtonStyle())
-                        }
-                    }
                 }
             }
         }
@@ -61,13 +52,12 @@ struct CategoryView_Previews: PreviewProvider {
 }
 
 struct PostCards: View{
-    var imageName:String = "stock-1"
+    var imageName:String = ""
     var title:String = "Sample title"
     var price: Double = 10.00
     var desc:String = "Description"
     var duration:String = "120"
     var discount:Double = 0.0
-    let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
     
     var stylists: FetchRequest<CoreStylist>

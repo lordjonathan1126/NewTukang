@@ -2,7 +2,7 @@
 //  CorePost+CoreDataProperties.swift
 //  NewTukang
 //
-//  Created by Jonathan Ng on 21/09/2020.
+//  Created by Jonathan Ng on 29/09/2020.
 //  Copyright © 2020 Jonathan Ng. All rights reserved.
 //
 //
@@ -22,6 +22,7 @@ extension CorePost {
     @NSManaged public var discount: Double
     @NSManaged public var endDate: Date?
     @NSManaged public var img: String?
+    @NSManaged public var imgs: [String]?
     @NSManaged public var normalPrice: Double
     @NSManaged public var postId: Int64
     @NSManaged public var serviceCatId: Int64
