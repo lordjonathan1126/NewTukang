@@ -33,40 +33,57 @@ struct CompanyDetailView: View {
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
-                    LazyVStack(spacing: 14){
-                        ForEach(companies.wrappedValue, id: \.self){ company in
-                            HStack {
-                                UrlImageView(urlString: "\(company.img!)")
-                                    .clipShape(Circle())
-                                    .frame(width: 70, height: 70)
-                                    .overlay(Circle().stroke(Color("Accent")))
-                                    .clipped()
-                                    .padding()
-                                Spacer()
-                                VStack(alignment: .trailing) {
-                                    Text("\(company.name!)")
-                                        .font(.title)
-                                        .bold()
-                                }
-                            }.padding(.horizontal)
-                            Text("\(company.desc!)")
-                                .padding(.horizontal)
-                        }
+                LazyVStack(spacing: 14){
+                    ForEach(companies.wrappedValue, id: \.self){ company in
                         HStack {
-                            Text("Stylist")
-                                .font(.title)
-                                .bold()
+                            UrlImageView(urlString: "\(company.img!)")
+                                .clipShape(Circle())
+                                .frame(width: 70, height: 70)
+                                .overlay(Circle().stroke(Color("Accent")))
+                                .clipped()
                                 .padding()
                             Spacer()
-                        }
-                        ScrollView(.horizontal, showsIndicators: false){
-                            LazyHStack(spacing: 20){
-                                ForEach(stylists.wrappedValue, id: \.self){ stylist in
-                                    HorizontalStylistCard( image:"\(stylist.img!)" ,name:"\(stylist.name!)",location:"\(stylist.location!)" , stylistId: "\(stylist.id)")
+                            VStack(alignment: .trailing) {
+                                Text("\(company.name!)")
+                                    .font(.title)
+                                    .bold()
+                            }
+                        }.padding(.horizontal)
+                        Text("\(company.desc!)")
+                            .padding(.horizontal)
+                        if(company.imgs != nil){
+                            VStack {
+                                ScrollView(.horizontal){
+                                    LazyHStack(){
+                                        ForEach(company.imgs!, id:\.self){ img in
+                                            UrlImageView(urlString: img)
+                                                .fixedSize()
+                                                .frame(width: 230, height: 230)
+                                                .cornerRadius(10.0)
+                                                .padding(.vertical)
+                                                .padding(.leading, 5)
+                                        }
+                                    }
                                 }
-                            }.padding()
+                            }
                         }
                     }
+                    
+                    HStack {
+                        Text("Stylist")
+                            .font(.title)
+                            .bold()
+                            .padding()
+                        Spacer()
+                    }
+                    ScrollView(.horizontal, showsIndicators: false){
+                        LazyHStack(spacing: 20){
+                            ForEach(stylists.wrappedValue, id: \.self){ stylist in
+                                HorizontalStylistCard( image:"\(stylist.img!)" ,name:"\(stylist.name!)",location:"\(stylist.location!)" , stylistId: "\(stylist.id)")
+                            }
+                        }.padding()
+                    }
+                }
             }
         }
         .navigationBarTitle("\(title)", displayMode: .inline)

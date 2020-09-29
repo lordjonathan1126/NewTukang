@@ -73,7 +73,7 @@ struct AboutStylist2: View{
     
     var body: some View{
         ForEach(stylists.wrappedValue, id: \.self){stylist in
-            VStack {
+            LazyVStack {
                 HStack{
                     UrlImageView(urlString: "\(stylist.img!)")
                         .clipShape(Circle())
@@ -93,6 +93,20 @@ struct AboutStylist2: View{
                 Text("\(stylist.desc ?? "No description available.")")
                     .lineLimit(nil)
                     .padding(.horizontal)
+                if(stylist.imgs != nil){
+                    ScrollView(.horizontal){
+                            LazyHStack(){
+                                ForEach(stylist.imgs!, id:\.self){ img in
+                                    UrlImageView(urlString: img)
+                                        .fixedSize()
+                                        .frame(width: 230, height: 230)
+                                        .cornerRadius(10.0)
+                                        .padding(.vertical)
+                                        .padding(.leading, 5)
+                                }
+                            }
+                        }
+                }
             }
         }
     }
