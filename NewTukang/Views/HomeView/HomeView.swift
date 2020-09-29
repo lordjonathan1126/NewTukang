@@ -28,9 +28,7 @@ struct HomeView: View {
                     }
                 }
             }
-            //.navigationBarHidden(true)
             .navigationBarTitle("Tukang")
-            //.edgesIgnoringSafeArea([.top])
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 }

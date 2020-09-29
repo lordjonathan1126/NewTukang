@@ -19,13 +19,12 @@ struct StylistView: View {
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
-                if #available(iOS 14.0, *) {
                     LazyVStack(spacing: 14){
                         ForEach(_stylists.wrappedValue, id: \.self){ stylist in
                             StylistCard( imageName:"\(stylist.img!)", stylistId:"\(stylist.id)",stylistName: "\(stylist.name!)", location: "\(stylist.location!)")
                         }
                     }
-                }
+                
             }
         }.navigationBarTitle("Stylists", displayMode: .inline)
     }

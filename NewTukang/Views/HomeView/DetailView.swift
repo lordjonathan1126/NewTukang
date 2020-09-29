@@ -38,7 +38,6 @@ struct DetailView: View {
                     .edgesIgnoringSafeArea(.all)
                 VStack {
                     ScrollView{
-                        if #available(iOS 14.0, *) {
                             LazyVStack(alignment: .leading, spacing: 12){
                                 UrlImageView(urlString: "\(post.img!)")
                                 HStack {
@@ -84,54 +83,6 @@ struct DetailView: View {
                                 }
                                 SimilarView(serviceTypeId: serviceTypeId)
                             }
-                        } else {
-                            // Fallback on earlier versions
-                            VStack(alignment: .leading, spacing: 12){
-                                UrlImageView(urlString: "\(post.img!)")
-                                HStack {
-                                    Text("What you will get")
-                                        .font(.title)
-                                        .foregroundColor(Color("Accent"))
-                                        .padding(.horizontal)
-                                    Spacer()
-                                    Text("\(post.serviceDuration) mins")
-                                        .foregroundColor(.secondary)
-                                        .padding(.trailing)
-                                }
-                                Text("\(post.desc!)")
-                                    .font(.body)
-                                    .lineLimit(nil)
-                                    .padding(.horizontal)
-                                VStack {
-                                    HStack {
-                                        Text("Stylist")
-                                            .font(.title)
-                                            .bold()
-                                            .padding(.leading)
-                                        Spacer()
-                                    }
-                                    AboutStylist(stylistId: stylistId)
-                                }
-                                PostsByStylistView(stylistId: stylistId)
-                                VStack {
-                                    HStack {
-                                        Text("Company")
-                                            .font(.title)
-                                            .bold()
-                                            .padding(.leading)
-                                        Spacer()
-                                    }
-                                    ForEach(stylists.wrappedValue, id: \.self){stylist in
-                                        AboutCompany(companyId: "\(stylist.companyId)")
-                                        
-                                    }
-                                }
-                                ForEach(stylists.wrappedValue, id: \.self){stylist in
-                                    MeetTheTeam(companyId: "\(stylist.companyId)")
-                                }
-                                SimilarView(serviceTypeId: serviceTypeId)
-                            }
-                        }
                     }
                     Spacer()
                     HStack {
@@ -226,7 +177,6 @@ struct PostsByStylistView: View {
     }
     
     var body: some View{
-        if #available(iOS 14.0, *) {
             VStack(alignment:.leading){
                 VStack(alignment: .leading) {
                     Text("Posts by Stylist")
@@ -246,7 +196,7 @@ struct PostsByStylistView: View {
                 }
             }
             .padding(.top)
-        }
+        
     }
 }
 
@@ -263,7 +213,6 @@ struct AboutCompany :View {
         self.companyId = companyId
     }
     var body: some View{
-        if #available(iOS 14.0, *) {
             LazyVStack {
                 ForEach(companies.wrappedValue, id: \.self){ company in
                     NavigationLink(destination: CompanyDetailView(companyId: companyId, title: company.name!)){
@@ -290,7 +239,6 @@ struct AboutCompany :View {
                     }.buttonStyle(PlainButtonStyle())
                 }
             }
-        }
     }
 }
 
@@ -315,20 +263,12 @@ struct MeetTheTeam:View {
                 Spacer()
             }
             ScrollView(.horizontal, showsIndicators: false){
-                if #available(iOS 14.0, *) {
                     LazyHStack(spacing:20){
                         ForEach(stylists.wrappedValue, id: \.self){ stylist in
                             HorizontalStylistCard(image: "\(stylist.img!)", name:"\(stylist.name!)", location: "\(stylist.location!)", stylistId: "\(stylist.id)")
                         }
                     }.padding()
-                } else {
-                    // Fallback on earlier versions
-                    HStack(spacing:20){
-                        ForEach(stylists.wrappedValue, id: \.self){ stylist in
-                            HorizontalStylistCard(image: "\(stylist.img!)", name:"\(stylist.name!)", location: "\(stylist.location!)", stylistId: "\(stylist.id)")
-                        }
-                    }.padding()
-                }
+               
             }
         }
     }
@@ -393,7 +333,6 @@ struct SimilarView: View {
     }
     
     var body: some View {
-        if #available(iOS 14.0, *) {
             VStack(alignment:.leading){
                 VStack(alignment: .leading) {
                     Text("Similar Posts")
@@ -413,7 +352,7 @@ struct SimilarView: View {
                 }
             }
             .padding(.top)
-        }
+        
     }
 }
 

@@ -26,7 +26,6 @@ struct StylistDetailView: View {
         ZStack{
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
-            if #available(iOS 14.0, *) {
                 ScrollView{
                     LazyVStack {
                         AboutStylist2(stylistId: stylistId)
@@ -47,7 +46,7 @@ struct StylistDetailView: View {
                         }
                     }
                 }
-            }
+            
         }.navigationBarTitle("\(title)", displayMode: .inline)
     }
 }

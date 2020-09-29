@@ -19,13 +19,12 @@ struct CompaniesView: View {
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
-                if #available(iOS 14.0, *) {
                     LazyVStack(spacing: 14){
                         ForEach(_companies.wrappedValue, id: \.self){ company in
                             CompanyCard(imageName: "\(company.img!)", companyId: "\(company.id)", companyName: "\(company.name!)" , desc: "\(company.desc!)")
                         }
                     }
-                }
+                
             }
         }.navigationBarTitle("Companies", displayMode: .inline)
     }
