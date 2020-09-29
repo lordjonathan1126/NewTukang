@@ -16,7 +16,6 @@ struct HomeView: View {
                 Color("Background")
                     .edgesIgnoringSafeArea(.all)
                 ScrollView{
-                    if #available(iOS 14.0, *) {
                         LazyVStack{
                             //SearchBar()
                             OurServiceView()
@@ -27,7 +26,7 @@ struct HomeView: View {
                                 .padding(.top)
                             Spacer()
                         }
-                    }
+                
                 }
             }
             //.navigationBarHidden(true)
@@ -43,33 +42,8 @@ struct HomeView_Previews: PreviewProvider {
     }
 }
 
-struct TitleBar: View {
-    var body: some View {
-        HStack {
-            Text("TUKANG")
-                .font(.largeTitle)
-                .bold()
-            Spacer()
-            //   Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
-            //      Image(systemName: "bell")
-            //         .foregroundColor(Color("Accent"))
-            //          .padding()
-            //          .background(
-            //              Circle()
-            //                 .fill(Color("Background"))
-            //                 .shadow(color: Color("LightShadow"), radius: 10, x: -7, y: -7)
-            //               .shadow(color: Color("DarkShadow"), radius: 10, x: 10, y: 10)
-            //  )
-            //}
-        }
-        .padding(.horizontal)
-        .padding(.top, 50)
-    }
-}
-
 struct OurServiceView: View{
     var body: some View{
-        if #available(iOS 14.0, *) {
             LazyVStack(alignment:.leading){
                 Text("Our Services")
                     .font(.title)
@@ -92,7 +66,7 @@ struct OurServiceView: View{
                     }.padding()
                 }
             }.frame(minWidth: 0, maxWidth: .infinity)
-        }
+        
     }
 }
 
@@ -116,7 +90,6 @@ struct CategoryButton: View {
                             .padding(.trailing, 5)
                     }
                 }
-                
             }.frame(width:100, height: 100, alignment:.center)
             .cornerRadius(10)
             .shadow(color: Color("LightShadow"), radius: 5, x: -3, y: -3)
@@ -163,7 +136,6 @@ struct TrendingView: View {
     var title:String = "Top Trending"
     
     var body: some View{
-        if #available(iOS 14.0, *) {
             VStack(alignment:.leading){
                 VStack(alignment: .leading) {
                     Text("\(title)")
@@ -182,7 +154,6 @@ struct TrendingView: View {
                 }
             }
             .padding(.top)
-        }
     }
 }
 

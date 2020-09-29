@@ -38,50 +38,99 @@ struct DetailView: View {
                     .edgesIgnoringSafeArea(.all)
                 VStack {
                     ScrollView{
-                        LazyVStack(alignment: .leading, spacing: 12){
-                            UrlImageView(urlString: "\(post.img!)")
-                            HStack {
-                                Text("What you will get")
-                                    .font(.title)
-                                    .foregroundColor(Color("Accent"))
-                                    .padding(.horizontal)
-                                Spacer()
-                                Text("\(post.serviceDuration) mins")
-                                    .foregroundColor(.secondary)
-                                    .padding(.trailing)
-                            }
-                            Text("\(post.desc!)")
-                                .font(.body)
-                                .lineLimit(nil)
-                                .padding(.horizontal)
-                            VStack {
+                        if #available(iOS 14.0, *) {
+                            LazyVStack(alignment: .leading, spacing: 12){
+                                UrlImageView(urlString: "\(post.img!)")
                                 HStack {
-                                    Text("Stylist")
+                                    Text("What you will get")
                                         .font(.title)
-                                        .bold()
-                                        .padding(.leading)
+                                        .foregroundColor(Color("Accent"))
+                                        .padding(.horizontal)
                                     Spacer()
+                                    Text("\(post.serviceDuration) mins")
+                                        .foregroundColor(.secondary)
+                                        .padding(.trailing)
                                 }
-                                AboutStylist(stylistId: stylistId)
-                            }
-                            PostsByStylistView(stylistId: stylistId)
-                            VStack {
-                                HStack {
-                                    Text("Company")
-                                        .font(.title)
-                                        .bold()
-                                        .padding(.leading)
-                                    Spacer()
+                                Text("\(post.desc!)")
+                                    .font(.body)
+                                    .lineLimit(nil)
+                                    .padding(.horizontal)
+                                VStack {
+                                    HStack {
+                                        Text("Stylist")
+                                            .font(.title)
+                                            .bold()
+                                            .padding(.leading)
+                                        Spacer()
+                                    }
+                                    AboutStylist(stylistId: stylistId)
+                                }
+                                PostsByStylistView(stylistId: stylistId)
+                                VStack {
+                                    HStack {
+                                        Text("Company")
+                                            .font(.title)
+                                            .bold()
+                                            .padding(.leading)
+                                        Spacer()
+                                    }
+                                    ForEach(stylists.wrappedValue, id: \.self){stylist in
+                                        AboutCompany(companyId: "\(stylist.companyId)")
+                                        
+                                    }
                                 }
                                 ForEach(stylists.wrappedValue, id: \.self){stylist in
-                                    AboutCompany(companyId: "\(stylist.companyId)")
-                                    
+                                    MeetTheTeam(companyId: "\(stylist.companyId)")
                                 }
+                                SimilarView(serviceTypeId: serviceTypeId)
                             }
-                            ForEach(stylists.wrappedValue, id: \.self){stylist in
-                            MeetTheTeam(companyId: "\(stylist.companyId)")
+                        } else {
+                            // Fallback on earlier versions
+                            VStack(alignment: .leading, spacing: 12){
+                                UrlImageView(urlString: "\(post.img!)")
+                                HStack {
+                                    Text("What you will get")
+                                        .font(.title)
+                                        .foregroundColor(Color("Accent"))
+                                        .padding(.horizontal)
+                                    Spacer()
+                                    Text("\(post.serviceDuration) mins")
+                                        .foregroundColor(.secondary)
+                                        .padding(.trailing)
+                                }
+                                Text("\(post.desc!)")
+                                    .font(.body)
+                                    .lineLimit(nil)
+                                    .padding(.horizontal)
+                                VStack {
+                                    HStack {
+                                        Text("Stylist")
+                                            .font(.title)
+                                            .bold()
+                                            .padding(.leading)
+                                        Spacer()
+                                    }
+                                    AboutStylist(stylistId: stylistId)
+                                }
+                                PostsByStylistView(stylistId: stylistId)
+                                VStack {
+                                    HStack {
+                                        Text("Company")
+                                            .font(.title)
+                                            .bold()
+                                            .padding(.leading)
+                                        Spacer()
+                                    }
+                                    ForEach(stylists.wrappedValue, id: \.self){stylist in
+                                        AboutCompany(companyId: "\(stylist.companyId)")
+                                        
+                                    }
+                                }
+                                ForEach(stylists.wrappedValue, id: \.self){stylist in
+                                    MeetTheTeam(companyId: "\(stylist.companyId)")
+                                }
+                                SimilarView(serviceTypeId: serviceTypeId)
                             }
-                            SimilarView(serviceTypeId: serviceTypeId)
                         }
                     }
                     Spacer()
@@ -214,30 +263,32 @@ struct AboutCompany :View {
         self.companyId = companyId
     }
     var body: some View{
-        LazyVStack {
-            ForEach(companies.wrappedValue, id: \.self){ company in
-                NavigationLink(destination: CompanyDetailView(companyId: companyId, title: company.name!)){
-                    VStack {
-                        HStack{
-                            UrlImageView(urlString: "\(company.img!)")
-                                .clipShape(Circle())
-                                .frame(width: 70, height: 70)
-                                .overlay(Circle().stroke(Color("Accent")))
-                                .clipped()
-                                .padding()
-                            Spacer()
-                            VStack(alignment: .trailing){
-                                Text("\(company.name!)")
-                                    .font(.headline)
-                                    .bold()
-                                    .lineLimit(2)
-                            }.padding(.trailing)
-                        }
-                        Text("\(company.desc ?? "No description available.")")
-                            .lineLimit(nil)
-                            .padding(.horizontal)
-                    }.padding()
-                }.buttonStyle(PlainButtonStyle())
+        if #available(iOS 14.0, *) {
+            LazyVStack {
+                ForEach(companies.wrappedValue, id: \.self){ company in
+                    NavigationLink(destination: CompanyDetailView(companyId: companyId, title: company.name!)){
+                        VStack {
+                            HStack{
+                                UrlImageView(urlString: "\(company.img!)")
+                                    .clipShape(Circle())
+                                    .frame(width: 70, height: 70)
+                                    .overlay(Circle().stroke(Color("Accent")))
+                                    .clipped()
+                                    .padding()
+                                Spacer()
+                                VStack(alignment: .trailing){
+                                    Text("\(company.name!)")
+                                        .font(.headline)
+                                        .bold()
+                                        .lineLimit(2)
+                                }.padding(.trailing)
+                            }
+                            Text("\(company.desc ?? "No description available.")")
+                                .lineLimit(nil)
+                                .padding(.horizontal)
+                        }.padding()
+                    }.buttonStyle(PlainButtonStyle())
+                }
             }
         }
     }
@@ -264,11 +315,20 @@ struct MeetTheTeam:View {
                 Spacer()
             }
             ScrollView(.horizontal, showsIndicators: false){
-                LazyHStack(spacing:20){
-                ForEach(stylists.wrappedValue, id: \.self){ stylist in
-                    HorizontalStylistCard(image: "\(stylist.img!)", name:"\(stylist.name!)", location: "\(stylist.location!)", stylistId: "\(stylist.id)")
+                if #available(iOS 14.0, *) {
+                    LazyHStack(spacing:20){
+                        ForEach(stylists.wrappedValue, id: \.self){ stylist in
+                            HorizontalStylistCard(image: "\(stylist.img!)", name:"\(stylist.name!)", location: "\(stylist.location!)", stylistId: "\(stylist.id)")
+                        }
+                    }.padding()
+                } else {
+                    // Fallback on earlier versions
+                    HStack(spacing:20){
+                        ForEach(stylists.wrappedValue, id: \.self){ stylist in
+                            HorizontalStylistCard(image: "\(stylist.img!)", name:"\(stylist.name!)", location: "\(stylist.location!)", stylistId: "\(stylist.id)")
+                        }
+                    }.padding()
                 }
-            }.padding()
             }
         }
     }

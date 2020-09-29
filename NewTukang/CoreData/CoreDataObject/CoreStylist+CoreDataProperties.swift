@@ -22,13 +22,13 @@ extension CoreStylist {
     @NSManaged public var desc: String?
     @NSManaged public var id: Int64
     @NSManaged public var img: String?
+    @NSManaged public var imgs: [String]?
+    @NSManaged public var lat: Double
     @NSManaged public var location: String?
     @NSManaged public var loginDate: Date?
+    @NSManaged public var lon: Double
     @NSManaged public var mobile: String?
     @NSManaged public var name: String?
-    @NSManaged public var lat: Double
-    @NSManaged public var lon: Double
-    @NSManaged public var imgs: [String]?
     @NSManaged public var companies: CoreCompany?
     @NSManaged public var posts: NSSet?
 
