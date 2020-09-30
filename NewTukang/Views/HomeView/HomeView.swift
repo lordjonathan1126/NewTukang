@@ -17,15 +17,12 @@ struct HomeView: View {
                     .edgesIgnoringSafeArea(.all)
                 ScrollView{
                     LazyVStack{
-                        //SearchBar()
                         OurServiceView()
                         MostPurchased(title: "Top Sales")
                         MostPopular(title: "Most Popular")
                         NewPost(title: "New Posts")
                         EndingSoon(title: "Ending Soon")
-                        //SpecialistView()
                         StylistCompanyListView()
-                            .padding(.top)
                         Spacer()
                     }
                 }
@@ -131,7 +128,7 @@ struct MostPurchased: View {
         entity: CorePost.entity(),
         sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.stat_p, ascending: false)]
     ) var posts: FetchedResults<CorePost>
-    var title:String = "Top Sales"
+    var title:String = "Most Purchased"
     
     var body: some View{
         VStack(alignment:.leading){
@@ -141,7 +138,7 @@ struct MostPurchased: View {
                         .font(.title)
                         .fontWeight(.bold)
                     Spacer()
-                    NavigationLink(destination: SeeAllView()){
+                    NavigationLink(destination: MostPurchasedSeeAll()){
                         Text("See All")
                     }
                 }
@@ -166,7 +163,7 @@ struct MostPopular: View {
         entity: CorePost.entity(),
         sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.stat_v, ascending: false)]
     ) var posts: FetchedResults<CorePost>
-    var title:String = "Top Sales"
+    var title:String = "Most Popular"
     
     var body: some View{
         VStack(alignment:.leading){
@@ -176,7 +173,7 @@ struct MostPopular: View {
                         .font(.title)
                         .fontWeight(.bold)
                     Spacer()
-                    NavigationLink(destination: SeeAllView()){
+                    NavigationLink(destination: MostPopularSeeAll()){
                         Text("See All")
                     }
                 }
@@ -199,7 +196,7 @@ struct MostPopular: View {
 struct EndingSoon: View {
     @FetchRequest(
         entity: CorePost.entity(),
-        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.endDate, ascending: false)]
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.endDate, ascending: true)]
     ) var posts: FetchedResults<CorePost>
     var title:String = "Top Sales"
     
@@ -211,7 +208,7 @@ struct EndingSoon: View {
                         .font(.title)
                         .fontWeight(.bold)
                     Spacer()
-                    NavigationLink(destination: SeeAllView()){
+                    NavigationLink(destination: EndingSoonSeeAll()){
                         Text("See All")
                     }
                 }
@@ -234,7 +231,7 @@ struct EndingSoon: View {
 struct NewPost: View {
     @FetchRequest(
         entity: CorePost.entity(),
-        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.createDate, ascending: false)]
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.createDate, ascending: true)]
     ) var posts: FetchedResults<CorePost>
     var title:String = "Top Sales"
     
@@ -246,7 +243,7 @@ struct NewPost: View {
                         .font(.title)
                         .fontWeight(.bold)
                     Spacer()
-                    NavigationLink(destination: SeeAllView()){
+                    NavigationLink(destination: NewPostSeeAll()){
                         Text("See All")
                     }
                 }
@@ -397,6 +394,6 @@ struct StylistCompanyListView: View{
                 .shadow(color: Color("DarkShadow"), radius: 5, x: 5, y: 5)
                 .blendMode(.overlay)
             }
-        }.padding(.bottom)
+        }.padding(.vertical)
     }
 }

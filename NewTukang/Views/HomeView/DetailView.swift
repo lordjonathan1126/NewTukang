@@ -41,66 +41,66 @@ struct DetailView: View {
                     .edgesIgnoringSafeArea(.all)
                 VStack {
                     ScrollView{
-                            LazyVStack(alignment: .leading, spacing: 12){
-                                UrlImageView(urlString: "\(post.img!)")
-                                HStack {
-                                    Text("What you will get")
-                                        .font(.title)
-                                        .foregroundColor(Color("Accent"))
-                                        .padding(.horizontal)
-                                    Spacer()
-                                    Text("\(post.serviceDuration) mins")
-                                        .foregroundColor(.secondary)
-                                        .padding(.trailing)
-                                }
-                                Text("\(post.desc!)")
-                                    .font(.body)
-                                    .lineLimit(nil)
+                        LazyVStack(alignment: .leading, spacing: 12){
+                            UrlImageView(urlString: "\(post.img!)")
+                            HStack {
+                                Text("What you will get")
+                                    .font(.title)
+                                    .foregroundColor(Color("Accent"))
                                     .padding(.horizontal)
-                                if(post.imgs != nil){
-                                    VStack {
-                                        ScrollView(.horizontal){
-                                            LazyHStack{
-                                                ForEach(post.imgs!, id:\.self){ img in
-                                                    UrlImageView(urlString: img)
-                                                        .fixedSize()
-                                                        .frame(width: 230, height: 230)
-                                                        .cornerRadius(10.0)
-                                                        .padding(.vertical)
-                                                        .padding(.leading, 10)
-                                                }
+                                Spacer()
+                                Text("\(post.serviceDuration) mins")
+                                    .foregroundColor(.secondary)
+                                    .padding(.trailing)
+                            }
+                            Text("\(post.desc!)")
+                                .font(.body)
+                                .lineLimit(nil)
+                                .padding(.horizontal)
+                            if(post.imgs != nil){
+                                VStack {
+                                    ScrollView(.horizontal){
+                                        LazyHStack{
+                                            ForEach(post.imgs!, id:\.self){ img in
+                                                UrlImageView(urlString: img)
+                                                    .fixedSize()
+                                                    .frame(width: 230, height: 230)
+                                                    .cornerRadius(10.0)
+                                                    .padding(.vertical)
+                                                    .padding(.leading, 10)
                                             }
                                         }
                                     }
                                 }
-                                VStack {
-                                    HStack {
-                                        Text("Stylist")
-                                            .font(.title)
-                                            .bold()
-                                            .padding(.leading)
-                                        Spacer()
-                                    }
-                                    AboutStylist(stylistId: stylistId)
+                            }
+                            VStack {
+                                HStack {
+                                    Text("Stylist")
+                                        .font(.title)
+                                        .bold()
+                                        .padding(.leading)
+                                    Spacer()
                                 }
-                                PostsByStylistView(stylistId: stylistId)
-                                VStack {
-                                    HStack {
-                                        Text("Company")
-                                            .font(.title)
-                                            .bold()
-                                            .padding(.leading)
-                                        Spacer()
-                                    }
-                                    ForEach(stylists.wrappedValue, id: \.self){stylist in
-                                        AboutCompany(companyId: "\(stylist.companyId)")
-                                    }
+                                AboutStylist(stylistId: stylistId)
+                            }
+                            PostsByStylistView(stylistId: stylistId)
+                            VStack {
+                                HStack {
+                                    Text("Company")
+                                        .font(.title)
+                                        .bold()
+                                        .padding(.leading)
+                                    Spacer()
                                 }
                                 ForEach(stylists.wrappedValue, id: \.self){stylist in
-                                    MeetTheTeam(companyId: "\(stylist.companyId)")
+                                    AboutCompany(companyId: "\(stylist.companyId)")
                                 }
-                                SimilarView(serviceTypeId: serviceTypeId, catId: "\(post.serviceCatId)")
                             }
+                            ForEach(stylists.wrappedValue, id: \.self){stylist in
+                                MeetTheTeam(companyId: "\(stylist.companyId)")
+                            }
+                            SimilarView(serviceTypeId: serviceTypeId, catId: "\(post.serviceCatId)")
+                        }
                     }
                     Spacer()
                     HStack{
@@ -189,25 +189,25 @@ struct PostsByStylistView: View {
     }
     
     var body: some View{
-            VStack(alignment:.leading){
-                VStack(alignment: .leading) {
-                    Text("Posts by Stylist")
-                        .font(.title)
-                        .fontWeight(.bold)
-                }.padding(.leading)
-                
-                ScrollView(.horizontal, showsIndicators: false){
-                    LazyHStack(spacing: 20){
-                        ForEach (posts.wrappedValue, id: \.self){ post in
-                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                                TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
-                            }.buttonStyle(PlainButtonStyle())
-                        }
-                    }.frame(height: 345, alignment: .center)
-                    .padding()
-                }
+        VStack(alignment:.leading){
+            VStack(alignment: .leading) {
+                Text("Posts by Stylist")
+                    .font(.title)
+                    .fontWeight(.bold)
+            }.padding(.leading)
+            
+            ScrollView(.horizontal, showsIndicators: false){
+                LazyHStack(spacing: 20){
+                    ForEach (posts.wrappedValue, id: \.self){ post in
+                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                            TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                        }.buttonStyle(PlainButtonStyle())
+                    }
+                }.frame(height: 345, alignment: .center)
+                .padding()
             }
-            .padding(.top)
+        }
+        .padding(.top)
     }
 }
 
@@ -224,32 +224,32 @@ struct AboutCompany :View {
         self.companyId = companyId
     }
     var body: some View{
-            LazyVStack {
-                ForEach(companies.wrappedValue, id: \.self){ company in
-                    NavigationLink(destination: CompanyDetailView(companyId: companyId, title: company.name!)){
-                        VStack {
-                            HStack{
-                                UrlImageView(urlString: "\(company.img!)")
-                                    .clipShape(Circle())
-                                    .frame(width: 70, height: 70)
-                                    .overlay(Circle().stroke(Color("Accent")))
-                                    .clipped()
-                                    .padding()
-                                Spacer()
-                                VStack(alignment: .trailing){
-                                    Text("\(company.name!)")
-                                        .font(.headline)
-                                        .bold()
-                                        .lineLimit(2)
-                                }.padding(.trailing)
-                            }
-                            Text("\(company.desc ?? "No description available.")")
-                                .lineLimit(nil)
-                                .padding(.horizontal)
-                        }.padding()
-                    }.buttonStyle(PlainButtonStyle())
-                }
+        LazyVStack {
+            ForEach(companies.wrappedValue, id: \.self){ company in
+                NavigationLink(destination: CompanyDetailView(companyId: companyId, title: company.name!)){
+                    VStack {
+                        HStack{
+                            UrlImageView(urlString: "\(company.img!)")
+                                .clipShape(Circle())
+                                .frame(width: 70, height: 70)
+                                .overlay(Circle().stroke(Color("Accent")))
+                                .clipped()
+                                .padding()
+                            Spacer()
+                            VStack(alignment: .trailing){
+                                Text("\(company.name!)")
+                                    .font(.headline)
+                                    .bold()
+                                    .lineLimit(2)
+                            }.padding(.trailing)
+                        }
+                        Text("\(company.desc ?? "No description available.")")
+                            .lineLimit(nil)
+                            .padding(.horizontal)
+                    }.padding()
+                }.buttonStyle(PlainButtonStyle())
             }
+        }
     }
 }
 
@@ -274,12 +274,12 @@ struct MeetTheTeam:View {
                 Spacer()
             }
             ScrollView(.horizontal, showsIndicators: false){
-                    LazyHStack(spacing:20){
-                        ForEach(stylists.wrappedValue, id: \.self){ stylist in
-                            HorizontalStylistCard(image: "\(stylist.img!)", name:"\(stylist.name!)", location: "\(stylist.location!)", stylistId: "\(stylist.id)")
-                        }
-                    }.padding()
-               
+                LazyHStack(spacing:20){
+                    ForEach(stylists.wrappedValue, id: \.self){ stylist in
+                        HorizontalStylistCard(image: "\(stylist.img!)", name:"\(stylist.name!)", location: "\(stylist.location!)", stylistId: "\(stylist.id)")
+                    }
+                }.padding()
+                
             }
         }
     }
@@ -346,31 +346,33 @@ struct SimilarView: View {
     }
     
     var body: some View {
-            VStack(alignment:.leading){
-                VStack(alignment: .leading) {
-                    Text("Similar Posts")
-                        .font(.title)
-                        .fontWeight(.bold)
-                }.padding(.leading)
-                
-                ScrollView(.horizontal, showsIndicators: false){
-                    LazyHStack(spacing: 20){
-                        ForEach (posts.wrappedValue, id: \.self){ post in
-                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(serviceTypeId)")){
-                                TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
-                            }.buttonStyle(PlainButtonStyle())
-                        }
-                    }.frame(height: 345, alignment: .center)
-                    .padding()
-                }
+        VStack(alignment:.leading){
+            VStack(alignment: .leading) {
+                Text("Similar Posts")
+                    .font(.title)
+                    .fontWeight(.bold)
+            }.padding(.leading)
+            
+            ScrollView(.horizontal, showsIndicators: false){
+                LazyHStack(spacing: 20){
+                    ForEach (posts.wrappedValue, id: \.self){ post in
+                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(serviceTypeId)")){
+                            TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                        }.buttonStyle(PlainButtonStyle())
+                    }
+                }.frame(height: 345, alignment: .center)
+                .padding()
             }
-            .padding(.top)
+        }
+        .padding(.top)
     }
 }
 
 struct BookButton: View {
     var stylistId:String = ""
     var stylists: FetchRequest<CoreStylist>
+    @State private var showingActionSheet = false
+    
     init(stylistId:String){
         stylists = FetchRequest<CoreStylist>(
             entity: CoreStylist.entity(),
@@ -381,11 +383,7 @@ struct BookButton: View {
     var body: some View {
         ForEach(stylists.wrappedValue, id: \.self){stylist in
             Button(action: {
-                let tel = "tel://"
-                let phoneString = "\(stylist.mobile!)"
-                let formattedString = tel + phoneString
-                let url: NSURL = URL(string: formattedString)! as NSURL
-                UIApplication.shared.open(url as URL)
+                self.showingActionSheet = true
             }) {
                 Text("Book")
                     .foregroundColor(.white)
@@ -394,6 +392,33 @@ struct BookButton: View {
             .cornerRadius(10)
             .padding(.vertical)
             .shadow(color: Color("DarkShadow"), radius: 3, x: 3, y: 3)
+            .actionSheet(isPresented: $showingActionSheet) {
+                ActionSheet(title: Text("Contact stylist to book"), buttons: [
+                    .default(Text("Call")) {
+                        let tel = "tel://"
+                        let phoneString = "\(stylist.mobile!)"
+                        let formattedString = tel + phoneString
+                        let url: NSURL = URL(string: formattedString)! as NSURL
+                        UIApplication.shared.open(url as URL)
+                    },
+                    .default(Text("SMS")) {
+                        let tel = "sms://"
+                        let phoneString = "\(stylist.mobile!)"
+                        let formattedString = tel + phoneString
+                        let url: NSURL = URL(string: formattedString)! as NSURL
+                        UIApplication.shared.open(url as URL)
+                    },
+                    .default(Text("Whatsapp")) {
+                        let tel = "https://wa.me/"
+                        let phoneString = "\(stylist.mobile!)"
+                        let formattedString = tel + phoneString
+                        let url: NSURL = URL(string: formattedString)! as NSURL
+                        UIApplication.shared.open(url as URL)
+                    },
+                    .cancel()
+                ])
+            }
         }
     }
 }
+
