@@ -99,7 +99,6 @@ struct AboutStylist2: View{
                         
                     }) {
                         Text("Call    ")
-                            .underline()
                             .padding()
                     }
                     Spacer()
@@ -111,7 +110,6 @@ struct AboutStylist2: View{
                         UIApplication.shared.open(url as URL)
                     }) {
                         Text("Message")
-                            .underline()
                             .padding()
                     }
                     Spacer()
@@ -123,7 +121,6 @@ struct AboutStylist2: View{
                         UIApplication.shared.open(url as URL)
                     }) {
                         Text("Whatsapp")
-                            .underline()
                             .padding()
                     }
                 }
