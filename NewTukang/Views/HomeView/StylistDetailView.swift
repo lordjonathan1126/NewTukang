@@ -89,6 +89,44 @@ struct AboutStylist2: View{
                             .foregroundColor(Color("Accent"))
                     }.padding()
                 }
+                HStack{
+                    Button(action:{
+                        let tel = "tel://"
+                        let phoneString = "\(stylist.mobile!)"
+                        let formattedString = tel + phoneString
+                        let url: NSURL = URL(string: formattedString)! as NSURL
+                        UIApplication.shared.open(url as URL)
+                        
+                    }) {
+                        Text("Call    ")
+                            .underline()
+                            .padding()
+                    }
+                    Spacer()
+                    Button(action: {
+                        let tel = "sms://"
+                        let phoneString = "\(stylist.mobile!)"
+                        let formattedString = tel + phoneString
+                        let url: NSURL = URL(string: formattedString)! as NSURL
+                        UIApplication.shared.open(url as URL)
+                    }) {
+                        Text("Message")
+                            .underline()
+                            .padding()
+                    }
+                    Spacer()
+                    Button(action: {
+                        let tel = "https://wa.me/"
+                        let phoneString = "\(stylist.mobile!)"
+                        let formattedString = tel + phoneString
+                        let url: NSURL = URL(string: formattedString)! as NSURL
+                        UIApplication.shared.open(url as URL)
+                    }) {
+                        Text("Whatsapp")
+                            .underline()
+                            .padding()
+                    }
+                }
                 Text("\(stylist.desc ?? "No description available.")")
                     .lineLimit(nil)
                     .padding(.horizontal)
