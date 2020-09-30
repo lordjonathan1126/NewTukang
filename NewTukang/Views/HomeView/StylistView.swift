@@ -19,11 +19,11 @@ struct StylistView: View {
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
-                    LazyVStack(spacing: 14){
+                    LazyVStack(spacing: 15){
                         ForEach(_stylists.wrappedValue, id: \.self){ stylist in
                             StylistCard( imageName:"\(stylist.img!)", stylistId:"\(stylist.id)",stylistName: "\(stylist.name!)", location: "\(stylist.location!)")
                         }
-                    }
+                    }.padding(.bottom)
                 
             }
         }.navigationBarTitle("Stylists", displayMode: .inline)

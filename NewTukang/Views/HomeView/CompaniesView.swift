@@ -19,11 +19,11 @@ struct CompaniesView: View {
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
-                    LazyVStack(spacing: 14){
+                    LazyVStack(spacing: 15){
                         ForEach(_companies.wrappedValue, id: \.self){ company in
                             CompanyCard(imageName: "\(company.img!)", companyId: "\(company.id)", companyName: "\(company.name!)" , desc: "\(company.desc!)")
                         }
-                    }
+                    }.padding(.bottom)
                 
             }
         }.navigationBarTitle("Companies", displayMode: .inline)
