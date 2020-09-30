@@ -101,7 +101,7 @@ struct AboutStylist2: View{
                                         .frame(width: 230, height: 230)
                                         .cornerRadius(10.0)
                                         .padding(.vertical)
-                                        .padding(.leading, 5)
+                                        .padding(.leading, 10)
                                 }
                             }
                         }

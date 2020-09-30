@@ -17,21 +17,21 @@ struct AppTabBar: View {
                         Image(systemName: "rectangle.3.offgrid")
                         Text("Home")
                     }.padding()
-            }.tag(0)
-            BookingView()
-                .tabItem{
-                    VStack{
-                        Image(systemName: "calendar")
-                        Text("Booking")
-                    }.padding()
-            }.tag(1)
-            ProfileView()
-                .tabItem{
-                    VStack{
-                        Image(systemName: "person.circle")
-                        Text("Profile")
-                    }.padding()
-            }.tag(2)
+                }.tag(0)
+            //BookingView()
+            //  .tabItem{
+            //      VStack{
+            //         Image(systemName: "calendar")
+            //         Text("Booking")
+            //      }.padding()
+            // }.tag(1)
+            // ProfileView()
+            //      .tabItem{
+            //         VStack{
+            //             Image(systemName: "person.circle")
+            //             Text("Profile")
+            //         }.padding()
+            //  }.tag(2)
         }.accentColor(Color("Accent"))
     }
 }

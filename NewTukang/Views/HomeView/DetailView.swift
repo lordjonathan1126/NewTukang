@@ -17,6 +17,8 @@ struct DetailView: View {
     var postId:String
     let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
+    @State private var showingSheet = false
+    
     init(stylistId:String, postId:String, title:String, serviceTypeId:String) {
         posts = FetchRequest<CorePost>(
             entity: CorePost.entity(),
@@ -31,6 +33,7 @@ struct DetailView: View {
         self.title = title
         self.postId = postId
     }
+    
     var body: some View {
         ForEach(posts.wrappedValue, id: \.self){ post in
             ZStack{
@@ -54,6 +57,22 @@ struct DetailView: View {
                                     .font(.body)
                                     .lineLimit(nil)
                                     .padding(.horizontal)
+                                if(post.imgs != nil){
+                                    VStack {
+                                        ScrollView(.horizontal){
+                                            LazyHStack{
+                                                ForEach(post.imgs!, id:\.self){ img in
+                                                    UrlImageView(urlString: img)
+                                                        .fixedSize()
+                                                        .frame(width: 230, height: 230)
+                                                        .cornerRadius(10.0)
+                                                        .padding(.vertical)
+                                                        .padding(.leading, 10)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                                 VStack {
                                     HStack {
                                         Text("Stylist")
@@ -75,17 +94,16 @@ struct DetailView: View {
                                     }
                                     ForEach(stylists.wrappedValue, id: \.self){stylist in
                                         AboutCompany(companyId: "\(stylist.companyId)")
-                                        
                                     }
                                 }
                                 ForEach(stylists.wrappedValue, id: \.self){stylist in
                                     MeetTheTeam(companyId: "\(stylist.companyId)")
                                 }
-                                SimilarView(serviceTypeId: serviceTypeId)
+                                SimilarView(serviceTypeId: serviceTypeId, catId: "\(post.serviceCatId)")
                             }
                     }
                     Spacer()
-                    HStack {
+                    HStack{
                         VStack(alignment: .leading) {
                             Text("\(title)")
                             HStack {
@@ -99,14 +117,8 @@ struct DetailView: View {
                             }
                         }
                         Spacer()
-                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
-                            Text("Book")
-                                .foregroundColor(.white)
-                                .padding()
-                        }.background(Color("Accent"))
-                        .cornerRadius(10)
-                        .padding(.vertical)
-                        .shadow(color: Color("DarkShadow"), radius: 3, x: 3, y: 3)
+                        BookButton(stylistId: stylistId)
+                        
                     }.padding(.horizontal)
                     .background(Color("LightShadow"))
                 }.edgesIgnoringSafeArea(.bottom)
@@ -196,7 +208,6 @@ struct PostsByStylistView: View {
                 }
             }
             .padding(.top)
-        
     }
 }
 
@@ -323,13 +334,15 @@ struct HorizontalStylistCard: View{
 struct SimilarView: View {
     var posts: FetchRequest<CorePost>
     var serviceTypeId: String
+    var catId:String
     
-    init(serviceTypeId:String) {
+    init(serviceTypeId:String, catId:String) {
         posts = FetchRequest<CorePost>(
             entity: CorePost.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)],
-            predicate: NSPredicate(format: "serviceTypeId == %@", serviceTypeId))
+            predicate: NSPredicate(format: "serviceCatId == %@", catId))
         self.serviceTypeId = serviceTypeId
+        self.catId = catId
     }
     
     var body: some View {
@@ -352,9 +365,35 @@ struct SimilarView: View {
                 }
             }
             .padding(.top)
-        
     }
 }
 
-
-
+struct BookButton: View {
+    var stylistId:String = ""
+    var stylists: FetchRequest<CoreStylist>
+    init(stylistId:String){
+        stylists = FetchRequest<CoreStylist>(
+            entity: CoreStylist.entity(),
+            sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
+            predicate: NSPredicate(format: "id == %@", stylistId))
+        self.stylistId = stylistId
+    }
+    var body: some View {
+        ForEach(stylists.wrappedValue, id: \.self){stylist in
+            Button(action: {
+                let tel = "tel://"
+                let phoneString = "\(stylist.mobile!)"
+                let formattedString = tel + phoneString
+                let url: NSURL = URL(string: formattedString)! as NSURL
+                UIApplication.shared.open(url as URL)
+            }) {
+                Text("Book")
+                    .foregroundColor(.white)
+                    .padding()
+            }.background(Color("Accent"))
+            .cornerRadius(10)
+            .padding(.vertical)
+            .shadow(color: Color("DarkShadow"), radius: 3, x: 3, y: 3)
+        }
+    }
+}

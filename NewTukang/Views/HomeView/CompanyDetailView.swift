@@ -54,21 +54,20 @@ struct CompanyDetailView: View {
                         if(company.imgs != nil){
                             VStack {
                                 ScrollView(.horizontal){
-                                    LazyHStack(){
+                                    LazyHStack{
                                         ForEach(company.imgs!, id:\.self){ img in
                                             UrlImageView(urlString: img)
                                                 .fixedSize()
                                                 .frame(width: 230, height: 230)
                                                 .cornerRadius(10.0)
                                                 .padding(.vertical)
-                                                .padding(.leading, 5)
+                                                .padding(.leading, 10)
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                    
                     HStack {
                         Text("Stylist")
                             .font(.title)

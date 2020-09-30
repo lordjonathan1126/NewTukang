@@ -19,8 +19,10 @@ struct HomeView: View {
                     LazyVStack{
                         //SearchBar()
                         OurServiceView()
-                        TrendingView(title: "Top Trending")
-                        TrendingView(title: "Most Popular")
+                        MostPurchased(title: "Top Sales")
+                        MostPopular(title: "Most Popular")
+                        NewPost(title: "New Posts")
+                        EndingSoon(title: "Ending Soon")
                         //SpecialistView()
                         StylistCompanyListView()
                             .padding(.top)
@@ -124,20 +126,131 @@ struct SearchBar: View{
     }
 }
 
-struct TrendingView: View {
+struct MostPurchased: View {
     @FetchRequest(
         entity: CorePost.entity(),
-        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)]
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.stat_p, ascending: false)]
     ) var posts: FetchedResults<CorePost>
-    var title:String = "Top Trending"
+    var title:String = "Top Sales"
+    
+    var body: some View{
+        VStack(alignment:.leading){
+            VStack(alignment: .leading){
+                HStack{
+                    Text("\(title)")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Spacer()
+                    NavigationLink(destination: SeeAllView()){
+                        Text("See All")
+                    }
+                }
+            }.padding(.horizontal)
+            ScrollView(.horizontal, showsIndicators: false){
+                LazyHStack(spacing: 20){
+                    ForEach (posts, id: \.self){ post in
+                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                            TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                        }.buttonStyle(PlainButtonStyle())
+                    }
+                }.frame(height: 345, alignment: .center)
+                .padding()
+            }
+        }
+        .padding(.top)
+    }
+}
+
+struct MostPopular: View {
+    @FetchRequest(
+        entity: CorePost.entity(),
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.stat_v, ascending: false)]
+    ) var posts: FetchedResults<CorePost>
+    var title:String = "Top Sales"
     
     var body: some View{
         VStack(alignment:.leading){
             VStack(alignment: .leading) {
-                Text("\(title)")
-                    .font(.title)
-                    .fontWeight(.bold)
-            }.padding(.leading)
+                HStack{
+                    Text("\(title)")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Spacer()
+                    NavigationLink(destination: SeeAllView()){
+                        Text("See All")
+                    }
+                }
+            }.padding(.horizontal)
+            ScrollView(.horizontal, showsIndicators: false){
+                LazyHStack(spacing: 20){
+                    ForEach (posts, id: \.self){ post in
+                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                            TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                        }.buttonStyle(PlainButtonStyle())
+                    }
+                }.frame(height: 345, alignment: .center)
+                .padding()
+            }
+        }
+        .padding(.top)
+    }
+}
+
+struct EndingSoon: View {
+    @FetchRequest(
+        entity: CorePost.entity(),
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.endDate, ascending: false)]
+    ) var posts: FetchedResults<CorePost>
+    var title:String = "Top Sales"
+    
+    var body: some View{
+        VStack(alignment:.leading){
+            VStack(alignment: .leading) {
+                HStack{
+                    Text("\(title)")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Spacer()
+                    NavigationLink(destination: SeeAllView()){
+                        Text("See All")
+                    }
+                }
+            }.padding(.horizontal)
+            ScrollView(.horizontal, showsIndicators: false){
+                LazyHStack(spacing: 20){
+                    ForEach (posts, id: \.self){ post in
+                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                            TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                        }.buttonStyle(PlainButtonStyle())
+                    }
+                }.frame(height: 345, alignment: .center)
+                .padding()
+            }
+        }
+        .padding(.top)
+    }
+}
+
+struct NewPost: View {
+    @FetchRequest(
+        entity: CorePost.entity(),
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.createDate, ascending: false)]
+    ) var posts: FetchedResults<CorePost>
+    var title:String = "Top Sales"
+    
+    var body: some View{
+        VStack(alignment:.leading){
+            VStack(alignment: .leading) {
+                HStack{
+                    Text("\(title)")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Spacer()
+                    NavigationLink(destination: SeeAllView()){
+                        Text("See All")
+                    }
+                }
+            }.padding(.horizontal)
             ScrollView(.horizontal, showsIndicators: false){
                 LazyHStack(spacing: 20){
                     ForEach (posts, id: \.self){ post in
