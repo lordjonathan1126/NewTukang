@@ -21,7 +21,6 @@ class CoreDataManager : NSObject{
         
         for post in posts{
             let newPost = NSEntityDescription.insertNewObject(forEntityName: "CorePost", into: context)
-            
             newPost.setValue(post.postID, forKey: "postId")
             newPost.setValue(post.price?.normal, forKey: "normalPrice")
             newPost.setValue(post.price?.discount, forKey: "discount")
@@ -37,10 +36,7 @@ class CoreDataManager : NSObject{
             newPost.setValue(post.stat?.v, forKey: "stat_v")
             newPost.setValue(post.stylistID, forKey: "stylistId")
             newPost.setValue(post.imgs, forKey: "imgs")
-            
-            
         }
-        
         do {
             try context.save()
             print("Saved Post to Core Data")
@@ -63,9 +59,7 @@ class CoreDataManager : NSObject{
             newCompany.setValue(company.notes?.desc, forKey: "desc")
             newCompany.setValue(company.name, forKey: "name")
             newCompany.setValue(company.imgs, forKey: "imgs")
-            
         }
-        
         do {
             try context.save()
             print("Saved Company to Core Data")
@@ -92,10 +86,8 @@ class CoreDataManager : NSObject{
             newStylist.setValue(stylist.loginDate, forKey: "loginDate")
             newStylist.setValue(stylist.companyID, forKey: "companyId")
             newStylist.setValue(stylist.notes?.desc, forKey: "desc")
-                newStylist.setValue(stylist.imgs, forKey: "imgs")
-            
+            newStylist.setValue(stylist.imgs, forKey: "imgs")
         }
-        
         do {
             try context.save()
             print("Saved Stylist to Core Data")
@@ -103,5 +95,4 @@ class CoreDataManager : NSObject{
             print("Error saving: \(error) \(error.localizedDescription)")
         }
     }
-    
 }

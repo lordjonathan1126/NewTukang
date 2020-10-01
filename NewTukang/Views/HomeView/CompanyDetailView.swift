@@ -68,7 +68,7 @@ struct CompanyDetailView: View {
                             }
                         }
                     }
-                    HStack {
+                    HStack{
                         Text("Stylist")
                             .font(.title)
                             .bold()

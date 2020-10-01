@@ -19,20 +19,13 @@ struct CompaniesView: View {
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
-                    LazyVStack(spacing: 15){
-                        ForEach(_companies.wrappedValue, id: \.self){ company in
-                            CompanyCard(imageName: "\(company.img!)", companyId: "\(company.id)", companyName: "\(company.name!)" , desc: "\(company.desc!)")
-                        }
-                    }.padding(.bottom)
-                
+                LazyVStack(spacing: 15){
+                    ForEach(_companies.wrappedValue, id: \.self){ company in
+                        CompanyCard(imageName: "\(company.img!)", companyId: "\(company.id)", companyName: "\(company.name!)" , desc: "\(company.desc!)")
+                    }
+                }.padding(.bottom)
             }
         }.navigationBarTitle("Companies", displayMode: .inline)
-    }
-}
-
-struct CompaniesView_Previews: PreviewProvider {
-    static var previews: some View {
-        CompaniesView()
     }
 }
 
@@ -68,6 +61,5 @@ struct CompanyCard: View{
             .padding(.top)
             .padding(.horizontal)
         }.buttonStyle(PlainButtonStyle())
-        
     }
 }

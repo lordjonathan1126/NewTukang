@@ -106,6 +106,5 @@ struct EndingSoonSeeAll:View{
             }
         }
         .navigationBarTitle("Ending Soon", displayMode: .inline)
-        
     }
 }

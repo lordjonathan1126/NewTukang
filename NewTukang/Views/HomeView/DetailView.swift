@@ -39,11 +39,11 @@ struct DetailView: View {
             ZStack{
                 Color("Background")
                     .edgesIgnoringSafeArea(.all)
-                VStack {
+                VStack{
                     ScrollView{
                         LazyVStack(alignment: .leading, spacing: 12){
                             UrlImageView(urlString: "\(post.img!)")
-                            HStack {
+                            HStack{
                                 Text("What you will get")
                                     .font(.title)
                                     .foregroundColor(Color("Accent"))
@@ -58,7 +58,7 @@ struct DetailView: View {
                                 .lineLimit(nil)
                                 .padding(.horizontal)
                             if(post.imgs != nil){
-                                VStack {
+                                VStack{
                                     ScrollView(.horizontal){
                                         LazyHStack{
                                             ForEach(post.imgs!, id:\.self){ img in
@@ -73,8 +73,8 @@ struct DetailView: View {
                                     }
                                 }
                             }
-                            VStack {
-                                HStack {
+                            VStack{
+                                HStack{
                                     Text("Stylist")
                                         .font(.title)
                                         .bold()
@@ -104,7 +104,7 @@ struct DetailView: View {
                     HStack{
                         VStack(alignment: .leading) {
                             Text("\(title)")
-                            HStack {
+                            HStack{
                                 Text("\((post.normalPrice -  post.discount), specifier: "%.2f")")
                                     .font(.title)
                                     .foregroundColor(Color("Accent"))
@@ -126,12 +126,6 @@ struct DetailView: View {
     }
 }
 
-struct DetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailView(stylistId: "1", postId: "1", title: "default", serviceTypeId: "1")
-    }
-}
-
 struct AboutStylist: View{
     var stylists: FetchRequest<CoreStylist>
     var stylistId:String = "1"
@@ -148,7 +142,7 @@ struct AboutStylist: View{
     var body: some View{
         ForEach(stylists.wrappedValue, id: \.self){stylist in
             NavigationLink(destination: StylistDetailView(stylistId: stylistId, title: stylist.name!)){
-                VStack {
+                VStack{
                     HStack{
                         UrlImageView(urlString: "\(stylist.img!)")
                             .clipShape(Circle())
@@ -229,7 +223,7 @@ struct AboutCompany :View {
                         HStack{
                             UrlImageView(urlString: "\(company.img!)")
                                 .clipShape(Circle())
-                                .frame(width: 70, height: 70)
+                                .frame(width: 75, height: 75)
                                 .overlay(Circle().stroke(Color("Accent")))
                                 .clipped()
                                 .padding()
@@ -263,8 +257,8 @@ struct MeetTheTeam:View {
         self.companyId = companyId
     }
     var body: some View{
-        VStack {
-            HStack {
+        VStack{
+            HStack{
                 Text("Meet The Team")
                     .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                     .bold()
@@ -277,7 +271,6 @@ struct MeetTheTeam:View {
                         HorizontalStylistCard(image: "\(stylist.img!)", name:"\(stylist.name!)", location: "\(stylist.location!)", stylistId: "\(stylist.id)")
                     }
                 }.padding()
-                
             }
         }
     }
@@ -310,7 +303,7 @@ struct HorizontalStylistCard: View{
                             .bold()
                         Spacer()
                     }
-                    HStack {
+                    HStack{
                         Text("\(location)")
                             .font(.headline)
                             .foregroundColor(Color("Accent"))
@@ -325,7 +318,6 @@ struct HorizontalStylistCard: View{
             .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
             .blendMode(.overlay)
         }.buttonStyle(PlainButtonStyle())
-        
     }
 }
 

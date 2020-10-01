@@ -35,16 +35,9 @@ struct CategoryView: View {
                         }.buttonStyle(PlainButtonStyle())
                     }
                 }
-                
             }
         }
         .navigationBarTitle("\(title)", displayMode: .inline)
-    }
-}
-
-struct CategoryView_Previews: PreviewProvider {
-    static var previews: some View {
-        CategoryView(serviceTypeId: "1", title: "Unknown Title")
     }
 }
 

@@ -19,7 +19,6 @@ struct SearchView: View {
                     ScrollView{
                         ServiceTypeView()
                         PriceRangeView()
-                        //AreaSearchView()
                         KeySearchView()
                         Spacer()
                         

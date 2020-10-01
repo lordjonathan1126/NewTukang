@@ -24,18 +24,10 @@ struct StylistView: View {
                             StylistCard( imageName:"\(stylist.img!)", stylistId:"\(stylist.id)",stylistName: "\(stylist.name!)", location: "\(stylist.location!)")
                         }
                     }.padding(.bottom)
-                
             }
         }.navigationBarTitle("Stylists", displayMode: .inline)
     }
 }
-
-struct StylistView_Previews: PreviewProvider {
-    static var previews: some View {
-        StylistView()
-    }
-}
-
 struct StylistCard: View{
     var imageName:String = ""
     var stylistId:String = "1"
@@ -72,6 +64,5 @@ struct StylistCard: View{
             .padding(.top)
             .padding(.horizontal)
         }.buttonStyle(PlainButtonStyle())
-        
     }
 }

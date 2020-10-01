@@ -26,27 +26,26 @@ struct StylistDetailView: View {
         ZStack{
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
-                ScrollView{
-                    LazyVStack {
-                        AboutStylist2(stylistId: stylistId)
-                        LazyVStack{
-                            HStack {
-                                Text("Posts")
-                                    .font(.title)
-                                    .bold()
-                                    .padding(.leading)
-                                Spacer()
-                            }
-                            ForEach(posts.wrappedValue, id: \.self){ post in
-                                NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                                    PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
-                                        .padding()
-                                }.buttonStyle(PlainButtonStyle())
-                            }
+            ScrollView{
+                LazyVStack {
+                    AboutStylist2(stylistId: stylistId)
+                    LazyVStack{
+                        HStack {
+                            Text("Posts")
+                                .font(.title)
+                                .bold()
+                                .padding(.leading)
+                            Spacer()
+                        }
+                        ForEach(posts.wrappedValue, id: \.self){ post in
+                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
+                                    .padding()
+                            }.buttonStyle(PlainButtonStyle())
                         }
                     }
                 }
-            
+            }
         }.navigationBarTitle("\(title)", displayMode: .inline)
     }
 }
@@ -98,9 +97,7 @@ struct AboutStylist2: View{
                             Image(systemName: "phone")
                             Text("Contact")
                         }.padding()
-                        .overlay(RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color("Accent"), lineWidth: 1)
-                        )
+                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color("Accent"), lineWidth: 1))
                     }
                     .actionSheet(isPresented: $showingActionSheet) {
                         ActionSheet(title: Text("Contact stylist to book"), buttons: [
@@ -134,17 +131,17 @@ struct AboutStylist2: View{
                     .padding(.horizontal)
                 if(stylist.imgs != nil){
                     ScrollView(.horizontal){
-                            LazyHStack(){
-                                ForEach(stylist.imgs!, id:\.self){ img in
-                                    UrlImageView(urlString: img)
-                                        .fixedSize()
-                                        .frame(width: 230, height: 230)
-                                        .cornerRadius(10.0)
-                                        .padding(.vertical)
-                                        .padding(.leading, 10)
-                                }
+                        LazyHStack(){
+                            ForEach(stylist.imgs!, id:\.self){ img in
+                                UrlImageView(urlString: img)
+                                    .fixedSize()
+                                    .frame(width: 230, height: 230)
+                                    .cornerRadius(10.0)
+                                    .padding(.vertical)
+                                    .padding(.leading, 10)
                             }
                         }
+                    }
                 }
             }
         }
