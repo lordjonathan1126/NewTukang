@@ -22,7 +22,7 @@ struct StylistView: View {
                     LazyVStack(spacing: 15){
                         ForEach(_stylists.wrappedValue, id: \.self){ stylist in
                             StylistCard( imageName:"\(stylist.img!)", stylistId:"\(stylist.id)",stylistName: "\(stylist.name!)", location: "\(stylist.location!)")
-                        }
+                        }.id(UUID())
                     }.padding(.bottom)
             }
         }.navigationBarTitle("Stylists", displayMode: .inline)

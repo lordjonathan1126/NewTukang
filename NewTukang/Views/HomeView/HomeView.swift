@@ -144,7 +144,7 @@ struct MostPurchased: View {
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
                         }.buttonStyle(PlainButtonStyle())
-                    }
+                    }.id(UUID())
                 }.frame(height: 345, alignment: .center)
                 .padding()
             }
@@ -179,7 +179,7 @@ struct MostPopular: View {
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
                         }.buttonStyle(PlainButtonStyle())
-                    }
+                    }.id(UUID())
                 }.frame(height: 345, alignment: .center)
                 .padding()
             }
@@ -214,7 +214,7 @@ struct EndingSoon: View {
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
                         }.buttonStyle(PlainButtonStyle())
-                    }
+                    }.id(UUID())
                 }.frame(height: 345, alignment: .center)
                 .padding()
             }
@@ -249,7 +249,7 @@ struct NewPost: View {
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
                         }.buttonStyle(PlainButtonStyle())
-                    }
+                    }.id(UUID())
                 }.frame(height: 345, alignment: .center)
                 .padding()
             }

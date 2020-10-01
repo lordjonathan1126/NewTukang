@@ -97,7 +97,7 @@ struct DetailView: View {
                                     MeetTheTeam(companyId: "\(stylist.companyId)")
                                 }
                             }
-                            SimilarView(serviceTypeId: serviceTypeId, catId: "\(post.serviceCatId)")
+                            SimilarView(serviceTypeId: serviceTypeId, catId: "\(post.serviceCatId)", postId: "\(postId)")
                         }
                     }
                     Spacer()
@@ -325,14 +325,16 @@ struct SimilarView: View {
     var posts: FetchRequest<CorePost>
     var serviceTypeId: String
     var catId:String
+    var postId:String
     
-    init(serviceTypeId:String, catId:String) {
+    init(serviceTypeId:String, catId:String, postId:String) {
         posts = FetchRequest<CorePost>(
             entity: CorePost.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)],
             predicate: NSPredicate(format: "serviceCatId == %@", catId))
         self.serviceTypeId = serviceTypeId
         self.catId = catId
+        self.postId = postId
     }
     
     var body: some View {
@@ -346,9 +348,11 @@ struct SimilarView: View {
             ScrollView(.horizontal, showsIndicators: false){
                 LazyHStack(spacing: 20){
                     ForEach (posts.wrappedValue, id: \.self){ post in
-                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(serviceTypeId)")){
-                            TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
-                        }.buttonStyle(PlainButtonStyle())
+                        if("\(post.postId)" != postId){
+                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(serviceTypeId)")){
+                                TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                            }.buttonStyle(PlainButtonStyle())
+                        }
                     }
                 }.frame(height: 345, alignment: .center)
                 .padding()

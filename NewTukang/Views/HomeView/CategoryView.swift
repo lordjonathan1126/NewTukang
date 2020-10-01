@@ -33,7 +33,7 @@ struct CategoryView: View {
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
-                    }
+                    }.id(UUID())
                 }
             }
         }

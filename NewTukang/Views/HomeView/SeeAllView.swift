@@ -25,7 +25,7 @@ struct MostPurchasedSeeAll: View {
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
-                    }
+                    }.id(UUID())
                 }
                 
             }
@@ -51,7 +51,7 @@ struct MostPopularSeeAll: View {
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
-                    }
+                    }.id(UUID())
                 }
             }
         }
@@ -76,7 +76,7 @@ struct NewPostSeeAll:View{
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
-                    }
+                    }.id(UUID())
                 }
             }
         }
@@ -101,7 +101,7 @@ struct EndingSoonSeeAll:View{
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
-                    }
+                    }.id(UUID())
                 }
             }
         }

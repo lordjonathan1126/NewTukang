@@ -22,7 +22,7 @@ struct CompaniesView: View {
                 LazyVStack(spacing: 15){
                     ForEach(_companies.wrappedValue, id: \.self){ company in
                         CompanyCard(imageName: "\(company.img!)", companyId: "\(company.id)", companyName: "\(company.name!)" , desc: "\(company.desc!)")
-                    }
+                    }.id(UUID())
                 }.padding(.bottom)
             }
         }.navigationBarTitle("Companies", displayMode: .inline)
