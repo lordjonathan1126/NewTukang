@@ -94,10 +94,8 @@ struct DetailView: View {
                                 }
                                 ForEach(stylists.wrappedValue, id: \.self){stylist in
                                     AboutCompany(companyId: "\(stylist.companyId)")
+                                    MeetTheTeam(companyId: "\(stylist.companyId)")
                                 }
-                            }
-                            ForEach(stylists.wrappedValue, id: \.self){stylist in
-                                MeetTheTeam(companyId: "\(stylist.companyId)")
                             }
                             SimilarView(serviceTypeId: serviceTypeId, catId: "\(post.serviceCatId)")
                         }

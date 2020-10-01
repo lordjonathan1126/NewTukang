@@ -61,6 +61,7 @@ struct AboutStylist2: View{
     var stylists: FetchRequest<CoreStylist>
     var stylistId:String = "1"
     let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
+    @State private var showingActionSheet = false
     
     init(stylistId:String){
         stylists = FetchRequest<CoreStylist>(
@@ -91,37 +92,41 @@ struct AboutStylist2: View{
                 }
                 HStack{
                     Button(action:{
-                        let tel = "tel://"
-                        let phoneString = "\(stylist.mobile!)"
-                        let formattedString = tel + phoneString
-                        let url: NSURL = URL(string: formattedString)! as NSURL
-                        UIApplication.shared.open(url as URL)
-                        
+                        self.showingActionSheet = true
                     }) {
-                        Text("Call    ")
-                            .padding()
+                        HStack{
+                            Image(systemName: "phone")
+                            Text("Contact")
+                        }.padding()
+                        .overlay(RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color("Accent"), lineWidth: 1)
+                        )
                     }
-                    Spacer()
-                    Button(action: {
-                        let tel = "sms://"
-                        let phoneString = "\(stylist.mobile!)"
-                        let formattedString = tel + phoneString
-                        let url: NSURL = URL(string: formattedString)! as NSURL
-                        UIApplication.shared.open(url as URL)
-                    }) {
-                        Text("Message")
-                            .padding()
-                    }
-                    Spacer()
-                    Button(action: {
-                        let tel = "https://wa.me/"
-                        let phoneString = "\(stylist.mobile!)"
-                        let formattedString = tel + phoneString
-                        let url: NSURL = URL(string: formattedString)! as NSURL
-                        UIApplication.shared.open(url as URL)
-                    }) {
-                        Text("Whatsapp")
-                            .padding()
+                    .actionSheet(isPresented: $showingActionSheet) {
+                        ActionSheet(title: Text("Contact stylist to book"), buttons: [
+                            .default(Text("Call")) {
+                                let tel = "tel://"
+                                let phoneString = "\(stylist.mobile!)"
+                                let formattedString = tel + phoneString
+                                let url: NSURL = URL(string: formattedString)! as NSURL
+                                UIApplication.shared.open(url as URL)
+                            },
+                            .default(Text("SMS")) {
+                                let tel = "sms://"
+                                let phoneString = "\(stylist.mobile!)"
+                                let formattedString = tel + phoneString
+                                let url: NSURL = URL(string: formattedString)! as NSURL
+                                UIApplication.shared.open(url as URL)
+                            },
+                            .default(Text("Whatsapp")) {
+                                let tel = "https://wa.me/"
+                                let phoneString = "\(stylist.mobile!)"
+                                let formattedString = tel + phoneString
+                                let url: NSURL = URL(string: formattedString)! as NSURL
+                                UIApplication.shared.open(url as URL)
+                            },
+                            .cancel()
+                        ])
                     }
                 }
                 Text("\(stylist.desc ?? "No description available.")")

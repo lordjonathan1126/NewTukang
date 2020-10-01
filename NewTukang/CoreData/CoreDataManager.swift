@@ -36,7 +36,7 @@ class CoreDataManager : NSObject{
             newPost.setValue(post.stat?.p, forKey: "stat_p")
             newPost.setValue(post.stat?.v, forKey: "stat_v")
             newPost.setValue(post.stylistID, forKey: "stylistId")
-                newPost.setValue(post.imgs, forKey: "imgs")
+            newPost.setValue(post.imgs, forKey: "imgs")
             
             
         }
@@ -50,7 +50,7 @@ class CoreDataManager : NSObject{
     }
     
     func saveCompany(_ companies: [Company]){
-        let context = appDelegate!.persistentContainer.viewContext
+        let context = appDelegate!.persistentContainer.newBackgroundContext()
         context.automaticallyMergesChangesFromParent = true
         context.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
         
@@ -75,7 +75,7 @@ class CoreDataManager : NSObject{
     }
     
     func saveStylist(_ stylists: [Stylist]){
-        let context = appDelegate!.persistentContainer.viewContext
+        let context = appDelegate!.persistentContainer.newBackgroundContext()
         context.automaticallyMergesChangesFromParent = true
         context.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
 

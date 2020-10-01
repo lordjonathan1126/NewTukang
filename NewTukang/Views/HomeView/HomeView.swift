@@ -18,6 +18,7 @@ struct HomeView: View {
                 ScrollView{
                     LazyVStack{
                         OurServiceView()
+                        MostPopular(title: "Top Trending")
                         MostPurchased(title: "Top Sales")
                         MostPopular(title: "Most Popular")
                         NewPost(title: "New Posts")
@@ -231,7 +232,7 @@ struct EndingSoon: View {
 struct NewPost: View {
     @FetchRequest(
         entity: CorePost.entity(),
-        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.createDate, ascending: true)]
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.createDate, ascending: false)]
     ) var posts: FetchedResults<CorePost>
     var title:String = "Top Sales"
     
