@@ -33,12 +33,6 @@ struct HomeView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-    }
-}
-
 struct OurServiceView: View{
     var body: some View{
         LazyVStack(alignment:.leading){
@@ -376,7 +370,6 @@ struct StylistCompanyListView: View{
                 .shadow(color: Color("DarkShadow"), radius: 5, x: 5, y: 5)
                 .blendMode(.overlay)
             }
-            
             NavigationLink(destination: CompaniesView()){
                 HStack{
                     Text("Companies")
@@ -397,4 +390,5 @@ struct StylistCompanyListView: View{
             }
         }.padding(.vertical)
     }
+    
 }
