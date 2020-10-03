@@ -19,9 +19,10 @@ struct StylistView: View {
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
-                    LazyVStack(spacing: 15){
+                    LazyVStack(spacing: 5){
                         ForEach(_stylists.wrappedValue, id: \.self){ stylist in
                             StylistCard( imageName:"\(stylist.img!)", stylistId:"\(stylist.id)",stylistName: "\(stylist.name!)", location: "\(stylist.location!)")
+                            Divider()
                         }.id(UUID())
                     }.padding(.bottom)
             }
@@ -58,9 +59,9 @@ struct StylistCard: View{
             }
             .background(Color("Background"))
             .cornerRadius(12)
-            .shadow(color: Color("LightShadow"), radius: 5, x: -8, y: -8)
-            .shadow(color: Color("DarkShadow"), radius: 5, x: 8, y: 8)
-            .blendMode(.overlay)
+            //.shadow(color: Color("LightShadow"), radius: 5, x: -8, y: -8)
+            //.shadow(color: Color("DarkShadow"), radius: 5, x: 8, y: 8)
+            //.blendMode(.overlay)
             .padding(.top)
             .padding(.horizontal)
         }.buttonStyle(PlainButtonStyle())

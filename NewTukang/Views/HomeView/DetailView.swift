@@ -189,7 +189,7 @@ struct PostsByStylistView: View {
             }.padding(.leading)
             
             ScrollView(.horizontal, showsIndicators: false){
-                LazyHStack(spacing: 20){
+                LazyHStack(spacing: 12){
                     ForEach (posts.wrappedValue, id: \.self){ post in
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
@@ -260,13 +260,13 @@ struct MeetTheTeam:View {
         VStack{
             HStack{
                 Text("Meet The Team")
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .font(.title)
                     .bold()
                     .padding(.leading)
                 Spacer()
             }
             ScrollView(.horizontal, showsIndicators: false){
-                LazyHStack(spacing:20){
+                LazyHStack(spacing:14){
                     ForEach(stylists.wrappedValue, id: \.self){ stylist in
                         HorizontalStylistCard(image: "\(stylist.img!)", name:"\(stylist.name!)", location: "\(stylist.location!)", stylistId: "\(stylist.id)")
                     }
@@ -346,13 +346,13 @@ struct SimilarView: View {
             }.padding(.leading)
             
             ScrollView(.horizontal, showsIndicators: false){
-                LazyHStack(spacing: 20){
+                LazyHStack(spacing: 12){
                     ForEach (posts.wrappedValue, id: \.self){ post in
-                        if("\(post.postId)" != postId){
-                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(serviceTypeId)")){
-                                TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
-                            }.buttonStyle(PlainButtonStyle())
-                        }
+                            if("\(post.postId)" != postId){
+                                NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(serviceTypeId)")){
+                                    TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                                }.buttonStyle(PlainButtonStyle())
+                            }
                     }
                 }.frame(height: 345, alignment: .center)
                 .padding()

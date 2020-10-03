@@ -10,14 +10,20 @@ import SwiftUI
 
 struct StylistDetailView: View {
     var posts: FetchRequest<CorePost>
+    var stylists: FetchRequest<CoreStylist>
     var stylistId:String
     var title:String
+    @State private var showingActionSheet = false
     
     init(stylistId:String, title:String) {
         posts = FetchRequest<CorePost>(
             entity: CorePost.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)],
             predicate: NSPredicate(format: "stylistId == %@", stylistId))
+        stylists = FetchRequest<CoreStylist>(
+            entity: CoreStylist.entity(),
+            sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
+            predicate: NSPredicate(format: "id == %@", stylistId))
         self.stylistId = stylistId
         self.title = title
     }
@@ -46,7 +52,44 @@ struct StylistDetailView: View {
                     }
                 }
             }
-        }.navigationBarTitle("\(title)", displayMode: .inline)
+        }
+        .navigationBarTitle("\(title)", displayMode: .inline)
+        .navigationBarItems(trailing:
+                                ForEach(stylists.wrappedValue, id: \.self){stylist in
+                                    Button(action:{
+                                        self.showingActionSheet = true
+                                    }) {
+                                        Image(systemName: "phone.fill")
+                                        
+                                    }
+                                    .actionSheet(isPresented: $showingActionSheet) {
+                                        ActionSheet(title: Text("Contact stylist to book"), buttons: [
+                                            .default(Text("Call")) {
+                                                let tel = "tel://"
+                                                let phoneString = "\(stylist.mobile!)"
+                                                let formattedString = tel + phoneString
+                                                let url: NSURL = URL(string: formattedString)! as NSURL
+                                                UIApplication.shared.open(url as URL)
+                                            },
+                                            .default(Text("SMS")) {
+                                                let tel = "sms://"
+                                                let phoneString = "\(stylist.mobile!)"
+                                                let formattedString = tel + phoneString
+                                                let url: NSURL = URL(string: formattedString)! as NSURL
+                                                UIApplication.shared.open(url as URL)
+                                            },
+                                            .default(Text("Whatsapp")) {
+                                                let tel = "https://wa.me/"
+                                                let phoneString = "\(stylist.mobile!)"
+                                                let formattedString = tel + phoneString
+                                                let url: NSURL = URL(string: formattedString)! as NSURL
+                                                UIApplication.shared.open(url as URL)
+                                            },
+                                            .cancel()
+                                        ])
+                                    }
+                                }
+        )
     }
 }
 
@@ -60,7 +103,7 @@ struct AboutStylist2: View{
     var stylists: FetchRequest<CoreStylist>
     var stylistId:String = "1"
     let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
-    @State private var showingActionSheet = false
+    
     
     init(stylistId:String){
         stylists = FetchRequest<CoreStylist>(
@@ -88,43 +131,6 @@ struct AboutStylist2: View{
                         Text("\(stylist.location!)")
                             .foregroundColor(Color("Accent"))
                     }.padding()
-                }
-                HStack{
-                    Button(action:{
-                        self.showingActionSheet = true
-                    }) {
-                        HStack{
-                            Image(systemName: "phone")
-                            Text("Contact")
-                        }.padding()
-                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color("Accent"), lineWidth: 1))
-                    }
-                    .actionSheet(isPresented: $showingActionSheet) {
-                        ActionSheet(title: Text("Contact stylist to book"), buttons: [
-                            .default(Text("Call")) {
-                                let tel = "tel://"
-                                let phoneString = "\(stylist.mobile!)"
-                                let formattedString = tel + phoneString
-                                let url: NSURL = URL(string: formattedString)! as NSURL
-                                UIApplication.shared.open(url as URL)
-                            },
-                            .default(Text("SMS")) {
-                                let tel = "sms://"
-                                let phoneString = "\(stylist.mobile!)"
-                                let formattedString = tel + phoneString
-                                let url: NSURL = URL(string: formattedString)! as NSURL
-                                UIApplication.shared.open(url as URL)
-                            },
-                            .default(Text("Whatsapp")) {
-                                let tel = "https://wa.me/"
-                                let phoneString = "\(stylist.mobile!)"
-                                let formattedString = tel + phoneString
-                                let url: NSURL = URL(string: formattedString)! as NSURL
-                                UIApplication.shared.open(url as URL)
-                            },
-                            .cancel()
-                        ])
-                    }
                 }
                 Text("\(stylist.desc ?? "No description available.")")
                     .lineLimit(nil)

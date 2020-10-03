@@ -13,12 +13,8 @@ class WebService: ObservableObject{
     @Published var stylists = [Stylist]()
     @Published var companies = [Company]()
     
-    init(){
-        getPosts()
-    }
-    
     func getPosts(){
-        let cdManager = CoreDataManager()
+        DispatchQueue.global(qos: .background).async {
         let url = URL(string: "https://m5.tunai.io/tukang/post")
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
             guard data != nil else{
@@ -26,18 +22,32 @@ class WebService: ObservableObject{
             }
             do{
                 let jsonDecoder = JSONDecoder()
+                print("Started decoding Json")
                 let responseModel = try jsonDecoder.decode(Json4Swift_Base.self, from: data!)
-                DispatchQueue.main.async {
+                
+                DispatchQueue.global(qos: .background).async {
                     self.posts = responseModel.delta!.post!
-                    cdManager.savePost(self.posts)
+                    print("Started saving post into coredata")
+                    DispatchQueue.main.async {
+                        let cdManager = CoreDataManager()
+                        cdManager.savePost(self.posts)
+                    }
                 }
-                DispatchQueue.main.async {
-                    self.companies = responseModel.delta!.company!
-                    cdManager.saveCompany(self.companies)
-                }
-                DispatchQueue.main.async {
+                DispatchQueue.global(qos: .background).async {
                     self.stylists = responseModel.delta!.stylist!
-                    cdManager.saveStylist(self.stylists)
+                    print("Started saving stylist into coredata")
+                    DispatchQueue.main.async {
+                        let cdManager = CoreDataManager()
+                        cdManager.saveStylist(self.stylists)
+                    }
+                }
+                DispatchQueue.global(qos: .background).async {
+                    self.companies = responseModel.delta!.company!
+                    print("Started saving company into coredata")
+                    DispatchQueue.main.async {
+                        let cdManager = CoreDataManager()
+                        cdManager.saveCompany(self.companies)
+                    }
                 }
             }catch{
                 print(error)
@@ -45,5 +55,6 @@ class WebService: ObservableObject{
             }
         }
         task.resume()
+        }
     }
 }

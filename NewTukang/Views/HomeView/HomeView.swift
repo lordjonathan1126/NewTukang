@@ -28,7 +28,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .navigationBarTitle("Tukang")
+            .navigationBarTitle("TUKANG")
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
@@ -41,7 +41,7 @@ struct OurServiceView: View{
                 .fontWeight(.bold)
                 .padding(.leading)
             ScrollView(.horizontal, showsIndicators: false){
-                LazyHStack(spacing: 18){
+                LazyHStack(spacing: 17){
                     NavigationLink(destination: CategoryView( serviceTypeId:"1", title: "Hair")){
                         CategoryButton(title: "Hair", imageName: "Hair")
                     }.buttonStyle(PlainButtonStyle())
@@ -139,7 +139,7 @@ struct MostPurchased: View {
                 }
             }.padding(.horizontal)
             ScrollView(.horizontal, showsIndicators: false){
-                LazyHStack(spacing: 20){
+                LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
@@ -174,7 +174,7 @@ struct MostPopular: View {
                 }
             }.padding(.horizontal)
             ScrollView(.horizontal, showsIndicators: false){
-                LazyHStack(spacing: 20){
+                LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
@@ -209,7 +209,7 @@ struct EndingSoon: View {
                 }
             }.padding(.horizontal)
             ScrollView(.horizontal, showsIndicators: false){
-                LazyHStack(spacing: 20){
+                LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
@@ -244,7 +244,7 @@ struct NewPost: View {
                 }
             }.padding(.horizontal)
             ScrollView(.horizontal, showsIndicators: false){
-                LazyHStack(spacing: 20){
+                LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)

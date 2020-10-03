@@ -19,9 +19,10 @@ struct CompaniesView: View {
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
-                LazyVStack(spacing: 15){
+                LazyVStack(spacing: 5){
                     ForEach(_companies.wrappedValue, id: \.self){ company in
                         CompanyCard(imageName: "\(company.img!)", companyId: "\(company.id)", companyName: "\(company.name!)" , desc: "\(company.desc!)")
+                        Divider()
                     }.id(UUID())
                 }.padding(.bottom)
             }
@@ -55,9 +56,9 @@ struct CompanyCard: View{
             }
             .background(Color("Background"))
             .cornerRadius(12)
-            .shadow(color: Color("LightShadow"), radius: 5, x: -5, y: -5)
-            .shadow(color: Color("DarkShadow"), radius: 5, x: 8, y: 8)
-            .blendMode(.overlay)
+           // .shadow(color: Color("LightShadow"), radius: 5, x: -5, y: -5)
+           // .shadow(color: Color("DarkShadow"), radius: 5, x: 8, y: 8)
+           // .blendMode(.overlay)
             .padding(.top)
             .padding(.horizontal)
         }.buttonStyle(PlainButtonStyle())
