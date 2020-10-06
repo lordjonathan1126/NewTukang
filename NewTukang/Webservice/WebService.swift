@@ -25,7 +25,7 @@ class WebService: ObservableObject{
                 print("Started decoding Json")
                 let responseModel = try jsonDecoder.decode(Json4Swift_Base.self, from: data!)
                 
-                DispatchQueue.global(qos: .background).async {
+                DispatchQueue.global(qos: .utility).async {
                     self.posts = responseModel.delta!.post!
                     print("Started saving post into coredata")
                     DispatchQueue.main.async {
@@ -33,7 +33,7 @@ class WebService: ObservableObject{
                         cdManager.savePost(self.posts)
                     }
                 }
-                DispatchQueue.global(qos: .background).async {
+                DispatchQueue.global(qos: .utility).async {
                     self.stylists = responseModel.delta!.stylist!
                     print("Started saving stylist into coredata")
                     DispatchQueue.main.async {
