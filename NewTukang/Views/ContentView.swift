@@ -10,7 +10,17 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        HomeView()
+        GeometryReader{ geometry in
+            NavigationView{
+                ZStack{
+                    Color("Background")
+                        .edgesIgnoringSafeArea(.all)
+                    RefreshScrollView(width: geometry.size.width , height: geometry.size.height)
+                        .edgesIgnoringSafeArea(.bottom)
+                        .navigationBarTitle("TUKANG", displayMode: .automatic)
+                }
+            }
+        }
     }
 }
 

@@ -379,7 +379,7 @@ struct BookButton: View {
             Button(action: {
                 self.showingActionSheet = true
             }) {
-                Text("Book")
+                Text("Contact")
                     .foregroundColor(.white)
                     .padding()
             }.background(Color("Accent"))

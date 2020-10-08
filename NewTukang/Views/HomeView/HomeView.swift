@@ -11,7 +11,6 @@ import SwiftUI
 struct HomeView: View {
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
-        NavigationView{
             ZStack{
                 Color("Background")
                     .edgesIgnoringSafeArea(.all)
@@ -27,9 +26,9 @@ struct HomeView: View {
                         Spacer()
                     }
                 }
+                .padding(.bottom)
             }
-            .navigationBarTitle("TUKANG")
-        }.navigationViewStyle(StackNavigationViewStyle())
+            
     }
 }
 
