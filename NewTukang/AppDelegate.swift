@@ -22,11 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DispatchQueue.global(qos: .background).async {
             self.webService.getPosts()
         }
-        DispatchQueue.global(qos: .background).async {
-            if let directoryLocation = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).last {
-                print("Documents Directory: \(directoryLocation)Application Support")
-            }
-        }
         return true
     }
     

@@ -12,7 +12,7 @@ class CoreDataManager : NSObject{
     public static let sharedInstance = CoreDataManager()
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     
-    //override init() {}
+    override init() {}
     
     func savePost(_ posts: [Post]){
         let context = appDelegate!.persistentContainer.viewContext
@@ -45,31 +45,6 @@ class CoreDataManager : NSObject{
             }
     }
     
-    func saveCompany(_ companies: [Company]){
-        DispatchQueue.global(qos: .background).async {
-            let context = self.appDelegate!.persistentContainer.newBackgroundContext()
-        context.automaticallyMergesChangesFromParent = true
-        context.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
-        
-            for company in companies{
-                let newCompany = NSEntityDescription.insertNewObject(forEntityName: "CoreCompany", into: context )
-                newCompany.setValue(company.id, forKey: "id")
-                newCompany.setValue(company.createDate, forKey: "createDate")
-                newCompany.setValue(company.img, forKey: "img")
-                newCompany.setValue(company.mobile, forKey: "mobile")
-                newCompany.setValue(company.notes?.desc, forKey: "desc")
-                newCompany.setValue(company.name, forKey: "name")
-                newCompany.setValue(company.imgs, forKey: "imgs")
-            }
-            do {
-                try context.save()
-                print("Saved Company to Core Data")
-            } catch {
-                print("Error saving: \(error) \(error.localizedDescription)")
-            }
-        }
-    }
-    
     func saveStylist(_ stylists: [Stylist]){
         DispatchQueue.global(qos: .background).async {
             let context = self.appDelegate!.persistentContainer.newBackgroundContext()
@@ -100,4 +75,31 @@ class CoreDataManager : NSObject{
             }
         }
     }
+    
+    func saveCompany(_ companies: [Company]){
+        DispatchQueue.global(qos: .background).async {
+            let context = self.appDelegate!.persistentContainer.newBackgroundContext()
+        context.automaticallyMergesChangesFromParent = true
+        context.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
+        
+            for company in companies{
+                let newCompany = NSEntityDescription.insertNewObject(forEntityName: "CoreCompany", into: context )
+                newCompany.setValue(company.id, forKey: "id")
+                newCompany.setValue(company.createDate, forKey: "createDate")
+                newCompany.setValue(company.img, forKey: "img")
+                newCompany.setValue(company.mobile, forKey: "mobile")
+                newCompany.setValue(company.notes?.desc, forKey: "desc")
+                newCompany.setValue(company.name, forKey: "name")
+                newCompany.setValue(company.imgs, forKey: "imgs")
+            }
+            do {
+                try context.save()
+                print("Saved Company to Core Data")
+            } catch {
+                print("Error saving: \(error) \(error.localizedDescription)")
+            }
+        }
+    }
+    
+   
 }

@@ -14,7 +14,6 @@ class WebService: ObservableObject{
     @Published var companies = [Company]()
     
     func getPosts(){
-        DispatchQueue.global(qos: .background).async {
         let url = URL(string: "https://m5.tunai.io/tukang/post")
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
             guard data != nil else{
@@ -55,6 +54,6 @@ class WebService: ObservableObject{
             }
         }
         task.resume()
-        }
+        
     }
 }
