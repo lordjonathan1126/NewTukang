@@ -14,6 +14,7 @@ struct RefreshScrollView: UIViewRepresentable {
     var height: CGFloat
     
     @ObservedObject var webService = WebService()
+    @ObservedObject var locationManager = LocationManager()
    
     func makeUIView(context: Context) -> UIScrollView {
         let scrollView = UIScrollView()
@@ -28,15 +29,17 @@ struct RefreshScrollView: UIViewRepresentable {
     func updateUIView(_ uiView: UIScrollView, context: Context) {}
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(self, webService: webService)
+        Coordinator(self, webService: webService, locationManager: locationManager)
     }
     
     class Coordinator: NSObject{
         var refreshScrollView: RefreshScrollView
         var webService: WebService
+        var locationManager: LocationManager
         
-        init(_ refreshScrollView: RefreshScrollView, webService: WebService){
+        init(_ refreshScrollView: RefreshScrollView, webService: WebService, locationManager: LocationManager){
             self.refreshScrollView = refreshScrollView
+            self.locationManager = locationManager
             self.webService = webService
         }
         
