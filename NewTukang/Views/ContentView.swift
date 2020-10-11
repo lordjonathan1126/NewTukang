@@ -19,7 +19,7 @@ struct ContentView: View {
                         .edgesIgnoringSafeArea(.bottom)
                         .navigationBarTitle("TUKANG", displayMode: .automatic)
                 }
-            }
+            }.navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

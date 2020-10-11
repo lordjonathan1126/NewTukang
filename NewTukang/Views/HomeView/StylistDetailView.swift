@@ -48,6 +48,7 @@ struct StylistDetailView: View {
                                 PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                     .padding()
                             }.buttonStyle(PlainButtonStyle())
+                            Divider()
                         }
                     }
                 }
@@ -90,12 +91,6 @@ struct StylistDetailView: View {
                                     }
                                 }
         )
-    }
-}
-
-struct StylistDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        StylistDetailView(stylistId: "1", title: "Unknown Stylist")
     }
 }
 

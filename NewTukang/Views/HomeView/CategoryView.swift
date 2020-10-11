@@ -33,6 +33,7 @@ struct CategoryView: View {
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
+                        Divider()
                     }.id(UUID())
                 }
             }
@@ -41,97 +42,4 @@ struct CategoryView: View {
     }
 }
 
-struct PostCards: View{
-    var imageName:String = ""
-    var title:String = "Sample title"
-    var price: Double = 10.00
-    var desc:String = "Description"
-    var duration:String = "120"
-    var discount:Double = 0.0
-    
-    
-    var stylists: FetchRequest<CoreStylist>
-    init(stylistId:String, imageName:String, title:String, price:Double, desc:String, duration:String, discount:Double){
-        stylists = FetchRequest<CoreStylist>(
-            entity: CoreStylist.entity(),
-            sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: false)],
-            predicate: NSPredicate(format: "id == %@", stylistId))
-        self.imageName = imageName
-        self.title = title
-        self.price = price
-        self.desc = desc
-        self.discount = discount
-        self.duration = duration
-    }
-    
-    var body: some View {
-        VStack{
-            ZStack{
-                UrlImageView(urlString: "\(imageName)")
-                VStack {
-                    HStack{
-                        if (discount != 0){
-                            Text("-\((1 - ((price - discount) / (price))) * 100, specifier: "%.0f")%")
-                                .padding(.leading,7)
-                                .padding(.top, 7)
-                                .padding(.bottom, 3)
-                                .padding(.trailing, 3)
-                                .foregroundColor(.white)
-                                .background(Color("Accent"))
-                                .opacity(0.85)
-                                .cornerRadius(5.0)
-                        }
-                        Spacer()
-                    }
-                    Spacer()
-                }
-            }
-            Spacer()
-            VStack(alignment: .leading) {
-                HStack {
-                    Text(title)
-                        .font(.headline)
-                        .lineLimit(2)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .padding(.horizontal)
-                        .padding(.vertical)
-                    Spacer()
-                    Text("\(duration) min")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .padding(.trailing)
-                }
-            }
-            VStack(alignment:.leading){
-                Text("\(desc)")
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .font(.body)
-                    .foregroundColor(.secondary)
-                ForEach(stylists.wrappedValue, id: \.self){ stylist in
-                    Text("\(stylist.name ?? "Unknown Stylist")")
-                        .bold()
-                }
-                HStack{
-                    Spacer()
-                    Text("\((price - discount), specifier: "%.2f")")
-                        .font(.headline)
-                        .foregroundColor(Color("Accent"))
-                    if (discount != 0){
-                        Text("\(price, specifier: "%.2f")")
-                            .strikethrough(true)
-                    }
-                }
-            }.padding(.horizontal)
-            .padding(.bottom)
-        }
-        .edgesIgnoringSafeArea(.top)
-        .edgesIgnoringSafeArea(.horizontal)
-        .background(Color("Background"))
-        .cornerRadius(12)
-        .shadow(color: Color("LightShadow"), radius: 7, x: -8, y: -8)
-        .shadow(color: Color("DarkShadow"), radius: 5, x: 7, y: 7)
-        .blendMode(.overlay)
-        .padding(.horizontal)
-    }
-}
+

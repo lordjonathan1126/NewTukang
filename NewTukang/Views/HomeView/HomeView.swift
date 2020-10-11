@@ -15,7 +15,7 @@ struct HomeView: View {
                 Color("Background")
                     .edgesIgnoringSafeArea(.all)
                 ScrollView{
-                    LazyVStack{
+                    VStack{
                         OurServiceView()
                         MostPopular(title: "Top Trending")
                         MostPurchased(title: "Top Sales")
@@ -23,12 +23,12 @@ struct HomeView: View {
                         NewPost(title: "New Posts")
                         EndingSoon(title: "Ending Soon")
                         StylistCompanyListView()
+                        UserLocationView()
                         Spacer()
                     }
                 }
                 .padding(.bottom)
             }
-            
     }
 }
 
@@ -141,7 +141,7 @@ struct MostPurchased: View {
                 LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                            TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                            HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
                         }.buttonStyle(PlainButtonStyle())
                     }.id(UUID())
                 }.frame(height: 345, alignment: .center)
@@ -176,7 +176,7 @@ struct MostPopular: View {
                 LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                            TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                            HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
                         }.buttonStyle(PlainButtonStyle())
                     }.id(UUID())
                 }.frame(height: 345, alignment: .center)
@@ -211,7 +211,7 @@ struct EndingSoon: View {
                 LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                            TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                            HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
                         }.buttonStyle(PlainButtonStyle())
                     }.id(UUID())
                 }.frame(height: 345, alignment: .center)
@@ -246,7 +246,7 @@ struct NewPost: View {
                 LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                            TrendingCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                            HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
                         }.buttonStyle(PlainButtonStyle())
                     }.id(UUID())
                 }.frame(height: 345, alignment: .center)
@@ -257,96 +257,6 @@ struct NewPost: View {
     }
 }
 
-
-struct TrendingCards: View{
-    var title:String = "Sample title"
-    var price: Double = 10.00
-    var stylist:String = "Tammy How"
-    var desc:String = "Description"
-    var duration:String = "120"
-    var imageUrl:String
-    var discount: Double = 0.0
-    let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
-    
-    var stylists: FetchRequest<CoreStylist>
-    
-    init(stylistId:String, title:String, price:Double, desc:String, duration:String, imageUrl:String, discount:Double){
-        stylists = FetchRequest<CoreStylist>(
-            entity: CoreStylist.entity(),
-            sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
-            predicate: NSPredicate(format: "id == %@", stylistId))
-        self.title = title
-        self.price = price
-        self.desc = desc
-        self.duration = duration
-        self.discount = discount
-        self.imageUrl = imageUrl
-    }
-    
-    var body: some View{
-        VStack{
-            ZStack{
-                UrlImageView(urlString: imageUrl)
-                    .frame(width: 200, height: 200, alignment: .top)
-                    .fixedSize()
-                VStack {
-                    HStack{
-                        if (discount != 0){
-                            Text("-\((1 - ((price - discount) / (price))) * 100, specifier: "%.0f")%")
-                                .padding(.leading,7)
-                                .padding(.top, 7)
-                                .padding(.bottom, 3)
-                                .padding(.trailing, 3)
-                                .foregroundColor(.white)
-                                .background(Color("Accent"))
-                                .opacity(0.85)
-                                .cornerRadius(5.0)
-                        }
-                        Spacer()
-                    }
-                    Spacer()
-                }
-            }
-            VStack(alignment: .leading) {
-                HStack {
-                    Text(title)
-                        .font(.headline)
-                        .lineLimit(2)
-                        .frame(height: 45, alignment: .top)
-                        .fixedSize(horizontal: false, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
-                        .padding(.horizontal)
-                        .padding(.vertical)
-                    Spacer()
-                }
-            }
-            VStack(alignment:.leading){
-                HStack{
-                    ForEach(stylists.wrappedValue, id: \.self){ stylist in
-                        Text("\(stylist.name ?? "Unknown Stylist")")
-                            .bold()
-                    }
-                    Spacer()
-                }
-                HStack {
-                    Spacer()
-                    Text("\((price -  discount), specifier: "%.2f")")
-                        .font(.headline)
-                        .foregroundColor(Color("Accent"))
-                    if (discount != 0){
-                        Text("\(price, specifier: "%.2f")")
-                            .strikethrough(true)
-                    }
-                }.padding(.bottom)
-            }.padding(.horizontal)
-        }
-        .padding()
-        .frame(width: 200, height: 340)
-        .background(Color("Background"))
-        .cornerRadius(12)
-        .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
-        .blendMode(.overlay)
-    }
-}
 
 struct StylistCompanyListView: View{
     var body: some View{
@@ -389,5 +299,17 @@ struct StylistCompanyListView: View{
             }
         }.padding(.vertical)
     }
-    
+}
+
+struct UserLocationView: View{
+    @ObservedObject var locationManager = LocationManager()
+
+       var latitude: String  { return("\(locationManager.location?.latitude ?? 0)") }
+       var longitude: String { return("\(locationManager.location?.longitude ?? 0)") }
+    var body: some View{
+        LazyVStack{
+            Text("Latitude: \(latitude)")
+            Text("Longtitude: \(longitude)")
+        }
+    }
 }

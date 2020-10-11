@@ -34,6 +34,7 @@
 		FC90FD59251B3DDF00FA02C4 /* UrlImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC90FD58251B3DDF00FA02C4 /* UrlImageView.swift */; };
 		FC90FD5E251B3E0100FA02C4 /* UrlImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC90FD5D251B3E0100FA02C4 /* UrlImageModel.swift */; };
 		FC912C7E251378D80014D16C /* StylistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC912C7D251378D80014D16C /* StylistDetailView.swift */; };
+		FC9A632B2533314700C1BA64 /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9A632A2533314600C1BA64 /* CardsView.swift */; };
 		FCC3BA9E252EDD8C00171D83 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC3BA9D252EDD8C00171D83 /* LocationManager.swift */; };
 		FCD7C20E251DAC12005C7BAB /* Beauty.png in Resources */ = {isa = PBXBuildFile; fileRef = FCD7C20D251DAC12005C7BAB /* Beauty.png */; };
 		FCDC7DCC252EEAA3003D0072 /* RefreshScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDC7DCB252EEAA3003D0072 /* RefreshScrollView.swift */; };
@@ -98,6 +99,7 @@
 		FC90FD58251B3DDF00FA02C4 /* UrlImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlImageView.swift; sourceTree = "<group>"; };
 		FC90FD5D251B3E0100FA02C4 /* UrlImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlImageModel.swift; sourceTree = "<group>"; };
 		FC912C7D251378D80014D16C /* StylistDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylistDetailView.swift; sourceTree = "<group>"; };
+		FC9A632A2533314600C1BA64 /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
 		FCC3BA9D252EDD8C00171D83 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		FCD7C209251DAB38005C7BAB /* Beauty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Beauty.png; path = ../../Downloads/Beauty.png; sourceTree = "<group>"; };
 		FCD7C20D251DAC12005C7BAB /* Beauty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Beauty.png; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				FCE67D4724EF6C8A0031A79B /* ContentView.swift */,
 				FCE67D7324EF6E050031A79B /* AppTabBar.swift */,
 				FC74D5F2250B24A600A6A0CF /* HomeView */,
+				FC9A632A2533314600C1BA64 /* CardsView.swift */,
 				FC90FD58251B3DDF00FA02C4 /* UrlImageView.swift */,
 				FCDC7DCB252EEAA3003D0072 /* RefreshScrollView.swift */,
 			);
@@ -437,6 +440,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC1459B525131C1F0015DC2F /* Delta.swift in Sources */,
+				FC9A632B2533314700C1BA64 /* CardsView.swift in Sources */,
 				FC1459B425131C1F0015DC2F /* Service.swift in Sources */,
 				FC4D1FE92523106600A3678A /* CorePost+CoreDataClass.swift in Sources */,
 				FC90FD5E251B3E0100FA02C4 /* UrlImageModel.swift in Sources */,
@@ -656,7 +660,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -680,7 +684,7 @@
 				PRODUCT_NAME = Tukang;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

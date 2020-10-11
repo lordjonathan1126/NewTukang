@@ -15,7 +15,7 @@ struct RefreshScrollView: UIViewRepresentable {
     
     @ObservedObject var webService = WebService()
     @ObservedObject var locationManager = LocationManager()
-   
+    
     func makeUIView(context: Context) -> UIScrollView {
         let scrollView = UIScrollView()
         scrollView.refreshControl = UIRefreshControl()
@@ -43,11 +43,14 @@ struct RefreshScrollView: UIViewRepresentable {
             self.webService = webService
         }
         
-       @objc func handleRefreshControl(sender: UIRefreshControl){
-        sender.endRefreshing()
-        DispatchQueue.global(qos: .userInitiated).async{
-            self.webService.getPosts()
-        }
+        @objc func handleRefreshControl(sender: UIRefreshControl){
+            sender.endRefreshing()
+            DispatchQueue.global(qos: .userInitiated).async{
+                self.webService.getPostsOnRefresh()
+            }
+            DispatchQueue.main.async {
+                self.locationManager.getLocation()
+            }
         }
     }
 }

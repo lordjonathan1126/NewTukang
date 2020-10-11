@@ -25,7 +25,8 @@ struct MostPurchasedSeeAll: View {
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
-                    }.id(UUID())
+                        Divider()
+                    }
                 }
                 
             }
@@ -51,7 +52,8 @@ struct MostPopularSeeAll: View {
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
-                    }.id(UUID())
+                        Divider()
+                    }
                 }
             }
         }
@@ -62,7 +64,7 @@ struct MostPopularSeeAll: View {
 struct NewPostSeeAll:View{
     @FetchRequest(
         entity: CorePost.entity(),
-        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.createDate, ascending: true)]
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.createDate, ascending: false)]
     ) var posts: FetchedResults<CorePost>
     
     var body: some View {
@@ -76,7 +78,8 @@ struct NewPostSeeAll:View{
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
-                    }.id(UUID())
+                        Divider()
+                    }
                 }
             }
         }
@@ -101,7 +104,8 @@ struct EndingSoonSeeAll:View{
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
-                    }.id(UUID())
+                        Divider()
+                    }
                 }
             }
         }

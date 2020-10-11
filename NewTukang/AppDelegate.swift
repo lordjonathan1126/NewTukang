@@ -15,12 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     @ObservedObject var webService = WebService()
+    @ObservedObject var locationManager = LocationManager()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        DispatchQueue.global(qos: .background).async {
-            self.webService.getPosts()
+        DispatchQueue.global(qos: .userInteractive).async {
+            self.webService.getPostsOnLaunch()
         }
         return true
     }
