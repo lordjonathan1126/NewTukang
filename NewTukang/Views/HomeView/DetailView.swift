@@ -276,51 +276,6 @@ struct MeetTheTeam:View {
     }
 }
 
-struct HorizontalStylistCard: View{
-    var image:String = ""
-    var name:String = "Unknown"
-    var location:String = "Unknown"
-    var stylistId:String = "1"
-    
-    init(image:String, name:String, location:String, stylistId:String) {
-        self.image = image
-        self.name = name
-        self.location = location
-        self.stylistId = stylistId
-    }
-    
-    var body: some View{
-        NavigationLink(destination: StylistDetailView(stylistId: stylistId, title: name)){
-            VStack{
-                UrlImageView(urlString: image)
-                    .frame(width: 200, height: 200, alignment: .top)
-                    .fixedSize()
-                Spacer()
-                VStack{
-                    HStack{
-                        Text("\(name)")
-                            .font(.headline)
-                            .bold()
-                        Spacer()
-                    }
-                    HStack{
-                        Text("\(location)")
-                            .font(.headline)
-                            .foregroundColor(Color("Accent"))
-                        Spacer()
-                    }
-                }.padding()
-            }
-            .padding()
-            .frame(width: 200, height: 270)
-            .background(Color("Background"))
-            .cornerRadius(12)
-            .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
-            .blendMode(.overlay)
-        }.buttonStyle(PlainButtonStyle())
-    }
-}
-
 struct SimilarView: View {
     var posts: FetchRequest<CorePost>
     var serviceTypeId: String

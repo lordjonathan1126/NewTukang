@@ -184,7 +184,7 @@ struct StylistCard: View{
             HStack{
                 UrlImageView(urlString: "\(imageName)")
                     .clipShape(Circle())
-                    .frame(width: 100, height: 100)
+                    .frame(width: 130, height: 130)
                     .overlay(Circle().stroke(Color("Accent")))
                     .padding()
                 Spacer()
@@ -203,9 +203,6 @@ struct StylistCard: View{
             }
             .background(Color("Background"))
             .cornerRadius(12)
-            //.shadow(color: Color("LightShadow"), radius: 5, x: -8, y: -8)
-            //.shadow(color: Color("DarkShadow"), radius: 5, x: 8, y: 8)
-            //.blendMode(.overlay)
             .padding(.top)
             .padding(.horizontal)
         }.buttonStyle(PlainButtonStyle())
@@ -225,7 +222,7 @@ struct CompanyCard: View{
             HStack{
                 UrlImageView(urlString: imageName)
                     .clipShape(Circle())
-                    .frame(width: 100, height: 100)
+                    .frame(width: 130, height: 130)
                     .overlay(Circle().stroke(Color("Accent")))
                     .padding()
                 Spacer()
@@ -239,11 +236,53 @@ struct CompanyCard: View{
             }
             .background(Color("Background"))
             .cornerRadius(12)
-           // .shadow(color: Color("LightShadow"), radius: 5, x: -5, y: -5)
-           // .shadow(color: Color("DarkShadow"), radius: 5, x: 8, y: 8)
-           // .blendMode(.overlay)
             .padding(.top)
             .padding(.horizontal)
+        }.buttonStyle(PlainButtonStyle())
+    }
+}
+
+struct HorizontalStylistCard: View{
+    var image:String = ""
+    var name:String = "Unknown"
+    var location:String = "Unknown"
+    var stylistId:String = "1"
+    
+    init(image:String, name:String, location:String, stylistId:String) {
+        self.image = image
+        self.name = name
+        self.location = location
+        self.stylistId = stylistId
+    }
+    
+    var body: some View{
+        NavigationLink(destination: StylistDetailView(stylistId: stylistId, title: name)){
+            VStack{
+                UrlImageView(urlString: image)
+                    .frame(width: 200, height: 200, alignment: .top)
+                    .fixedSize()
+                Spacer()
+                VStack{
+                    HStack{
+                        Text("\(name)")
+                            .font(.headline)
+                            .bold()
+                        Spacer()
+                    }
+                    HStack{
+                        Text("\(location)")
+                            .font(.headline)
+                            .foregroundColor(Color("Accent"))
+                        Spacer()
+                    }
+                }.padding()
+            }
+            .padding()
+            .frame(width: 200, height: 270)
+            .background(Color("Background"))
+            .cornerRadius(12)
+            .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
+            .blendMode(.overlay)
         }.buttonStyle(PlainButtonStyle())
     }
 }
