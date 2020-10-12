@@ -57,6 +57,7 @@ struct DetailView: View {
                                 .font(.body)
                                 .lineLimit(nil)
                                 .padding(.horizontal)
+                            Text("")
                             if(post.imgs != nil){
                                 VStack{
                                     ScrollView(.horizontal){
@@ -83,7 +84,7 @@ struct DetailView: View {
                                 }
                                 AboutStylist(stylistId: stylistId)
                             }
-                            PostsByStylistView(stylistId: stylistId)
+                            PostsByStylistView(stylistId: stylistId, postId: "\(postId)")
                             VStack {
                                 HStack {
                                     Text("Company")
@@ -171,35 +172,41 @@ struct AboutStylist: View{
 struct PostsByStylistView: View {
     var posts: FetchRequest<CorePost>
     var stylistId: String
+    var postId: String
     
-    init(stylistId:String) {
+    init(stylistId:String, postId:String) {
         posts = FetchRequest<CorePost>(
             entity: CorePost.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)],
             predicate: NSPredicate(format: "stylistId == %@", stylistId))
         self.stylistId = stylistId
+        self.postId = postId
     }
     
     var body: some View{
-        VStack(alignment:.leading){
-            VStack(alignment: .leading) {
-                Text("Posts by Stylist")
-                    .font(.title)
-                    .fontWeight(.bold)
-            }.padding(.leading)
-            
-            ScrollView(.horizontal, showsIndicators: false){
-                LazyHStack(spacing: 12){
-                    ForEach (posts.wrappedValue, id: \.self){ post in
-                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                            HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
-                        }.buttonStyle(PlainButtonStyle())
-                    }
-                }.frame(height: 345, alignment: .center)
-                .padding()
+        if (posts.wrappedValue.count > 1){
+            VStack(alignment:.leading){
+                VStack(alignment: .leading) {
+                    Text("Posts by Stylist")
+                        .font(.title)
+                        .fontWeight(.bold)
+                }.padding(.leading)
+                
+                ScrollView(.horizontal, showsIndicators: false){
+                    LazyHStack(spacing: 12){
+                        ForEach (posts.wrappedValue, id: \.self){ post in
+                            if("\(post.postId)" != postId){
+                                NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                    HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                                }.buttonStyle(PlainButtonStyle())
+                            }
+                        }
+                    }.frame(height: 345, alignment: .center)
+                    .padding()
+                }
             }
+            .padding(.top)
         }
-        .padding(.top)
     }
 }
 
@@ -257,20 +264,22 @@ struct MeetTheTeam:View {
         self.companyId = companyId
     }
     var body: some View{
-        VStack{
-            HStack{
-                Text("Meet The Team")
-                    .font(.title)
-                    .bold()
-                    .padding(.leading)
-                Spacer()
-            }
-            ScrollView(.horizontal, showsIndicators: false){
-                LazyHStack(spacing:14){
-                    ForEach(stylists.wrappedValue, id: \.self){ stylist in
-                        HorizontalStylistCard(image: "\(stylist.img!)", name:"\(stylist.name!)", location: "\(stylist.location!)", stylistId: "\(stylist.id)")
-                    }
-                }.padding()
+        if(stylists.wrappedValue.count > 1){
+            VStack{
+                HStack{
+                    Text("Meet The Team")
+                        .font(.title)
+                        .bold()
+                        .padding(.leading)
+                    Spacer()
+                }
+                ScrollView(.horizontal, showsIndicators: false){
+                    LazyHStack(spacing:14){
+                        ForEach(stylists.wrappedValue, id: \.self){ stylist in
+                            HorizontalStylistCard(image: "\(stylist.img!)", name:"\(stylist.name!)", location: "\(stylist.location!)", stylistId: "\(stylist.id)")
+                        }
+                    }.padding()
+                }
             }
         }
     }
@@ -293,27 +302,29 @@ struct SimilarView: View {
     }
     
     var body: some View {
-        VStack(alignment:.leading){
-            VStack(alignment: .leading) {
-                Text("Similar Posts")
-                    .font(.title)
-                    .fontWeight(.bold)
-            }.padding(.leading)
-            
-            ScrollView(.horizontal, showsIndicators: false){
-                LazyHStack(spacing: 12){
-                    ForEach (posts.wrappedValue, id: \.self){ post in
+        if(posts.wrappedValue.count > 1){
+            VStack(alignment:.leading){
+                VStack(alignment: .leading) {
+                    Text("Similar Posts")
+                        .font(.title)
+                        .fontWeight(.bold)
+                }.padding(.leading)
+                
+                ScrollView(.horizontal, showsIndicators: false){
+                    LazyHStack(spacing: 12){
+                        ForEach (posts.wrappedValue, id: \.self){ post in
                             if("\(post.postId)" != postId){
                                 NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(serviceTypeId)")){
                                     HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
                                 }.buttonStyle(PlainButtonStyle())
                             }
-                    }
-                }.frame(height: 345, alignment: .center)
-                .padding()
+                        }
+                    }.frame(height: 345, alignment: .center)
+                    .padding()
+                }
             }
+            .padding(.top)
         }
-        .padding(.top)
     }
 }
 

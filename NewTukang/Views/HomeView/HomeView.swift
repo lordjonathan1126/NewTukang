@@ -47,7 +47,7 @@ struct OurServiceView: View{
                     NavigationLink(destination: CategoryView( serviceTypeId:"2", title: "Nail")){
                         CategoryButton(title: "Nail", imageName: "Nail")
                     }.buttonStyle(PlainButtonStyle())
-                    NavigationLink(destination: CategoryView( serviceTypeId:"4", title: "Massage")){
+                    NavigationLink(destination: CategoryView( serviceTypeId:"4", title: "Beauty")){
                         CategoryButton(title: "Beauty", imageName: "Spa")
                     }.buttonStyle(PlainButtonStyle())
                     NavigationLink(destination: CategoryView( serviceTypeId:"3", title: "Spa")){
