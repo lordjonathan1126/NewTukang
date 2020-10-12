@@ -5,7 +5,7 @@
 //  Created by Jonathan Ng on 10/09/2020.
 //  Copyright © 2020 Jonathan Ng. All rights reserved.
 //
-import SwiftUI
+import UIKit
 import CoreData
 
 class CoreDataManager : NSObject{

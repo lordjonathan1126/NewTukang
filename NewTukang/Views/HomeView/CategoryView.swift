@@ -27,14 +27,14 @@ struct CategoryView: View {
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
-                LazyVStack(){
+                LazyVStack{
                     ForEach(posts.wrappedValue, id: \.self){ post in
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
                         Divider()
-                    }.id(UUID())
+                    }
                 }
             }
         }
