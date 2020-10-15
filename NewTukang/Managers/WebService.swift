@@ -24,32 +24,29 @@ class WebService: ObservableObject{
                 print("Started decoding Json")
                 let responseModel = try jsonDecoder.decode(Json4Swift_Base.self, from: data!)
                 
-                DispatchQueue.global(qos: .background).async {
+                
                     self.posts = responseModel.delta!.post!
                     print("Started saving post into coredata")
                     DispatchQueue.main.async {
                         let cdManager = CoreDataManager()
                         cdManager.savePost(self.posts)
                     }
-                }
                 
-                DispatchQueue.global(qos: .background).async {
+                
                     self.stylists = responseModel.delta!.stylist!
                     print("Started saving stylist into coredata")
                     DispatchQueue.main.async {
                         let cdManager = CoreDataManager()
                         cdManager.saveStylist(self.stylists)
                     }
-                }
                 
-                DispatchQueue.global(qos: .background).async {
                     self.companies = responseModel.delta!.company!
                     print("Started saving company into coredata")
                     DispatchQueue.main.async {
                         let cdManager = CoreDataManager()
                         cdManager.saveCompany(self.companies)
                     }
-                }
+                
             }catch{
                 print(error)
                 print(error.localizedDescription)

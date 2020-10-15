@@ -47,8 +47,7 @@ class CoreDataManager : NSObject{
     }
     
     func saveStylist(_ stylists: [Stylist]){
-        DispatchQueue.global(qos: .utility).async {
-            let context = self.appDelegate!.persistentContainer.newBackgroundContext()
+            let context = self.appDelegate!.persistentContainer.viewContext
             context.automaticallyMergesChangesFromParent = true
             context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
             
@@ -74,12 +73,10 @@ class CoreDataManager : NSObject{
             } catch {
                 print("Error saving: \(error) \(error.localizedDescription)")
             }
-        }
     }
     
     func saveCompany(_ companies: [Company]){
-        DispatchQueue.global(qos: .utility).async {
-            let context = self.appDelegate!.persistentContainer.newBackgroundContext()
+        let context = self.appDelegate!.persistentContainer.viewContext
             context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
             
             for company in companies{
@@ -98,7 +95,6 @@ class CoreDataManager : NSObject{
             } catch {
                 print("Error saving: \(error) \(error.localizedDescription)")
             }
-        }
     }
     
     

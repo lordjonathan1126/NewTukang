@@ -18,10 +18,10 @@ struct HorizontalPostCards: View{
     var discount: Double = 0.0
     let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
-    var stylists: FetchRequest<CoreStylist>
+    @FetchRequest var stylists: FetchedResults<CoreStylist>
     
     init(stylistId:String, title:String, price:Double, desc:String, duration:String, imageUrl:String, discount:Double){
-        stylists = FetchRequest<CoreStylist>(
+        self._stylists = FetchRequest<CoreStylist>(
             entity: CoreStylist.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
             predicate: NSPredicate(format: "id == %@", stylistId))
@@ -71,7 +71,7 @@ struct HorizontalPostCards: View{
             }
             VStack(alignment:.leading){
                 HStack{
-                    ForEach(stylists.wrappedValue, id: \.self){ stylist in
+                    ForEach(_stylists.wrappedValue, id: \.self){ stylist in
                         Text("\(stylist.name ?? "Unknown Stylist")")
                             .bold()
                     }
@@ -106,9 +106,10 @@ struct PostCards: View{
     var duration:String = "120"
     var discount:Double = 0.0
     
-    var stylists: FetchRequest<CoreStylist>
+    @FetchRequest var stylists: FetchedResults<CoreStylist>
+    
     init(stylistId:String, imageName:String, title:String, price:Double, desc:String, duration:String, discount:Double){
-        stylists = FetchRequest<CoreStylist>(
+        self._stylists = FetchRequest<CoreStylist>(
             entity: CoreStylist.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: false)],
             predicate: NSPredicate(format: "id == %@", stylistId))
@@ -150,7 +151,7 @@ struct PostCards: View{
                         .lineLimit(3)
                         .fixedSize(horizontal: false, vertical: true)
                     
-                    ForEach(stylists.wrappedValue, id: \.self){ stylist in
+                    ForEach(_stylists.wrappedValue, id: \.self){ stylist in
                         Text("\(stylist.name ?? "Unknown Stylist")")
                         HStack{
                             Spacer()

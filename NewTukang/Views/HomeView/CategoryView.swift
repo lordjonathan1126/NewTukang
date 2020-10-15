@@ -9,12 +9,12 @@
 import SwiftUI
 
 struct CategoryView: View {
-    var posts: FetchRequest<CorePost>
+    @FetchRequest var posts: FetchedResults<CorePost>
     var title:String
     var serviceTypeId:String
     
     init(serviceTypeId:String, title:String) {
-        posts = FetchRequest<CorePost>(
+        self._posts = FetchRequest<CorePost>(
             entity: CorePost.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)],
             predicate: NSPredicate(format: "serviceTypeId == %@", serviceTypeId))
@@ -28,7 +28,7 @@ struct CategoryView: View {
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
                 LazyVStack{
-                    ForEach(posts.wrappedValue, id: \.self){ post in
+                    ForEach(_posts.wrappedValue, id: \.self){ post in
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()

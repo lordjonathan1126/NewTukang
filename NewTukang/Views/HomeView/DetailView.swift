@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct DetailView: View {
-    var posts: FetchRequest<CorePost>
-    var stylists: FetchRequest<CoreStylist>
+    @FetchRequest var posts: FetchedResults<CorePost>
+    @FetchRequest var stylists: FetchedResults<CoreStylist>
     var stylistId:String
     var title:String
     var serviceTypeId:String
@@ -20,11 +20,11 @@ struct DetailView: View {
     @State private var showingSheet = false
     
     init(stylistId:String, postId:String, title:String, serviceTypeId:String) {
-        posts = FetchRequest<CorePost>(
+        self._posts = FetchRequest<CorePost>(
             entity: CorePost.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)],
             predicate: NSPredicate(format: "postId == %@", postId))
-        stylists = FetchRequest<CoreStylist>(
+        self._stylists = FetchRequest<CoreStylist>(
             entity: CoreStylist.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
             predicate: NSPredicate(format: "id == %@", stylistId))
@@ -35,7 +35,7 @@ struct DetailView: View {
     }
     
     var body: some View {
-        ForEach(posts.wrappedValue, id: \.self){ post in
+        ForEach(_posts.wrappedValue, id: \.self){ post in
             ZStack{
                 Color("Background")
                     .edgesIgnoringSafeArea(.all)
@@ -93,7 +93,7 @@ struct DetailView: View {
                                         .padding(.leading)
                                     Spacer()
                                 }
-                                ForEach(stylists.wrappedValue, id: \.self){stylist in
+                                ForEach(_stylists.wrappedValue, id: \.self){stylist in
                                     AboutCompany(companyId: "\(stylist.companyId)")
                                     MeetTheTeam(companyId: "\(stylist.companyId)")
                                 }
@@ -128,12 +128,12 @@ struct DetailView: View {
 }
 
 struct AboutStylist: View{
-    var stylists: FetchRequest<CoreStylist>
+    @FetchRequest var stylists: FetchedResults<CoreStylist>
     var stylistId:String = "1"
     let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
     init(stylistId:String){
-        stylists = FetchRequest<CoreStylist>(
+        self._stylists = FetchRequest<CoreStylist>(
             entity: CoreStylist.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
             predicate: NSPredicate(format: "id == %@", stylistId))
@@ -141,7 +141,7 @@ struct AboutStylist: View{
     }
     
     var body: some View{
-        ForEach(stylists.wrappedValue, id: \.self){stylist in
+        ForEach(_stylists.wrappedValue, id: \.self){stylist in
             NavigationLink(destination: StylistDetailView(stylistId: stylistId, title: stylist.name!)){
                 VStack{
                     HStack{
@@ -170,12 +170,12 @@ struct AboutStylist: View{
 }
 
 struct PostsByStylistView: View {
-    var posts: FetchRequest<CorePost>
+    @FetchRequest var posts: FetchedResults<CorePost>
     var stylistId: String
     var postId: String
     
     init(stylistId:String, postId:String) {
-        posts = FetchRequest<CorePost>(
+        self._posts = FetchRequest<CorePost>(
             entity: CorePost.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)],
             predicate: NSPredicate(format: "stylistId == %@", stylistId))
@@ -184,7 +184,7 @@ struct PostsByStylistView: View {
     }
     
     var body: some View{
-        if (posts.wrappedValue.count > 1){
+        if (_posts.wrappedValue.count > 1){
             VStack(alignment:.leading){
                 VStack(alignment: .leading) {
                     Text("Posts by Stylist")
@@ -194,7 +194,7 @@ struct PostsByStylistView: View {
                 
                 ScrollView(.horizontal, showsIndicators: false){
                     LazyHStack(spacing: 12){
-                        ForEach (posts.wrappedValue, id: \.self){ post in
+                        ForEach (_posts.wrappedValue, id: \.self){ post in
                             if("\(post.postId)" != postId){
                                 NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                                     HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
@@ -211,12 +211,12 @@ struct PostsByStylistView: View {
 }
 
 struct AboutCompany :View {
-    var companies: FetchRequest<CoreCompany>
+   @FetchRequest var companies: FetchedResults<CoreCompany>
     var companyId:String = "1"
     let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
     init(companyId:String){
-        companies = FetchRequest<CoreCompany>(
+        self._companies = FetchRequest<CoreCompany>(
             entity: CoreCompany.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CoreCompany.id, ascending: false)],
             predicate: NSPredicate(format: "id == %@", companyId))
@@ -224,7 +224,7 @@ struct AboutCompany :View {
     }
     var body: some View{
         LazyVStack {
-            ForEach(companies.wrappedValue, id: \.self){ company in
+            ForEach(_companies.wrappedValue, id: \.self){ company in
                 NavigationLink(destination: CompanyDetailView(companyId: companyId, title: company.name!)){
                     VStack {
                         HStack{
@@ -254,17 +254,17 @@ struct AboutCompany :View {
 
 struct MeetTheTeam:View {
     var companyId:String = "1"
-    var stylists: FetchRequest<CoreStylist>
+    @FetchRequest var stylists: FetchedResults<CoreStylist>
     
     init(companyId:String){
-        stylists = FetchRequest<CoreStylist>(
+        self._stylists = FetchRequest<CoreStylist>(
             entity: CoreStylist.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
             predicate: NSPredicate(format: "companyId == %@", companyId))
         self.companyId = companyId
     }
     var body: some View{
-        if(stylists.wrappedValue.count > 1){
+        if(_stylists.wrappedValue.count > 1){
             VStack{
                 HStack{
                     Text("Meet The Team")
@@ -275,7 +275,7 @@ struct MeetTheTeam:View {
                 }
                 ScrollView(.horizontal, showsIndicators: false){
                     LazyHStack(spacing:14){
-                        ForEach(stylists.wrappedValue, id: \.self){ stylist in
+                        ForEach(_stylists.wrappedValue, id: \.self){ stylist in
                             HorizontalStylistCard(image: "\(stylist.img!)", name:"\(stylist.name!)", location: "\(stylist.location!)", stylistId: "\(stylist.id)")
                         }
                     }.padding()
@@ -286,13 +286,13 @@ struct MeetTheTeam:View {
 }
 
 struct SimilarView: View {
-    var posts: FetchRequest<CorePost>
+    @FetchRequest var posts: FetchedResults<CorePost>
     var serviceTypeId: String
     var catId:String
     var postId:String
     
     init(serviceTypeId:String, catId:String, postId:String) {
-        posts = FetchRequest<CorePost>(
+        self._posts = FetchRequest<CorePost>(
             entity: CorePost.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)],
             predicate: NSPredicate(format: "serviceCatId == %@", catId))
@@ -302,7 +302,7 @@ struct SimilarView: View {
     }
     
     var body: some View {
-        if(posts.wrappedValue.count > 1){
+        if(_posts.wrappedValue.count > 1){
             VStack(alignment:.leading){
                 VStack(alignment: .leading) {
                     Text("Similar Posts")
@@ -312,7 +312,7 @@ struct SimilarView: View {
                 
                 ScrollView(.horizontal, showsIndicators: false){
                     LazyHStack(spacing: 12){
-                        ForEach (posts.wrappedValue, id: \.self){ post in
+                        ForEach (_posts.wrappedValue, id: \.self){ post in
                             if("\(post.postId)" != postId){
                                 NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(serviceTypeId)")){
                                     HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
@@ -330,18 +330,18 @@ struct SimilarView: View {
 
 struct BookButton: View {
     var stylistId:String = ""
-    var stylists: FetchRequest<CoreStylist>
+    @FetchRequest var stylists: FetchedResults<CoreStylist>
     @State private var showingActionSheet = false
     
     init(stylistId:String){
-        stylists = FetchRequest<CoreStylist>(
+        self._stylists = FetchRequest<CoreStylist>(
             entity: CoreStylist.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
             predicate: NSPredicate(format: "id == %@", stylistId))
         self.stylistId = stylistId
     }
     var body: some View {
-        ForEach(stylists.wrappedValue, id: \.self){stylist in
+        ForEach(_stylists.wrappedValue, id: \.self){stylist in
             Button(action: {
                 self.showingActionSheet = true
             }) {

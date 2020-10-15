@@ -34,13 +34,13 @@ struct HomeView: View {
 
 struct OurServiceView: View{
     var body: some View{
-        LazyVStack(alignment:.leading){
+        VStack(alignment:.leading){
             Text("Our Services")
                 .font(.title)
                 .fontWeight(.bold)
                 .padding(.leading)
             ScrollView(.horizontal, showsIndicators: false){
-                LazyHStack(spacing: 17){
+                HStack(spacing: 17){
                     NavigationLink(destination: CategoryView( serviceTypeId:"1", title: "Hair")){
                         CategoryButton(title: "Hair", imageName: "Hair")
                     }.buttonStyle(PlainButtonStyle())
