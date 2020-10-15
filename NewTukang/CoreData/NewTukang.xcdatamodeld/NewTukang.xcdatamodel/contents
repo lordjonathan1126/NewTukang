@@ -5,7 +5,7 @@
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="img" optional="YES" attributeType="String"/>
-        <attribute name="imgs" optional="YES" attributeType="Transformable" customClassName="Array&lt;Any&gt;"/>
+        <attribute name="imgs" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="Array&lt;Any&gt;"/>
         <attribute name="mobile" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="stylist" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CoreStylist" inverseName="companies" inverseEntity="CoreStylist"/>
@@ -21,7 +21,7 @@
         <attribute name="discount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="img" optional="YES" attributeType="String"/>
-        <attribute name="imgs" optional="YES" attributeType="Transformable" customClassName="Array&lt;Any&gt;"/>
+        <attribute name="imgs" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="Array&lt;Any&gt;"/>
         <attribute name="normalPrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="postId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="serviceCatId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -44,7 +44,7 @@
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="img" optional="YES" attributeType="String"/>
-        <attribute name="imgs" optional="YES" attributeType="Transformable" customClassName="Array&lt;Any&gt;"/>
+        <attribute name="imgs" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="Array&lt;Any&gt;"/>
         <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="location" optional="YES" attributeType="String"/>
         <attribute name="loginDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
