@@ -2,14 +2,13 @@
 //  CorePost+CoreDataProperties.swift
 //  NewTukang
 //
-//  Created by Jonathan Ng on 29/09/2020.
+//  Created by Jonathan Ng on 15/10/2020.
 //  Copyright © 2020 Jonathan Ng. All rights reserved.
 //
 //
 
 import Foundation
 import CoreData
-
 
 extension CorePost {
 
@@ -32,8 +31,9 @@ extension CorePost {
     @NSManaged public var stat_p: Int64
     @NSManaged public var stat_v: Int64
     @NSManaged public var stylistId: Int64
+    @NSManaged public var trending: Double
+    @NSManaged public var distance: Double
     @NSManaged public var stylists: CoreStylist?
-
 }
 
 extension CorePost : Identifiable {

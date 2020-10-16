@@ -61,6 +61,32 @@ struct MostPopularSeeAll: View {
     }
 }
 
+struct TopTrendingSeeAll: View {
+    @FetchRequest(
+        entity: CorePost.entity(),
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.trending, ascending: false)]
+    ) var posts: FetchedResults<CorePost>
+    
+    var body: some View {
+        ZStack{
+            Color("Background")
+                .edgesIgnoringSafeArea(.all)
+            ScrollView{
+                LazyVStack{
+                    ForEach(_posts.wrappedValue, id: \.self){ post in
+                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                            PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
+                                .padding()
+                        }.buttonStyle(PlainButtonStyle())
+                        Divider()
+                    }
+                }
+            }
+        }
+        .navigationBarTitle("Most Popular", displayMode: .inline)
+    }
+}
+
 struct NewPostSeeAll:View{
     @FetchRequest(
         entity: CorePost.entity(),
@@ -110,5 +136,31 @@ struct EndingSoonSeeAll:View{
             }
         }
         .navigationBarTitle("Ending Soon", displayMode: .inline)
+    }
+}
+
+struct LocationViewSeeAll: View{
+    @FetchRequest(
+        entity: CorePost.entity(),
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.distance, ascending: true)]
+    ) var posts: FetchedResults<CorePost>
+    
+    var body: some View{
+        ZStack{
+            Color("Background")
+                .edgesIgnoringSafeArea(.all)
+            ScrollView{
+                LazyVStack{
+                    ForEach(_posts.wrappedValue, id: \.self){ post in
+                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                            PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
+                                .padding()
+                        }.buttonStyle(PlainButtonStyle())
+                        Divider()
+                    }
+                }
+            }
+        }
+        .navigationBarTitle("Nearby", displayMode: .inline)
     }
 }

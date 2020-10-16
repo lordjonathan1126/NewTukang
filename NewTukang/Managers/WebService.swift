@@ -24,25 +24,23 @@ class WebService: ObservableObject{
                 print("Started decoding Json")
                 let responseModel = try jsonDecoder.decode(Json4Swift_Base.self, from: data!)
                 
+                self.posts = responseModel.delta!.post!
+                self.stylists = responseModel.delta!.stylist!
+                self.companies = responseModel.delta!.company!
                 
-                    self.posts = responseModel.delta!.post!
+                DispatchQueue.main.async {
                     print("Started saving post into coredata")
-                    DispatchQueue.main.async {
                         let cdManager = CoreDataManager()
-                        cdManager.savePost(self.posts)
+                    cdManager.savePost(self.posts, stylists: self.stylists)
                     }
                 
-                
-                    self.stylists = responseModel.delta!.stylist!
+                DispatchQueue.main.async {
                     print("Started saving stylist into coredata")
-                    DispatchQueue.main.async {
                         let cdManager = CoreDataManager()
                         cdManager.saveStylist(self.stylists)
                     }
-                
-                    self.companies = responseModel.delta!.company!
+                DispatchQueue.main.async {
                     print("Started saving company into coredata")
-                    DispatchQueue.main.async {
                         let cdManager = CoreDataManager()
                         cdManager.saveCompany(self.companies)
                     }
@@ -70,7 +68,7 @@ class WebService: ObservableObject{
                     self.posts = responseModel.delta!.post!
                     print("Started saving post into coredata")
                     let cdManager = CoreDataManager()
-                    cdManager.savePost(self.posts)
+                    cdManager.savePost(self.posts, stylists: self.stylists)
                 }
                 
                 DispatchQueue.main.async {

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct HomeView: View {
     @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
             ZStack{
                 Color("Background")
@@ -17,13 +18,13 @@ struct HomeView: View {
                 ScrollView{
                     VStack{
                         OurServiceView()
-                        MostPopular(title: "Top Trending")
-                        MostPurchased(title: "Top Sales")
+                        LocationView(title: "Nearby")
                         MostPopular(title: "Most Popular")
+                        MostPurchased(title: "Top Sales")
+                        TopTrending(title: "Top Trending")
                         NewPost(title: "New Posts")
                         EndingSoon(title: "Ending Soon")
                         StylistCompanyListView()
-                        UserLocationView()
                         Spacer()
                     }
                 }
@@ -152,6 +153,47 @@ struct MostPurchased: View {
     }
 }
 
+
+struct LocationView: View {
+    @ObservedObject var locationManager = LocationManager()
+    @FetchRequest(
+        entity: CorePost.entity(),
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.distance, ascending: true)]
+    ) var posts: FetchedResults<CorePost>
+    var title:String = "Most Purchased"
+    
+    var body: some View{
+        if (locationManager.statusString == "authorizedWhenInUse"){
+            VStack(alignment:.leading){
+                VStack(alignment: .leading){
+                    HStack{
+                        Image(systemName: "location.fill")
+                        Text("\(title)")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        Spacer()
+                        NavigationLink(destination: LocationViewSeeAll()){
+                            Text("See All")
+                        }
+                    }
+                }.padding(.horizontal)
+                ScrollView(.horizontal, showsIndicators: false){
+                    LazyHStack(spacing: 12){
+                        ForEach (posts, id: \.self){ post in
+                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                            }.buttonStyle(PlainButtonStyle())
+                        }.id(UUID())
+                    }.frame(height: 345, alignment: .center)
+                    .padding()
+                }
+            }
+            .padding(.top)
+        }
+        
+    }
+}
+
 struct MostPopular: View {
     @FetchRequest(
         entity: CorePost.entity(),
@@ -168,6 +210,42 @@ struct MostPopular: View {
                         .fontWeight(.bold)
                     Spacer()
                     NavigationLink(destination: MostPopularSeeAll()){
+                        Text("See All")
+                    }
+                }
+            }.padding(.horizontal)
+            ScrollView(.horizontal, showsIndicators: false){
+                LazyHStack(spacing: 12){
+                    ForEach (posts, id: \.self){ post in
+                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                            HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                        }.buttonStyle(PlainButtonStyle())
+                    }.id(UUID())
+                }.frame(height: 345, alignment: .center)
+                .padding()
+            }
+        }
+        .padding(.top)
+    }
+}
+
+struct TopTrending: View {
+    @FetchRequest(
+        entity: CorePost.entity(),
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.trending, ascending: false)]
+    
+    ) var posts: FetchedResults<CorePost>
+    var title:String = "Top Trending"
+    
+    var body: some View{
+        VStack(alignment:.leading){
+            VStack(alignment: .leading) {
+                HStack{
+                    Text("\(title)")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Spacer()
+                    NavigationLink(destination: TopTrendingSeeAll()){
                         Text("See All")
                     }
                 }

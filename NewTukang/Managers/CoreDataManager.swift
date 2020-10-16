@@ -5,23 +5,25 @@
 //  Created by Jonathan Ng on 10/09/2020.
 //  Copyright © 2020 Jonathan Ng. All rights reserved.
 //
-import UIKit
+import SwiftUI
 import CoreData
+import CoreLocation
 
 class CoreDataManager : NSObject{
     public static let sharedInstance = CoreDataManager()
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
+    @ObservedObject var locationManager = LocationManager()
     
     override init() {}
     
-    func savePost(_ posts: [Post]){
+    func savePost(_ posts: [Post], stylists: [Stylist]){
         let context = self.appDelegate!.persistentContainer.viewContext
         context.automaticallyMergesChangesFromParent = true
         context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         
-        
         for post in posts{
             let newPost = NSEntityDescription.insertNewObject(forEntityName: "CorePost", into: context)
+            
             newPost.setValue(post.postID, forKey: "postId")
             newPost.setValue(post.price?.normal, forKey: "normalPrice")
             newPost.setValue(post.price?.discount, forKey: "discount")
@@ -36,7 +38,20 @@ class CoreDataManager : NSObject{
             newPost.setValue(post.stat?.p, forKey: "stat_p")
             newPost.setValue(post.stat?.v, forKey: "stat_v")
             newPost.setValue(post.stylistID, forKey: "stylistId")
+            newPost.setValue(post.stat?.trending, forKey: "trending")
             newPost.setValue(post.imgs, forKey: "imgs")
+            for stylist in stylists{
+                if (post.stylistID == stylist.id){
+                    var distance: Double? {
+                        var latitude: Double  { return( Double("\(locationManager.location?.latitude ?? 0)") ?? 0) }
+                        var longitude: Double { return( Double("\(locationManager.location?.longitude ?? 0)") ?? 0) }
+                        let userLocation = CLLocationCoordinate2DMake(latitude, longitude)
+                        let postLocation = CLLocationCoordinate2DMake(stylist.location?.lat ?? 0, stylist.location?.lat ?? 0)
+                        return locationManager.distance(from: userLocation, to: postLocation)
+                    }
+                    newPost.setValue(distance, forKey: "distance")
+                }
+            }
         }
         do {
             try context.save()
@@ -50,7 +65,6 @@ class CoreDataManager : NSObject{
             let context = self.appDelegate!.persistentContainer.viewContext
             context.automaticallyMergesChangesFromParent = true
             context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-            
             
             for stylist in stylists{
                 let newStylist = NSEntityDescription.insertNewObject(forEntityName: "CoreStylist", into: context)
@@ -96,6 +110,4 @@ class CoreDataManager : NSObject{
                 print("Error saving: \(error) \(error.localizedDescription)")
             }
     }
-    
-    
 }

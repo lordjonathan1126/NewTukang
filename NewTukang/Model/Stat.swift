@@ -15,6 +15,13 @@ import Foundation
 struct Stat : Codable {
 	let v : Int?
 	let p : Int?
+    var trending:Double {
+        if (p != 0) {
+            return Double((v ?? 0 / p!) * 100)
+        } else{
+            return Double(v ?? 0)
+        }
+    }
 
 	enum CodingKeys: String, CodingKey {
 

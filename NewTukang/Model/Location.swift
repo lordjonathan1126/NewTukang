@@ -18,7 +18,6 @@ struct Location : Codable {
 	let lon : Double?
 
 	enum CodingKeys: String, CodingKey {
-
 		case city = "city"
 		case lat = "lat"
 		case lon = "lon"
