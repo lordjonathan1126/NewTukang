@@ -181,10 +181,10 @@ struct LocationView: View {
                     LazyHStack(spacing: 12){
                         ForEach (posts, id: \.self){ post in
                             NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                                HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                                HorizontalWidePostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount, distance: post.distance)
                             }.buttonStyle(PlainButtonStyle())
                         }.id(UUID())
-                    }.frame(height: 345, alignment: .center)
+                    }.frame(height: 400, alignment: .center)
                     .padding()
                 }
             }

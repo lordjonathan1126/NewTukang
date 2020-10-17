@@ -98,6 +98,95 @@ struct HorizontalPostCards: View{
     }
 }
 
+struct HorizontalWidePostCards: View{
+    var title:String = "Sample title"
+    var price: Double = 10.00
+    var stylist:String = "Tammy How"
+    var desc:String = "Description"
+    var duration:String = "120"
+    var imageUrl:String
+    var discount: Double = 0.0
+    var distance: Double = 0.0
+    let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
+    
+    @FetchRequest var stylists: FetchedResults<CoreStylist>
+    
+    init(stylistId:String, title:String, price:Double, desc:String, duration:String, imageUrl:String, discount:Double, distance: Double){
+        self._stylists = FetchRequest<CoreStylist>(
+            entity: CoreStylist.entity(),
+            sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
+            predicate: NSPredicate(format: "id == %@", stylistId))
+        self.title = title
+        self.price = price
+        self.desc = desc
+        self.duration = duration
+        self.discount = discount
+        self.imageUrl = imageUrl
+    }
+    
+    var body: some View{
+        VStack{
+            ZStack{
+                UrlImageView(urlString: imageUrl)
+                    .frame(width: 300, height: 300, alignment: .top)
+                    .fixedSize()
+                VStack {
+                    HStack{
+                        if (discount != 0){
+                            Text("-\((1 - ((price - discount) / (price))) * 100, specifier: "%.0f")%")
+                                .padding(.leading,7)
+                                .padding(.top, 7)
+                                .padding(.bottom, 3)
+                                .padding(.trailing, 3)
+                                .foregroundColor(.white)
+                                .background(Color("Accent"))
+                                .opacity(0.85)
+                                .cornerRadius(5.0)
+                        }
+                        Spacer()
+                    }
+                    Spacer()
+                }
+            }
+            VStack(alignment: .leading) {
+                HStack {
+                    Text(title)
+                        .font(.headline)
+                        .lineLimit(2)
+                        .frame(height: 45, alignment: .top)
+                        .fixedSize(horizontal: false, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
+                        .padding(.horizontal)
+                        .padding(.top)
+                    Spacer()
+                }
+            }
+            VStack(alignment:.leading){
+                HStack{
+                    ForEach(_stylists.wrappedValue, id: \.self){ stylist in
+                        Text("\(stylist.name ?? "Unknown Stylist")")
+                            .bold()
+                    }
+                    Spacer()
+                    Text("\((price -  discount), specifier: "%.2f")")
+                        .font(.headline)
+                        .foregroundColor(Color("Accent"))
+                    if (discount != 0){
+                        Text("\(price, specifier: "%.2f")")
+                            .strikethrough(true)
+                    }
+                }
+            }.padding(.horizontal)
+            .padding(.bottom)
+        }
+        //.padding()
+        .frame(width: 300, height: 410)
+        .background(Color("Background"))
+        .cornerRadius(12)
+        .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
+        .blendMode(.overlay)
+    }
+}
+
 struct PostCards: View{
     var imageName:String = ""
     var title:String = "Sample title"

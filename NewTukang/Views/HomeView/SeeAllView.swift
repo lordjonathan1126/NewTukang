@@ -31,7 +31,7 @@ struct MostPurchasedSeeAll: View {
                 
             }
         }
-        .navigationBarTitle("Most Purchased", displayMode: .inline)
+        .navigationBarTitle("Top Sales", displayMode: .inline)
     }
 }
 
@@ -83,7 +83,7 @@ struct TopTrendingSeeAll: View {
                 }
             }
         }
-        .navigationBarTitle("Most Popular", displayMode: .inline)
+        .navigationBarTitle("Top Trending", displayMode: .inline)
     }
 }
 
