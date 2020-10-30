@@ -21,7 +21,7 @@ struct RefreshScrollView: UIViewRepresentable {
         scrollView.refreshControl = UIRefreshControl()
         scrollView.refreshControl?.addTarget(context.coordinator, action: #selector(Coordinator.handleRefreshControl(sender:)), for: .valueChanged)
         let refreshVC = UIHostingController(rootView: HomeView())
-        refreshVC.view.frame = CGRect(x: 0, y: 0, width: width, height: height - 50)
+        refreshVC.view.frame = CGRect(x: 0, y: 0, width: width, height: height - 60)
         scrollView.addSubview(refreshVC.view)
         return scrollView
     }
@@ -46,7 +46,7 @@ struct RefreshScrollView: UIViewRepresentable {
         @objc func handleRefreshControl(sender: UIRefreshControl){
             sender.endRefreshing()
             DispatchQueue.global(qos: .userInitiated).async{
-                self.webService.getPostsOnRefresh()
+                self.webService.getPosts()
             }
             DispatchQueue.main.async {
                 self.locationManager.getLocation()

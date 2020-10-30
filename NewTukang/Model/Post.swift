@@ -17,7 +17,7 @@ struct Post : Codable {
 	let img : String?
 	let imgs : [String]?
 	let createDate : Date?
-	let endDate : Date?
+	let endDate : Double?
 	let stylistID : Int?
 	let price : Price?
 	let service : Service?
@@ -44,7 +44,7 @@ struct Post : Codable {
 		img = try values.decodeIfPresent(String.self, forKey: .img)
 		imgs = try values.decodeIfPresent([String].self, forKey: .imgs)
 		createDate = try values.decodeIfPresent(Date.self, forKey: .createDate)
-		endDate = try values.decodeIfPresent(Date.self, forKey: .endDate)
+		endDate = try values.decodeIfPresent(Double.self, forKey: .endDate)
 		stylistID = try values.decodeIfPresent(Int.self, forKey: .stylistID)
 		price = try values.decodeIfPresent(Price.self, forKey: .price)
 		service = try values.decodeIfPresent(Service.self, forKey: .service)

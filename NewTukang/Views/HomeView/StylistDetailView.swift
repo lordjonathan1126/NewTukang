@@ -56,7 +56,6 @@ struct StylistDetailView: View {
         }
         .navigationBarTitle("\(title)", displayMode: .inline)
         .navigationBarItems(trailing:
-                                ForEach(stylists.wrappedValue, id: \.self){stylist in
                                     Button(action:{
                                         self.showingActionSheet = true
                                     }) {
@@ -67,41 +66,40 @@ struct StylistDetailView: View {
                                         ActionSheet(title: Text("Contact stylist to book"), buttons: [
                                             .default(Text("Call")) {
                                                 let tel = "tel://"
-                                                let phoneString = "\(stylist.mobile!)"
-                                                let formattedString = tel + phoneString
+                                                let phoneString = stylists.wrappedValue.first?.mobile
+                                                let formattedString = tel + phoneString!
                                                 let url: NSURL = URL(string: formattedString)! as NSURL
                                                 UIApplication.shared.open(url as URL)
                                             },
                                             .default(Text("SMS")) {
                                                 let tel = "sms://"
-                                                let phoneString = "\(stylist.mobile!)"
-                                                let formattedString = tel + phoneString
+                                                let phoneString = stylists.wrappedValue.first?.mobile
+                                                let formattedString = tel + phoneString!
                                                 let url: NSURL = URL(string: formattedString)! as NSURL
                                                 UIApplication.shared.open(url as URL)
                                             },
                                             .default(Text("Whatsapp")) {
                                                 let tel = "https://wa.me/"
-                                                let phoneString = "\(stylist.mobile!)"
-                                                let formattedString = tel + phoneString
+                                                let phoneString = stylists.wrappedValue.first?.mobile
+                                                let formattedString = tel + phoneString!
                                                 let url: NSURL = URL(string: formattedString)! as NSURL
                                                 UIApplication.shared.open(url as URL)
                                             },
                                             .cancel()
                                         ])
                                     }
-                                }
         )
     }
 }
 
 struct AboutStylist2: View{
-    var stylists: FetchRequest<CoreStylist>
+    @FetchRequest var stylists: FetchedResults<CoreStylist>
     var stylistId:String = "1"
     let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
     
     init(stylistId:String){
-        stylists = FetchRequest<CoreStylist>(
+        self._stylists = FetchRequest<CoreStylist>(
             entity: CoreStylist.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
             predicate: NSPredicate(format: "id == %@", stylistId))
@@ -109,10 +107,9 @@ struct AboutStylist2: View{
     }
     
     var body: some View{
-        ForEach(stylists.wrappedValue, id: \.self){stylist in
             LazyVStack {
                 HStack{
-                    UrlImageView(urlString: "\(stylist.img!)")
+                    UrlImageView(urlString: _stylists.wrappedValue.first?.img)
                         .clipShape(Circle())
                         .frame(width: 70, height: 70)
                         .overlay(Circle().stroke(Color("Accent")))
@@ -120,20 +117,20 @@ struct AboutStylist2: View{
                         .padding()
                     Spacer()
                     VStack(alignment: .trailing){
-                        Text("\(stylist.name!)")
+                        Text((_stylists.wrappedValue.first?.name)!)
                             .font(.title)
                             .bold()
-                        Text("\(stylist.location!)")
+                        Text((_stylists.wrappedValue.first?.location)!)
                             .foregroundColor(Color("Accent"))
                     }.padding()
                 }
-                Text("\(stylist.desc ?? "No description available.")")
+                Text("\(_stylists.wrappedValue.first?.desc ?? "No description available.")")
                     .lineLimit(nil)
                     .padding(.horizontal)
-                if(stylist.imgs != nil){
+                if(_stylists.wrappedValue.first?.imgs != nil){
                     ScrollView(.horizontal){
                         LazyHStack(){
-                            ForEach(stylist.imgs!, id:\.self){ img in
+                            ForEach((_stylists.wrappedValue.first?.imgs)!, id:\.self){ img in
                                 UrlImageView(urlString: img)
                                     .fixedSize()
                                     .frame(width: 230, height: 230)
@@ -145,6 +142,5 @@ struct AboutStylist2: View{
                     }
                 }
             }
-        }
     }
 }

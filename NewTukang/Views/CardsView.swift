@@ -71,10 +71,9 @@ struct HorizontalPostCards: View{
             }
             VStack(alignment:.leading){
                 HStack{
-                    ForEach(_stylists.wrappedValue, id: \.self){ stylist in
-                        Text("\(stylist.name ?? "Unknown Stylist")")
+                    Text("\(_stylists.wrappedValue.first?.name ?? "Unknown Stylist")")
                             .bold()
-                    }
+                    
                     Spacer()
                 }
                 HStack {
@@ -162,10 +161,8 @@ struct HorizontalWidePostCards: View{
             }
             VStack(alignment:.leading){
                 HStack{
-                    ForEach(_stylists.wrappedValue, id: \.self){ stylist in
-                        Text("\(stylist.name ?? "Unknown Stylist")")
+                    Text("\(_stylists.wrappedValue.first?.name ?? "Unknown Stylist")")
                             .bold()
-                    }
                     Spacer()
                     Text("\((price -  discount), specifier: "%.2f")")
                         .font(.headline)
@@ -179,7 +176,7 @@ struct HorizontalWidePostCards: View{
             .padding(.bottom)
         }
         //.padding()
-        .frame(width: 300, height: 410)
+        .frame(width: 280, height: 410)
         .background(Color("Background"))
         .cornerRadius(12)
         .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
@@ -239,9 +236,7 @@ struct PostCards: View{
                         .font(.headline)
                         .lineLimit(3)
                         .fixedSize(horizontal: false, vertical: true)
-                    
-                    ForEach(_stylists.wrappedValue, id: \.self){ stylist in
-                        Text("\(stylist.name ?? "Unknown Stylist")")
+                    Text("\(_stylists.wrappedValue.first?.name ?? "Unknown Stylist")")
                         HStack{
                             Spacer()
                             Text("\((price - discount), specifier: "%.2f")")
@@ -252,7 +247,7 @@ struct PostCards: View{
                                     .strikethrough(true)
                             }
                         }
-                    }
+                    
                 }.padding(.horizontal)
             }
         }
@@ -274,7 +269,7 @@ struct StylistCard: View{
             HStack{
                 UrlImageView(urlString: "\(imageName)")
                     .clipShape(Circle())
-                    .frame(width: 130, height: 130)
+                    .frame(width: 100, height: 100)
                     .overlay(Circle().stroke(Color("Accent")))
                     .padding()
                 Spacer()
@@ -312,7 +307,7 @@ struct CompanyCard: View{
             HStack{
                 UrlImageView(urlString: imageName)
                     .clipShape(Circle())
-                    .frame(width: 130, height: 130)
+                    .frame(width: 100, height: 100)
                     .overlay(Circle().stroke(Color("Accent")))
                     .padding()
                 Spacer()

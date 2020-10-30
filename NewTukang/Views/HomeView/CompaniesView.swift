@@ -11,20 +11,24 @@ import SwiftUI
 struct CompaniesView: View {
     @FetchRequest(
         entity: CoreCompany.entity(),
-        sortDescriptors: [ NSSortDescriptor(keyPath: \CoreCompany.id, ascending: false)]
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CoreCompany.name, ascending: true)]
     ) var companies: FetchedResults<CoreCompany>
-    
+    @State var name = ""
     var body: some View {
         ZStack{
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
-            ScrollView{
-                LazyVStack(spacing: 5){
-                    ForEach(_companies.wrappedValue, id: \.self){ company in
-                        CompanyCard(imageName: "\(company.img!)", companyId: "\(company.id)", companyName: "\(company.name!)" , desc: "\(company.desc!)")
-                        Divider()
-                    }.id(UUID())
-                }.padding(.bottom)
+            VStack {
+                SearchBar(text: self.$name)
+                ScrollView{
+                    LazyVStack(spacing: 5){
+                        ForEach(_companies.wrappedValue.filter(
+                                    {name.isEmpty ? true : $0.name!.localizedCaseInsensitiveContains(self.name)}), id: \.self){ company in
+                            CompanyCard(imageName: "\(company.img!)", companyId: "\(company.id)", companyName: "\(company.name!)" , desc: "\(company.desc!)")
+                            Divider()
+                        }.id(UUID())
+                    }.padding(.bottom)
+                }
             }
         }.navigationBarTitle("Companies", displayMode: .inline)
     }

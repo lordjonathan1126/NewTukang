@@ -34,6 +34,11 @@ struct HomeView: View {
 }
 
 struct OurServiceView: View{
+    @FetchRequest(
+        entity: CorePost.entity(),
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: false)]
+    ) var posts: FetchedResults<CorePost>
+    
     var body: some View{
         VStack(alignment:.leading){
             Text("Our Services")
@@ -55,9 +60,9 @@ struct OurServiceView: View{
                         CategoryButton(title: "Lash", imageName: "Lash")
                     }.buttonStyle(PlainButtonStyle())
                 }.padding()
-            }
-        }.frame(minWidth: 0, maxWidth: .infinity)
-        
+            }.frame(minWidth: 0, maxWidth: .infinity)
+        }.onAppear(){
+        }
     }
 }
 
@@ -89,35 +94,6 @@ struct CategoryButton: View {
     }
 }
 
-struct SearchBar: View{
-    @Environment(\.colorScheme) var colorScheme
-    @State private var show_search: Bool = false
-    
-    var body: some View{
-        Button(action: {
-            self.show_search = true
-        }) {
-            ZStack{
-                RoundedRectangle(cornerRadius: 10)
-                    .frame(height:35)
-                    .foregroundColor(Color("Background"))
-                    .padding()
-                
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(Color("Accent"))
-                    Text("Search")
-                        .foregroundColor(Color("Accent"))
-                }
-            }
-            .shadow(color: Color("LightShadow"), radius: 10, x: -5, y: -5)
-            .shadow(color: Color("DarkShadow"), radius: 10, x: 8, y: 8)
-        }.sheet(isPresented: self.$show_search){
-            SearchView()
-        }
-    }
-}
-
 struct MostPurchased: View {
     @FetchRequest(
         entity: CorePost.entity(),
@@ -144,7 +120,7 @@ struct MostPurchased: View {
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
                         }.buttonStyle(PlainButtonStyle())
-                    }.id(UUID())
+                    }
                 }.frame(height: 345, alignment: .center)
                 .padding()
             }
@@ -166,31 +142,49 @@ struct LocationView: View {
         if (locationManager.statusString == "authorizedWhenInUse"){
             VStack(alignment:.leading){
                 VStack(alignment: .leading){
-                    HStack{
-                        Image(systemName: "location.fill")
-                        Text("\(title)")
-                            .font(.title)
-                            .fontWeight(.bold)
-                        Spacer()
-                        NavigationLink(destination: LocationViewSeeAll()){
-                            Text("See All")
-                        }
-                    }
+                    LocationTitle(stylistId: Int(_posts.wrappedValue.first!.stylistId))
                 }.padding(.horizontal)
                 ScrollView(.horizontal, showsIndicators: false){
-                    LazyHStack(spacing: 12){
+                    LazyHStack(spacing: 10){
                         ForEach (posts, id: \.self){ post in
-                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                                HorizontalWidePostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount, distance: post.distance)
-                            }.buttonStyle(PlainButtonStyle())
-                        }.id(UUID())
-                    }.frame(height: 400, alignment: .center)
+                            VStack{
+                                HStack{
+                                    Image(systemName: "location")
+                                    Text("\(post.distance/10000, specifier: "%.1f") km away")
+                                }.foregroundColor(.secondary)
+                                NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                    HorizontalWidePostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount, distance: post.distance)
+                                }.buttonStyle(PlainButtonStyle())
+                            }
+                        }
+                    }.frame(height: 420, alignment: .center)
                     .padding()
                 }
             }
             .padding(.top)
         }
-        
+    }
+}
+
+struct LocationTitle: View {
+    @FetchRequest var stylists: FetchedResults<CoreStylist>
+    init(stylistId: Int){
+        self._stylists = FetchRequest<CoreStylist>(
+            entity: CoreStylist.entity(),
+            sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
+            predicate: NSPredicate(format: "id == %@", "\(stylistId)"))
+    }
+    var body: some View{
+        HStack{
+            Image(systemName: "location.fill")
+            Text("\((_stylists.wrappedValue.first?.location) ?? "Nearby")")
+                .font(.title)
+                .fontWeight(.bold)
+            Spacer()
+            NavigationLink(destination: LocationViewSeeAll()){
+                Text("See All")
+            }
+        }
     }
 }
 
@@ -220,7 +214,7 @@ struct MostPopular: View {
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
                         }.buttonStyle(PlainButtonStyle())
-                    }.id(UUID())
+                    }
                 }.frame(height: 345, alignment: .center)
                 .padding()
             }
@@ -256,7 +250,7 @@ struct TopTrending: View {
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
                         }.buttonStyle(PlainButtonStyle())
-                    }.id(UUID())
+                    }
                 }.frame(height: 345, alignment: .center)
                 .padding()
             }
@@ -270,7 +264,10 @@ struct EndingSoon: View {
         entity: CorePost.entity(),
         sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.endDate, ascending: true)]
     ) var posts: FetchedResults<CorePost>
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let dateCalculator = DateCalculator()
     var title:String = "Top Sales"
+    let date = Date().timeIntervalSince1970
     
     var body: some View{
         VStack(alignment:.leading){
@@ -288,17 +285,27 @@ struct EndingSoon: View {
             ScrollView(.horizontal, showsIndicators: false){
                 LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
-                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                            HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
-                        }.buttonStyle(PlainButtonStyle())
-                    }.id(UUID())
-                }.frame(height: 345, alignment: .center)
+                        //if(post.endDate > date ){
+                        VStack{
+                            HStack{
+                                Image(systemName: "timer")
+                                Text("\(dateCalculator.offsetFrom(date: NSDate(timeIntervalSince1970: post.endDate) as Date))")
+                            }.foregroundColor(.secondary)
+                                NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                    HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                                }.buttonStyle(PlainButtonStyle())
+                            //}
+                            }
+                        }
+                }.frame(height: 355, alignment: .center)
                 .padding()
             }
         }
         .padding(.top)
     }
 }
+
+
 
 struct NewPost: View {
     @FetchRequest(
@@ -379,15 +386,3 @@ struct StylistCompanyListView: View{
     }
 }
 
-struct UserLocationView: View{
-    @ObservedObject var locationManager = LocationManager()
-
-       var latitude: String  { return("\(locationManager.location?.latitude ?? 0)") }
-       var longitude: String { return("\(locationManager.location?.longitude ?? 0)") }
-    var body: some View{
-        LazyVStack{
-            Text("Latitude: \(latitude)")
-            Text("Longtitude: \(longitude)")
-        }
-    }
-}

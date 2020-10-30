@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct DetailView: View {
     @FetchRequest var posts: FetchedResults<CorePost>
@@ -35,34 +36,33 @@ struct DetailView: View {
     }
     
     var body: some View {
-        ForEach(_posts.wrappedValue, id: \.self){ post in
             ZStack{
                 Color("Background")
                     .edgesIgnoringSafeArea(.all)
                 VStack{
                     ScrollView{
                         LazyVStack(alignment: .leading, spacing: 12){
-                            UrlImageView(urlString: "\(post.img!)")
+                            UrlImageView(urlString: _posts.wrappedValue.first?.img)
                             HStack{
                                 Text("What you will get")
                                     .font(.title)
                                     .foregroundColor(Color("Accent"))
                                     .padding(.horizontal)
                                 Spacer()
-                                Text("\(post.serviceDuration) mins")
+                                Text("\(_posts.wrappedValue.first!.serviceDuration) mins")
                                     .foregroundColor(.secondary)
                                     .padding(.trailing)
                             }
-                            Text("\(post.desc!)")
+                            Text("\((_posts.wrappedValue.first?.desc!)!)")
                                 .font(.body)
                                 .lineLimit(nil)
                                 .padding(.horizontal)
                             Text("")
-                            if(post.imgs != nil){
+                            if(_posts.wrappedValue.first?.imgs != nil){
                                 VStack{
                                     ScrollView(.horizontal){
                                         LazyHStack{
-                                            ForEach(post.imgs!, id:\.self){ img in
+                                            ForEach((_posts.wrappedValue.first?.imgs)!, id:\.self){ img in
                                                 UrlImageView(urlString: img)
                                                     .fixedSize()
                                                     .frame(width: 230, height: 230)
@@ -93,12 +93,11 @@ struct DetailView: View {
                                         .padding(.leading)
                                     Spacer()
                                 }
-                                ForEach(_stylists.wrappedValue, id: \.self){stylist in
-                                    AboutCompany(companyId: "\(stylist.companyId)")
-                                    MeetTheTeam(companyId: "\(stylist.companyId)")
-                                }
+                                AboutCompany(companyId:  Int(_stylists.wrappedValue.first!.companyId))
+                                MeetTheTeam(companyId:  Int(_stylists.wrappedValue.first!.companyId))
+                                
                             }
-                            SimilarView(serviceTypeId: serviceTypeId, catId: "\(post.serviceCatId)", postId: "\(postId)")
+                            SimilarView(serviceTypeId: serviceTypeId, catId: String(_posts.wrappedValue.first!.serviceCatId), postId: "\(postId)")
                         }
                     }
                     Spacer()
@@ -106,23 +105,22 @@ struct DetailView: View {
                         VStack(alignment: .leading) {
                             Text("\(title)")
                             HStack{
-                                Text("\((post.normalPrice -  post.discount), specifier: "%.2f")")
+                                Text("\((_posts.wrappedValue.first!.normalPrice -  _posts.wrappedValue.first!.discount), specifier: "%.2f")")
                                     .font(.title)
                                     .foregroundColor(Color("Accent"))
-                                if (post.discount != 0){
-                                    Text("\(post.normalPrice, specifier: "%.2f")")
+                                if (_posts.wrappedValue.first?.discount != 0){
+                                    Text("\(_posts.wrappedValue.first!.normalPrice, specifier: "%.2f")")
                                         .strikethrough(true)
                                 }
                             }
                         }
                         Spacer()
                         BookButton(stylistId: stylistId)
-                        
                     }.padding(.horizontal)
                     .background(Color("LightShadow"))
                 }.edgesIgnoringSafeArea(.bottom)
             }
-        }
+        
         .navigationBarTitle("\(title)", displayMode: .inline)
     }
 }
@@ -141,11 +139,10 @@ struct AboutStylist: View{
     }
     
     var body: some View{
-        ForEach(_stylists.wrappedValue, id: \.self){stylist in
-            NavigationLink(destination: StylistDetailView(stylistId: stylistId, title: stylist.name!)){
-                VStack{
+            VStack{
+                NavigationLink(destination: StylistDetailView(stylistId: stylistId, title: (_stylists.wrappedValue.first?.name)!)){
                     HStack{
-                        UrlImageView(urlString: "\(stylist.img!)")
+                        UrlImageView(urlString: _stylists.wrappedValue.first?.img)
                             .clipShape(Circle())
                             .frame(width: 70, height: 70)
                             .overlay(Circle().stroke(Color("Accent")))
@@ -153,19 +150,88 @@ struct AboutStylist: View{
                             .padding()
                         Spacer()
                         VStack(alignment: .trailing){
-                            Text("\(stylist.name!)")
+                            Text("\((_stylists.wrappedValue.first?.name)!)")
                                 .font(.title)
                                 .bold()
-                            Text("\(stylist.location!)")
+                            Text("\((_stylists.wrappedValue.first?.location)!)")
                                 .foregroundColor(Color("Accent"))
                         }.padding()
                     }
-                    Text("\(stylist.desc ?? "No description available.")")
-                        .lineLimit(nil)
-                        .padding(.horizontal)
-                }
-            }.buttonStyle(PlainButtonStyle())
+                }.buttonStyle(PlainButtonStyle())
+                Text("\(_stylists.wrappedValue.first?.desc ?? "No description available.")")
+                    .lineLimit(nil)
+                    .padding(.horizontal)
+                DetailViewMap(latitude: Double(_stylists.wrappedValue.first!.lat), longtitude: Double(_stylists.wrappedValue.first!.lon))
+            }
+    }
+}
+
+struct DetailViewMap: View {
+    @State private var region : MKCoordinateRegion
+    @State private var showingActionSheet = false
+    var latitude:Double = 0.0
+    var longtitude: Double = 0.0
+    var coordinate: CLLocationCoordinate2D
+    let place = [
+        VeganFoodPlace(name: "Kozy Eats", latitude: 56.951924, longitude: 24.125584)
+    ]
+    
+    init(latitude:Double, longtitude: Double) {
+        self.latitude = latitude
+        self.longtitude = longtitude
+        _region = State(initialValue: MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitude, longitude: longtitude), span: MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)))
+        self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longtitude)
+    }
+    var body: some View{
+        Map(coordinateRegion: $region, annotationItems: place){ place in
+            MapMarker(coordinate: coordinate, tint: Color("Accent"))
         }
+        .frame (height: 170, alignment: .center)
+        .onTapGesture {
+            self.showingActionSheet = true
+        }
+        .actionSheet(isPresented: $showingActionSheet) {
+            ActionSheet(title: Text("Navigate"), buttons: [
+                .default(Text("Apple Maps")) {
+                    let link = "http://maps.apple.com/?daddr="
+                    let lat = "\(latitude)"
+                    let lon = "\(longtitude)"
+                    let destination = lat + "," + lon
+                    let formattedString = link + destination
+                    let url: NSURL = URL(string: formattedString)! as NSURL
+                    UIApplication.shared.open(url as URL)
+                },
+                .default(Text("Google Maps")) {
+                    let link = "https://www.google.com/maps/search/?api=1&query="
+                    let lat = "\(latitude)"
+                    let lon = "\(longtitude)"
+                    let destination = lat + "," + lon
+                    let formattedString = link + destination
+                    let url: NSURL = URL(string: formattedString)! as NSURL
+                    UIApplication.shared.open(url as URL)
+                },
+                .default(Text("Waze")) {
+                    let link = "https://waze.com/ul?ll="
+                    let lat = "\(latitude)"
+                    let lon = "\(longtitude)"
+                    let destination = lat + "," + lon
+                    let formattedString = link + destination
+                    let url: NSURL = URL(string: formattedString)! as NSURL
+                    UIApplication.shared.open(url as URL)
+                },
+                .cancel()
+            ])
+        }
+    }
+}
+
+struct VeganFoodPlace: Identifiable {
+    var id = UUID()
+    let name: String
+    let latitude: Double
+    let longitude: Double
+    var coordinate: CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
 
@@ -212,23 +278,22 @@ struct PostsByStylistView: View {
 
 struct AboutCompany :View {
    @FetchRequest var companies: FetchedResults<CoreCompany>
-    var companyId:String = "1"
+    var companyId:Int = 1
     let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
-    init(companyId:String){
+    init(companyId:Int){
         self._companies = FetchRequest<CoreCompany>(
             entity: CoreCompany.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CoreCompany.id, ascending: false)],
-            predicate: NSPredicate(format: "id == %@", companyId))
+            predicate: NSPredicate(format: "id == %@", "\(companyId)"))
         self.companyId = companyId
     }
     var body: some View{
         LazyVStack {
-            ForEach(_companies.wrappedValue, id: \.self){ company in
-                NavigationLink(destination: CompanyDetailView(companyId: companyId, title: company.name!)){
+            NavigationLink(destination: CompanyDetailView(companyId: "\(companyId)", title: (_companies.wrappedValue.first?.name)!)){
                     VStack {
                         HStack{
-                            UrlImageView(urlString: "\(company.img!)")
+                            UrlImageView(urlString: _companies.wrappedValue.first?.img!)
                                 .clipShape(Circle())
                                 .frame(width: 75, height: 75)
                                 .overlay(Circle().stroke(Color("Accent")))
@@ -236,31 +301,31 @@ struct AboutCompany :View {
                                 .padding()
                             Spacer()
                             VStack(alignment: .trailing){
-                                Text("\(company.name!)")
+                                Text("\((_companies.wrappedValue.first?.name)!)")
                                     .font(.headline)
                                     .bold()
                                     .lineLimit(2)
                             }.padding(.trailing)
                         }
-                        Text("\(company.desc ?? "No description available.")")
+                        Text("\(_companies.wrappedValue.first?.desc ?? "No description available.")")
                             .lineLimit(nil)
                             .padding(.horizontal)
                     }.padding()
                 }.buttonStyle(PlainButtonStyle())
-            }
+            
         }
     }
 }
 
 struct MeetTheTeam:View {
-    var companyId:String = "1"
+    var companyId:Int = 1
     @FetchRequest var stylists: FetchedResults<CoreStylist>
     
-    init(companyId:String){
+    init(companyId:Int){
         self._stylists = FetchRequest<CoreStylist>(
             entity: CoreStylist.entity(),
             sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: true)],
-            predicate: NSPredicate(format: "companyId == %@", companyId))
+            predicate: NSPredicate(format: "companyId == %@", "\(companyId)"))
         self.companyId = companyId
     }
     var body: some View{
@@ -341,7 +406,6 @@ struct BookButton: View {
         self.stylistId = stylistId
     }
     var body: some View {
-        ForEach(_stylists.wrappedValue, id: \.self){stylist in
             Button(action: {
                 self.showingActionSheet = true
             }) {
@@ -356,21 +420,21 @@ struct BookButton: View {
                 ActionSheet(title: Text("Contact stylist to book"), buttons: [
                     .default(Text("Call")) {
                         let tel = "tel://"
-                        let phoneString = "\(stylist.mobile!)"
+                        let phoneString = "\(String(describing: _stylists.wrappedValue.first?.mobile!))"
                         let formattedString = tel + phoneString
                         let url: NSURL = URL(string: formattedString)! as NSURL
                         UIApplication.shared.open(url as URL)
                     },
                     .default(Text("SMS")) {
                         let tel = "sms://"
-                        let phoneString = "\(stylist.mobile!)"
+                        let phoneString = "\(String(describing: _stylists.wrappedValue.first?.mobile!))"
                         let formattedString = tel + phoneString
                         let url: NSURL = URL(string: formattedString)! as NSURL
                         UIApplication.shared.open(url as URL)
                     },
                     .default(Text("Whatsapp")) {
                         let tel = "https://wa.me/"
-                        let phoneString = "\(stylist.mobile!)"
+                        let phoneString = "\(String(describing: _stylists.wrappedValue.first?.mobile!))"
                         let formattedString = tel + phoneString
                         let url: NSURL = URL(string: formattedString)! as NSURL
                         UIApplication.shared.open(url as URL)
@@ -378,7 +442,7 @@ struct BookButton: View {
                     .cancel()
                 ])
             }
-        }
+        
     }
 }
 

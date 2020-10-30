@@ -33,10 +33,9 @@ struct CompanyDetailView: View {
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
-                LazyVStack(spacing: 14){
-                    ForEach(companies.wrappedValue, id: \.self){ company in
+                LazyVStack(spacing: 12){
                         HStack {
-                            UrlImageView(urlString: "\(company.img!)")
+                            UrlImageView(urlString: companies.wrappedValue.first?.img)
                                 .clipShape(Circle())
                                 .frame(width: 70, height: 70)
                                 .overlay(Circle().stroke(Color("Accent")))
@@ -44,18 +43,18 @@ struct CompanyDetailView: View {
                                 .padding()
                             Spacer()
                             VStack(alignment: .trailing) {
-                                Text("\(company.name!)")
+                                Text((companies.wrappedValue.first?.name)!)
                                     .font(.title)
                                     .bold()
                             }
                         }.padding(.horizontal)
-                        Text("\(company.desc!)")
+                    Text((companies.wrappedValue.first?.desc)!)
                             .padding(.horizontal)
-                        if(company.imgs != nil){
+                    if(companies.wrappedValue.first?.imgs != nil){
                             VStack {
                                 ScrollView(.horizontal){
                                     LazyHStack{
-                                        ForEach(company.imgs!, id:\.self){ img in
+                                        ForEach((companies.wrappedValue.first?.imgs)! , id:\.self){ img in
                                             UrlImageView(urlString: img)
                                                 .fixedSize()
                                                 .frame(width: 230, height: 230)
@@ -67,7 +66,7 @@ struct CompanyDetailView: View {
                                 }
                             }
                         }
-                    }
+                    
                     HStack{
                         Text("Stylist")
                             .font(.title)

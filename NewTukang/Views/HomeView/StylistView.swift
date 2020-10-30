@@ -11,21 +11,24 @@ import SwiftUI
 struct StylistView: View {
     @FetchRequest(
         entity: CoreStylist.entity(),
-        sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.id, ascending: false)]
+        sortDescriptors: [ NSSortDescriptor(keyPath: \CoreStylist.name, ascending: true)]
     ) var stylists: FetchedResults<CoreStylist>
+    @State var name = ""
     
     var body: some View {
         ZStack{
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
-            ScrollView{
-                    LazyVStack(spacing: 5){
-                        ForEach(_stylists.wrappedValue, id: \.self){ stylist in
-                            StylistCard( imageName:"\(stylist.img!)", stylistId:"\(stylist.id)",stylistName: "\(stylist.name!)", location: "\(stylist.location!)")
-                            Divider()
-                        }.id(UUID())
-                    }.padding(.bottom)
-            }
+                ScrollView{
+                        LazyVStack(spacing: 5){
+                            SearchBar(text: self.$name)
+                            ForEach(_stylists.wrappedValue.filter(
+                                        {name.isEmpty ? true : $0.name!.localizedCaseInsensitiveContains(self.name)}), id: \.self){ stylist in
+                                StylistCard( imageName:"\(stylist.img!)", stylistId:"\(stylist.id)",stylistName: "\(stylist.name!)", location: "\(stylist.location!)")
+                                Divider()
+                            }
+                        }.padding(.bottom)
+                }
         }.navigationBarTitle("Stylists", displayMode: .inline)
     }
 }

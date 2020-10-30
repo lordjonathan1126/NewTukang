@@ -21,7 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         DispatchQueue.global(qos: .userInteractive).async {
-            self.webService.getPostsOnLaunch()
+            self.webService.getPosts()
+        }
+        DispatchQueue.global(qos: .userInteractive).async {
+            self.locationManager.getLocation()
+            
         }
         return true
     }

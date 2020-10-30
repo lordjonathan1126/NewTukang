@@ -9,6 +9,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var show_search: Bool = false
+    @Environment(\.managedObjectContext) var moc
+    
     var body: some View {
         GeometryReader{ geometry in
             NavigationView{
@@ -18,6 +21,16 @@ struct ContentView: View {
                     RefreshScrollView(width: geometry.size.width , height: geometry.size.height)
                         .edgesIgnoringSafeArea(.bottom)
                         .navigationBarTitle("TUKANG", displayMode: .automatic)
+                        .navigationBarItems(trailing:
+                                                Button(action: { self.show_search = true}) {
+                                                    Image(systemName: "magnifyingglass")
+                                                        .foregroundColor(Color("Accent"))
+                                                        .font(.title)
+                                                }.sheet(isPresented: self.$show_search){
+                                                    SearchView()
+                                                        .environment(\.managedObjectContext, self.moc)
+                                                }
+                        )
                 }
             }.navigationViewStyle(StackNavigationViewStyle())
         }

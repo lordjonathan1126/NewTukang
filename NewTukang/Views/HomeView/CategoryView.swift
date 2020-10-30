@@ -12,6 +12,7 @@ struct CategoryView: View {
     @FetchRequest var posts: FetchedResults<CorePost>
     var title:String
     var serviceTypeId:String
+    @State var name = ""
     
     init(serviceTypeId:String, title:String) {
         self._posts = FetchRequest<CorePost>(
@@ -26,17 +27,20 @@ struct CategoryView: View {
         ZStack{
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
-            ScrollView{
-                LazyVStack{
-                    ForEach(_posts.wrappedValue, id: \.self){ post in
-                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                            PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
-                                .padding()
-                        }.buttonStyle(PlainButtonStyle())
-                        Divider()
+                ScrollView{
+                    LazyVStack{
+                        SearchBar(text: self.$name)
+                        ForEach(_posts.wrappedValue.filter(
+                                    {name.isEmpty ? true : $0.serviceName!.localizedCaseInsensitiveContains(self.name)}), id: \.self){ post in
+                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
+                                    .padding()
+                            }.buttonStyle(PlainButtonStyle())
+                            Divider()
+                        }.id(UUID())
                     }
                 }
-            }
+            
         }
         .navigationBarTitle("\(title)", displayMode: .inline)
     }

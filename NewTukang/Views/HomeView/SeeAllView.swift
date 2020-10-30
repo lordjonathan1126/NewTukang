@@ -118,7 +118,7 @@ struct EndingSoonSeeAll:View{
         entity: CorePost.entity(),
         sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.endDate, ascending: true)]
     ) var posts: FetchedResults<CorePost>
-    
+    let date = Date().timeIntervalSince1970
     var body: some View {
         ZStack{
             Color("Background")
@@ -126,11 +126,14 @@ struct EndingSoonSeeAll:View{
             ScrollView{
                 LazyVStack{
                     ForEach(_posts.wrappedValue, id: \.self){ post in
-                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                            PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
-                                .padding()
-                        }.buttonStyle(PlainButtonStyle())
-                        Divider()
+                       // if(post.endDate > date ){
+                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
+                                    .padding()
+                            }.buttonStyle(PlainButtonStyle())
+                            Divider()
+                       //}
+                        
                     }
                 }
             }
@@ -161,6 +164,6 @@ struct LocationViewSeeAll: View{
                 }
             }
         }
-        .navigationBarTitle("Nearby", displayMode: .inline)
+        .navigationBarTitle(Text("Nearby") , displayMode: .inline)
     }
 }

@@ -19,7 +19,7 @@ extension CorePost {
     @NSManaged public var createDate: Date?
     @NSManaged public var desc: String?
     @NSManaged public var discount: Double
-    @NSManaged public var endDate: Date?
+    @NSManaged public var endDate: Double
     @NSManaged public var img: String?
     @NSManaged public var imgs: [String]?
     @NSManaged public var normalPrice: Double
