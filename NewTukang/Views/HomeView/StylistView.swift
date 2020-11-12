@@ -19,16 +19,18 @@ struct StylistView: View {
         ZStack{
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
+            VStack{
+                SearchBar(text: self.$name)
                 ScrollView{
-                        LazyVStack(spacing: 5){
-                            SearchBar(text: self.$name)
-                            ForEach(_stylists.wrappedValue.filter(
-                                        {name.isEmpty ? true : $0.name!.localizedCaseInsensitiveContains(self.name)}), id: \.self){ stylist in
-                                StylistCard( imageName:"\(stylist.img!)", stylistId:"\(stylist.id)",stylistName: "\(stylist.name!)", location: "\(stylist.location!)")
-                                Divider()
-                            }
-                        }.padding(.bottom)
+                    LazyVStack(spacing: 5){
+                        ForEach(_stylists.wrappedValue.filter(
+                                    {name.isEmpty ? true : $0.name!.localizedCaseInsensitiveContains(self.name)}), id: \.self){ stylist in
+                            StylistCard( imageName:"\(stylist.img!)", stylistId:"\(stylist.id)",stylistName: "\(stylist.name!)", location: "\(stylist.location!)")
+                            Divider()
+                        }.id(UUID())
+                    }.padding(.bottom)
                 }
+            }
         }.navigationBarTitle("Stylists", displayMode: .inline)
     }
 }

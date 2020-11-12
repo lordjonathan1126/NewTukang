@@ -17,15 +17,11 @@ class LocationManager: NSObject, ObservableObject {
         willSet { objectWillChange.send() }
     }
     @Published var locationStatus: CLAuthorizationStatus? {
-        willSet {
-            objectWillChange.send()
-        }
+        willSet { objectWillChange.send() }
     }
     
     var statusString: String {
-        guard let status = locationStatus else {
-            return "unknown"
-        }
+        guard let status = locationStatus else { return "unknown" }
         
         switch status {
         case .notDetermined: return "notDetermined"
@@ -35,25 +31,24 @@ class LocationManager: NSObject, ObservableObject {
         case .denied: return "denied"
         default: return "unknown"
         }
-        
     }
     
     override init() {
         super.init()
         self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
-        
+        self.locationManager.startMonitoringSignificantLocationChanges()
+        self.locationManager.requestLocation()
     }
     
     func getLocation(){
         self.locationManager.delegate = self
-        self.locationManager.stopUpdatingLocation()
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.requestLocation()
     }
+    
     
     func distance(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> CLLocationDistance {
         let from = CLLocation(latitude: from.latitude, longitude: from.longitude)

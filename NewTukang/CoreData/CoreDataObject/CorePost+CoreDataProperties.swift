@@ -33,6 +33,7 @@ extension CorePost {
     @NSManaged public var stylistId: Int64
     @NSManaged public var trending: Double
     @NSManaged public var distance: Double
+    @NSManaged public var fav: Bool
     @NSManaged public var stylists: CoreStylist?
 }
 

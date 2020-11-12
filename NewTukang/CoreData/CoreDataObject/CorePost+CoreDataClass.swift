@@ -12,5 +12,4 @@ import CoreData
 
 @objc(CorePost)
 public class CorePost: NSManagedObject {
-
 }

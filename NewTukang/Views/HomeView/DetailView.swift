@@ -36,92 +36,113 @@ struct DetailView: View {
     }
     
     var body: some View {
-            ZStack{
-                Color("Background")
-                    .edgesIgnoringSafeArea(.all)
-                VStack{
-                    ScrollView{
-                        LazyVStack(alignment: .leading, spacing: 12){
-                            UrlImageView(urlString: _posts.wrappedValue.first?.img)
-                            HStack{
-                                Text("What you will get")
-                                    .font(.title)
-                                    .foregroundColor(Color("Accent"))
-                                    .padding(.horizontal)
-                                Spacer()
-                                Text("\(_posts.wrappedValue.first!.serviceDuration) mins")
-                                    .foregroundColor(.secondary)
-                                    .padding(.trailing)
-                            }
-                            Text("\((_posts.wrappedValue.first?.desc!)!)")
-                                .font(.body)
-                                .lineLimit(nil)
+        ZStack{
+            Color("Background")
+                .edgesIgnoringSafeArea(.all)
+            VStack{
+                ScrollView{
+                    LazyVStack(alignment: .leading, spacing: 12){
+                        UrlImageView(urlString: _posts.wrappedValue.first?.img)
+                        HStack{
+                            Text("What you will get")
+                                .font(.title)
+                                .foregroundColor(Color("Accent"))
                                 .padding(.horizontal)
-                            Text("")
-                            if(_posts.wrappedValue.first?.imgs != nil){
-                                VStack{
-                                    ScrollView(.horizontal){
-                                        LazyHStack{
-                                            ForEach((_posts.wrappedValue.first?.imgs)!, id:\.self){ img in
-                                                UrlImageView(urlString: img)
-                                                    .fixedSize()
-                                                    .frame(width: 230, height: 230)
-                                                    .cornerRadius(10.0)
-                                                    .padding(.vertical)
-                                                    .padding(.leading, 10)
-                                            }
+                            Spacer()
+                            Text("\(_posts.wrappedValue.first?.serviceDuration ?? 0) mins")
+                                .foregroundColor(.secondary)
+                                .padding(.trailing)
+                        }
+                        Text(_posts.wrappedValue.first?.desc ?? "Unknown")
+                            .font(.body)
+                            .lineLimit(nil)
+                            .padding(.horizontal)
+                        Text("")
+                        if(_posts.wrappedValue.first?.imgs != nil){
+                            VStack{
+                                ScrollView(.horizontal){
+                                    LazyHStack{
+                                        ForEach((_posts.wrappedValue.first?.imgs)!, id:\.self){ img in
+                                            UrlImageView(urlString: img)
+                                                .fixedSize()
+                                                .frame(width: 230, height: 230)
+                                                .cornerRadius(10.0)
+                                                .padding(.vertical)
+                                                .padding(.leading, 10)
                                         }
                                     }
                                 }
                             }
-                            VStack{
-                                HStack{
-                                    Text("Stylist")
-                                        .font(.title)
-                                        .bold()
-                                        .padding(.leading)
-                                    Spacer()
-                                }
-                                AboutStylist(stylistId: stylistId)
+                        }
+                        AboutStylist(stylistId: stylistId)
+                        PostsByStylistView(stylistId: stylistId, postId: "\(postId)")
+                        AboutCompany(companyId:  Int(_stylists.wrappedValue.first!.companyId))
+                        MeetTheTeam(companyId:  Int(_stylists.wrappedValue.first!.companyId))
+                        SimilarView(serviceTypeId: serviceTypeId, catId: String(_posts.wrappedValue.first?.serviceCatId ?? 0), postId: "\(postId)")
+                    }
+                }
+                Spacer()
+                HStack{
+                    VStack(alignment: .leading) {
+                        Text("\(title)")
+                        HStack{
+                            Text("\(((_posts.wrappedValue.first?.normalPrice ?? 0) -  (_posts.wrappedValue.first?.discount ?? 0)), specifier: "%.2f")")
+                                .font(.title)
+                                .foregroundColor(Color("Accent"))
+                            if (_posts.wrappedValue.first?.discount != 0){
+                                Text("\(_posts.wrappedValue.first?.normalPrice ?? 0, specifier: "%.2f")")
+                                    .strikethrough(true)
                             }
-                            PostsByStylistView(stylistId: stylistId, postId: "\(postId)")
-                            VStack {
-                                HStack {
-                                    Text("Company")
-                                        .font(.title)
-                                        .bold()
-                                        .padding(.leading)
-                                    Spacer()
-                                }
-                                AboutCompany(companyId:  Int(_stylists.wrappedValue.first!.companyId))
-                                MeetTheTeam(companyId:  Int(_stylists.wrappedValue.first!.companyId))
-                                
-                            }
-                            SimilarView(serviceTypeId: serviceTypeId, catId: String(_posts.wrappedValue.first!.serviceCatId), postId: "\(postId)")
                         }
                     }
                     Spacer()
-                    HStack{
-                        VStack(alignment: .leading) {
-                            Text("\(title)")
-                            HStack{
-                                Text("\((_posts.wrappedValue.first!.normalPrice -  _posts.wrappedValue.first!.discount), specifier: "%.2f")")
-                                    .font(.title)
-                                    .foregroundColor(Color("Accent"))
-                                if (_posts.wrappedValue.first?.discount != 0){
-                                    Text("\(_posts.wrappedValue.first!.normalPrice, specifier: "%.2f")")
-                                        .strikethrough(true)
-                                }
-                            }
-                        }
-                        Spacer()
-                        BookButton(stylistId: stylistId)
-                    }.padding(.horizontal)
-                    .background(Color("LightShadow"))
-                }.edgesIgnoringSafeArea(.bottom)
-            }
-        
+                    BookButton(stylistId: stylistId)
+                }.padding(.horizontal)
+                .background(Color("LightShadow"))
+            }.edgesIgnoringSafeArea(.bottom)
+            .navigationBarItems(trailing:
+                                    FavoriteButton(postId: postId,isFavorite: (_posts.wrappedValue.first?.fav ?? false))
+            )
+        }
         .navigationBarTitle("\(title)", displayMode: .inline)
+    }
+}
+
+struct FavoriteButton: View {
+    @FetchRequest var posts: FetchedResults<CorePost>
+    @Environment(\.managedObjectContext) var managedObjectContext
+    @State var isFavorite: Bool
+    var postId:String
+    
+    private let cdManager = CoreDataManager()
+    init(postId:String, isFavorite:Bool){
+        self._posts = FetchRequest<CorePost>(
+            entity: CorePost.entity(),
+            sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)],
+            predicate: NSPredicate(format: "postId == %@", postId))
+        _isFavorite = State(initialValue: isFavorite)
+        self.postId = postId
+    }
+    var body: some View {
+        Button(action: {
+            if(self.isFavorite == true){
+                print("Button tapped while false")
+                self.isFavorite = false
+                self.cdManager.updatePost(postID: postId, isFavorite: isFavorite)
+            }else {
+                print("Button tapped while true")
+                self.isFavorite = true
+                self.cdManager.updatePost(postID: postId, isFavorite: isFavorite)
+            }
+        }, label: {
+            if (self.isFavorite == true){
+                Image(systemName: "heart.fill")
+                    .foregroundColor(Color("Accent"))
+            } else{
+                Image(systemName: "heart.slash")
+                    .foregroundColor(.secondary)
+            }
+        })
     }
 }
 
@@ -139,30 +160,37 @@ struct AboutStylist: View{
     }
     
     var body: some View{
-            VStack{
-                NavigationLink(destination: StylistDetailView(stylistId: stylistId, title: (_stylists.wrappedValue.first?.name)!)){
-                    HStack{
-                        UrlImageView(urlString: _stylists.wrappedValue.first?.img)
-                            .clipShape(Circle())
-                            .frame(width: 70, height: 70)
-                            .overlay(Circle().stroke(Color("Accent")))
-                            .clipped()
-                            .padding()
-                        Spacer()
-                        VStack(alignment: .trailing){
-                            Text("\((_stylists.wrappedValue.first?.name)!)")
-                                .font(.title)
-                                .bold()
-                            Text("\((_stylists.wrappedValue.first?.location)!)")
-                                .foregroundColor(Color("Accent"))
-                        }.padding()
-                    }
-                }.buttonStyle(PlainButtonStyle())
-                Text("\(_stylists.wrappedValue.first?.desc ?? "No description available.")")
-                    .lineLimit(nil)
-                    .padding(.horizontal)
-                DetailViewMap(latitude: Double(_stylists.wrappedValue.first!.lat), longtitude: Double(_stylists.wrappedValue.first!.lon))
+        VStack{
+            HStack{
+                Text("Stylist")
+                    .font(.title)
+                    .bold()
+                    .padding(.leading)
+                Spacer()
             }
+            NavigationLink(destination: StylistDetailView(stylistId: stylistId, title: (_stylists.wrappedValue.first?.name)!)){
+                HStack{
+                    UrlImageView(urlString: _stylists.wrappedValue.first?.img)
+                        .clipShape(Circle())
+                        .frame(width: 70, height: 70)
+                        .overlay(Circle().stroke(Color("Accent")))
+                        .clipped()
+                        .padding()
+                    Spacer()
+                    VStack(alignment: .trailing){
+                        Text("\((_stylists.wrappedValue.first?.name)!)")
+                            .font(.title)
+                            .bold()
+                        Text("\((_stylists.wrappedValue.first?.location)!)")
+                            .foregroundColor(Color("Accent"))
+                    }.padding()
+                }
+            }.buttonStyle(PlainButtonStyle())
+            Text("\(_stylists.wrappedValue.first?.desc ?? "No description available.")")
+                .lineLimit(nil)
+                .padding(.horizontal)
+            DetailViewMap(latitude: Double(_stylists.wrappedValue.first!.lat), longtitude: Double(_stylists.wrappedValue.first!.lon))
+        }
     }
 }
 
@@ -277,7 +305,7 @@ struct PostsByStylistView: View {
 }
 
 struct AboutCompany :View {
-   @FetchRequest var companies: FetchedResults<CoreCompany>
+    @FetchRequest var companies: FetchedResults<CoreCompany>
     var companyId:Int = 1
     let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
@@ -290,28 +318,35 @@ struct AboutCompany :View {
     }
     var body: some View{
         LazyVStack {
+            HStack {
+                Text("Company")
+                    .font(.title)
+                    .bold()
+                    .padding(.leading)
+                Spacer()
+            }
             NavigationLink(destination: CompanyDetailView(companyId: "\(companyId)", title: (_companies.wrappedValue.first?.name)!)){
-                    VStack {
-                        HStack{
-                            UrlImageView(urlString: _companies.wrappedValue.first?.img!)
-                                .clipShape(Circle())
-                                .frame(width: 75, height: 75)
-                                .overlay(Circle().stroke(Color("Accent")))
-                                .clipped()
-                                .padding()
-                            Spacer()
-                            VStack(alignment: .trailing){
-                                Text("\((_companies.wrappedValue.first?.name)!)")
-                                    .font(.headline)
-                                    .bold()
-                                    .lineLimit(2)
-                            }.padding(.trailing)
-                        }
-                        Text("\(_companies.wrappedValue.first?.desc ?? "No description available.")")
-                            .lineLimit(nil)
-                            .padding(.horizontal)
-                    }.padding()
-                }.buttonStyle(PlainButtonStyle())
+                VStack {
+                    HStack{
+                        UrlImageView(urlString: _companies.wrappedValue.first?.img!)
+                            .clipShape(Circle())
+                            .frame(width: 75, height: 75)
+                            .overlay(Circle().stroke(Color("Accent")))
+                            .clipped()
+                            .padding()
+                        Spacer()
+                        VStack(alignment: .trailing){
+                            Text("\((_companies.wrappedValue.first?.name)!)")
+                                .font(.headline)
+                                .bold()
+                                .lineLimit(2)
+                        }.padding(.trailing)
+                    }
+                    Text("\(_companies.wrappedValue.first?.desc ?? "No description available.")")
+                        .lineLimit(nil)
+                        .padding(.horizontal)
+                }.padding()
+            }.buttonStyle(PlainButtonStyle())
             
         }
     }
@@ -406,43 +441,45 @@ struct BookButton: View {
         self.stylistId = stylistId
     }
     var body: some View {
-            Button(action: {
-                self.showingActionSheet = true
-            }) {
-                Text("Contact")
-                    .foregroundColor(.white)
-                    .padding()
-            }.background(Color("Accent"))
-            .cornerRadius(10)
-            .padding(.vertical)
-            .shadow(color: Color("DarkShadow"), radius: 3, x: 3, y: 3)
-            .actionSheet(isPresented: $showingActionSheet) {
-                ActionSheet(title: Text("Contact stylist to book"), buttons: [
-                    .default(Text("Call")) {
-                        let tel = "tel://"
-                        let phoneString = "\(String(describing: _stylists.wrappedValue.first?.mobile!))"
-                        let formattedString = tel + phoneString
-                        let url: NSURL = URL(string: formattedString)! as NSURL
-                        UIApplication.shared.open(url as URL)
-                    },
-                    .default(Text("SMS")) {
-                        let tel = "sms://"
-                        let phoneString = "\(String(describing: _stylists.wrappedValue.first?.mobile!))"
-                        let formattedString = tel + phoneString
-                        let url: NSURL = URL(string: formattedString)! as NSURL
-                        UIApplication.shared.open(url as URL)
-                    },
-                    .default(Text("Whatsapp")) {
-                        let tel = "https://wa.me/"
-                        let phoneString = "\(String(describing: _stylists.wrappedValue.first?.mobile!))"
-                        let formattedString = tel + phoneString
-                        let url: NSURL = URL(string: formattedString)! as NSURL
-                        UIApplication.shared.open(url as URL)
-                    },
-                    .cancel()
-                ])
-            }
+        Button(action: {
+            self.showingActionSheet = true
+        }) {
+            Text("Contact")
+                .foregroundColor(.white)
+                .padding()
+        }.background(Color("Accent"))
+        .cornerRadius(10)
+        .padding(.vertical)
+        .shadow(color: Color("DarkShadow"), radius: 3, x: 3, y: 3)
+        .actionSheet(isPresented: $showingActionSheet) {
+            ActionSheet(title: Text("Contact stylist to book"), buttons: [
+                .default(Text("Call")) {
+                    let tel = "tel://"
+                    let phoneString =  _stylists.wrappedValue.first?.mobile
+                    let formattedString = tel + phoneString!
+                    let url: NSURL = URL(string: formattedString)! as NSURL
+                    UIApplication.shared.open(url as URL)
+                },
+                .default(Text("SMS")) {
+                    let tel = "sms://"
+                    let phoneString =  _stylists.wrappedValue.first?.mobile
+                    let formattedString = tel + phoneString!
+                    let url: NSURL = URL(string: formattedString)! as NSURL
+                    UIApplication.shared.open(url as URL)
+                },
+                .default(Text("Whatsapp")) {
+                    let tel = "https://wa.me/"
+                    let phoneString = _stylists.wrappedValue.first?.mobile
+                    let formattedString = tel + phoneString!
+                    let url: NSURL = URL(string: formattedString)! as NSURL
+                    UIApplication.shared.open(url as URL)
+                },
+                .cancel()
+            ])
+        }
         
     }
 }
+
+
 

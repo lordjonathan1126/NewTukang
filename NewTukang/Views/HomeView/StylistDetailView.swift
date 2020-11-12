@@ -13,7 +13,9 @@ struct StylistDetailView: View {
     var stylists: FetchRequest<CoreStylist>
     var stylistId:String
     var title:String
+    
     @State private var showingActionSheet = false
+    @State private var isFavorite = false
     
     init(stylistId:String, title:String) {
         posts = FetchRequest<CorePost>(
@@ -60,7 +62,6 @@ struct StylistDetailView: View {
                                         self.showingActionSheet = true
                                     }) {
                                         Image(systemName: "phone.fill")
-                                        
                                     }
                                     .actionSheet(isPresented: $showingActionSheet) {
                                         ActionSheet(title: Text("Contact stylist to book"), buttons: [
@@ -107,40 +108,40 @@ struct AboutStylist2: View{
     }
     
     var body: some View{
-            LazyVStack {
-                HStack{
-                    UrlImageView(urlString: _stylists.wrappedValue.first?.img)
-                        .clipShape(Circle())
-                        .frame(width: 70, height: 70)
-                        .overlay(Circle().stroke(Color("Accent")))
-                        .clipped()
-                        .padding()
-                    Spacer()
-                    VStack(alignment: .trailing){
-                        Text((_stylists.wrappedValue.first?.name)!)
-                            .font(.title)
-                            .bold()
-                        Text((_stylists.wrappedValue.first?.location)!)
-                            .foregroundColor(Color("Accent"))
-                    }.padding()
-                }
-                Text("\(_stylists.wrappedValue.first?.desc ?? "No description available.")")
-                    .lineLimit(nil)
-                    .padding(.horizontal)
-                if(_stylists.wrappedValue.first?.imgs != nil){
-                    ScrollView(.horizontal){
-                        LazyHStack(){
-                            ForEach((_stylists.wrappedValue.first?.imgs)!, id:\.self){ img in
-                                UrlImageView(urlString: img)
-                                    .fixedSize()
-                                    .frame(width: 230, height: 230)
-                                    .cornerRadius(10.0)
-                                    .padding(.vertical)
-                                    .padding(.leading, 10)
-                            }
+        LazyVStack {
+            HStack{
+                UrlImageView(urlString: _stylists.wrappedValue.first?.img)
+                    .clipShape(Circle())
+                    .frame(width: 70, height: 70)
+                    .overlay(Circle().stroke(Color("Accent")))
+                    .clipped()
+                    .padding()
+                Spacer()
+                VStack(alignment: .trailing){
+                    Text((_stylists.wrappedValue.first?.name)!)
+                        .font(.title)
+                        .bold()
+                    Text((_stylists.wrappedValue.first?.location)!)
+                        .foregroundColor(Color("Accent"))
+                }.padding()
+            }
+            Text("\(_stylists.wrappedValue.first?.desc ?? "No description available.")")
+                .lineLimit(nil)
+                .padding(.horizontal)
+            if(_stylists.wrappedValue.first?.imgs != nil){
+                ScrollView(.horizontal){
+                    LazyHStack{
+                        ForEach((_stylists.wrappedValue.first?.imgs)!, id:\.self){ img in
+                            UrlImageView(urlString: img)
+                                .fixedSize()
+                                .frame(width: 230, height: 230)
+                                .cornerRadius(10.0)
+                                .padding(.vertical)
+                                .padding(.leading, 10)
                         }
                     }
                 }
             }
+        }
     }
 }

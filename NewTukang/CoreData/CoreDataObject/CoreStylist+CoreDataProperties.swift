@@ -2,7 +2,7 @@
 //  CoreStylist+CoreDataProperties.swift
 //  NewTukang
 //
-//  Created by Jonathan Ng on 29/09/2020.
+//  Created by Jonathan Ng on 04/11/2020.
 //  Copyright © 2020 Jonathan Ng. All rights reserved.
 //
 //
@@ -29,6 +29,7 @@ extension CoreStylist {
     @NSManaged public var lon: Double
     @NSManaged public var mobile: String?
     @NSManaged public var name: String?
+    @NSManaged public var fav: Bool
     @NSManaged public var companies: CoreCompany?
     @NSManaged public var posts: NSSet?
 

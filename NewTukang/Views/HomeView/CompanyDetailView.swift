@@ -13,6 +13,7 @@ struct CompanyDetailView: View {
     var title:String = "Unkown Company"
     var companies: FetchRequest<CoreCompany>
     var stylists: FetchRequest<CoreStylist>
+    @State private var isFavorite = false
     
     init(companyId:String, title:String) {
         companies = FetchRequest<CoreCompany>(
@@ -34,38 +35,38 @@ struct CompanyDetailView: View {
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
                 LazyVStack(spacing: 12){
-                        HStack {
-                            UrlImageView(urlString: companies.wrappedValue.first?.img)
-                                .clipShape(Circle())
-                                .frame(width: 70, height: 70)
-                                .overlay(Circle().stroke(Color("Accent")))
-                                .clipped()
-                                .padding()
-                            Spacer()
-                            VStack(alignment: .trailing) {
-                                Text((companies.wrappedValue.first?.name)!)
-                                    .font(.title)
-                                    .bold()
-                            }
-                        }.padding(.horizontal)
+                    HStack {
+                        UrlImageView(urlString: companies.wrappedValue.first?.img)
+                            .clipShape(Circle())
+                            .frame(width: 70, height: 70)
+                            .overlay(Circle().stroke(Color("Accent")))
+                            .clipped()
+                            .padding()
+                        Spacer()
+                        VStack(alignment: .trailing) {
+                            Text((companies.wrappedValue.first?.name)!)
+                                .font(.title)
+                                .bold()
+                        }
+                    }.padding(.horizontal)
                     Text((companies.wrappedValue.first?.desc)!)
-                            .padding(.horizontal)
+                        .padding(.horizontal)
                     if(companies.wrappedValue.first?.imgs != nil){
-                            VStack {
-                                ScrollView(.horizontal){
-                                    LazyHStack{
-                                        ForEach((companies.wrappedValue.first?.imgs)! , id:\.self){ img in
-                                            UrlImageView(urlString: img)
-                                                .fixedSize()
-                                                .frame(width: 230, height: 230)
-                                                .cornerRadius(10.0)
-                                                .padding(.vertical)
-                                                .padding(.leading, 10)
-                                        }
+                        VStack {
+                            ScrollView(.horizontal){
+                                LazyHStack{
+                                    ForEach((companies.wrappedValue.first?.imgs)! , id:\.self){ img in
+                                        UrlImageView(urlString: img)
+                                            .fixedSize()
+                                            .frame(width: 230, height: 230)
+                                            .cornerRadius(10.0)
+                                            .padding(.vertical)
+                                            .padding(.leading, 10)
                                     }
                                 }
                             }
                         }
+                    }
                     
                     HStack{
                         Text("Stylist")

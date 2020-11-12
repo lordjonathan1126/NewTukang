@@ -32,6 +32,7 @@
 		FC74D5F8250B30B100A6A0CF /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC74D5F7250B30B100A6A0CF /* DetailView.swift */; };
 		FC7E84A9254ACC5200720A1F /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7E84A8254ACC5200720A1F /* SearchBarView.swift */; };
 		FC7E84B2254AD87E00720A1F /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FC7E84B1254AD87E00720A1F /* IQKeyboardManagerSwift */; };
+		FC7E84B725500EFD00720A1F /* FetchedCorePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7E84B625500EFD00720A1F /* FetchedCorePost.swift */; };
 		FC7EFDFD2523002600842133 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7EFDFC2523002600842133 /* Location.swift */; };
 		FC90FD59251B3DDF00FA02C4 /* UrlImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC90FD58251B3DDF00FA02C4 /* UrlImageView.swift */; };
 		FC90FD5E251B3E0100FA02C4 /* UrlImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC90FD5D251B3E0100FA02C4 /* UrlImageModel.swift */; };
@@ -41,6 +42,7 @@
 		FCD7C20E251DAC12005C7BAB /* Beauty.png in Resources */ = {isa = PBXBuildFile; fileRef = FCD7C20D251DAC12005C7BAB /* Beauty.png */; };
 		FCDC7DCC252EEAA3003D0072 /* RefreshScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDC7DCB252EEAA3003D0072 /* RefreshScrollView.swift */; };
 		FCDCB7F8253D6FC700AE3F68 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDCB7F7253D6FC700AE3F68 /* Date.swift */; };
+		FCE458032552B271006639B7 /* FavouriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE458022552B271006639B7 /* FavouriteView.swift */; };
 		FCE67D4124EF6C8A0031A79B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE67D4024EF6C8A0031A79B /* AppDelegate.swift */; };
 		FCE67D4324EF6C8A0031A79B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE67D4224EF6C8A0031A79B /* SceneDelegate.swift */; };
 		FCE67D4624EF6C8A0031A79B /* NewTukang.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FCE67D4424EF6C8A0031A79B /* NewTukang.xcdatamodeld */; };
@@ -72,6 +74,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		FCE4582E25552A84006639B7 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		FC1459A625131C1E0015DC2F /* Notes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notes.swift; sourceTree = "<group>"; };
 		FC1459A725131C1E0015DC2F /* Price.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Price.swift; sourceTree = "<group>"; };
@@ -99,6 +114,7 @@
 		FC74D5F5250B30A200A6A0CF /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		FC74D5F7250B30B100A6A0CF /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		FC7E84A8254ACC5200720A1F /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		FC7E84B625500EFD00720A1F /* FetchedCorePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCorePost.swift; sourceTree = "<group>"; };
 		FC7EFDFC2523002600842133 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		FC90FD58251B3DDF00FA02C4 /* UrlImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlImageView.swift; sourceTree = "<group>"; };
 		FC90FD5D251B3E0100FA02C4 /* UrlImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlImageModel.swift; sourceTree = "<group>"; };
@@ -109,6 +125,9 @@
 		FCD7C20D251DAC12005C7BAB /* Beauty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Beauty.png; sourceTree = "<group>"; };
 		FCDC7DCB252EEAA3003D0072 /* RefreshScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshScrollView.swift; sourceTree = "<group>"; };
 		FCDCB7F7253D6FC700AE3F68 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		FCE458022552B271006639B7 /* FavouriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteView.swift; sourceTree = "<group>"; };
+		FCE4581B25552A80006639B7 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		FCE4581D25552A80006639B7 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		FCE67D3D24EF6C8A0031A79B /* Tukang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tukang.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCE67D4024EF6C8A0031A79B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FCE67D4224EF6C8A0031A79B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -173,6 +192,8 @@
 			children = (
 				FCD7C209251DAB38005C7BAB /* Beauty.png */,
 				FC3BE02825189A2500D2DFB9 /* Beauty.png */,
+				FCE4581B25552A80006639B7 /* WidgetKit.framework */,
+				FCE4581D25552A80006639B7 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -199,6 +220,7 @@
 				FC6ABCF4252480C90016D33A /* SeeAllView.swift */,
 				FC42954C24F37A3C005B894A /* SearchView.swift */,
 				FC7E84A8254ACC5200720A1F /* SearchBarView.swift */,
+				FCE458022552B271006639B7 /* FavouriteView.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -274,10 +296,10 @@
 			children = (
 				FCE67D4724EF6C8A0031A79B /* ContentView.swift */,
 				FCE67D7324EF6E050031A79B /* AppTabBar.swift */,
-				FC74D5F2250B24A600A6A0CF /* HomeView */,
 				FC9A632A2533314600C1BA64 /* CardsView.swift */,
 				FC90FD58251B3DDF00FA02C4 /* UrlImageView.swift */,
 				FCDC7DCB252EEAA3003D0072 /* RefreshScrollView.swift */,
+				FC74D5F2250B24A600A6A0CF /* HomeView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -297,6 +319,7 @@
 				FC1459A925131C1F0015DC2F /* Stylist.swift */,
 				FC90FD5D251B3E0100FA02C4 /* UrlImageModel.swift */,
 				FCDCB7F7253D6FC700AE3F68 /* Date.swift */,
+				FC7E84B625500EFD00720A1F /* FetchedCorePost.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -321,6 +344,7 @@
 				FCE67D3924EF6C8A0031A79B /* Sources */,
 				FCE67D3A24EF6C8A0031A79B /* Frameworks */,
 				FCE67D3B24EF6C8A0031A79B /* Resources */,
+				FCE4582E25552A84006639B7 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -376,7 +400,7 @@
 		FCE67D3524EF6C8A0031A79B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1160;
+				LastSwiftUpdateCheck = 1210;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Jonathan Ng";
 				TargetAttributes = {
@@ -467,6 +491,7 @@
 				FC1459B325131C1F0015DC2F /* Json4Swift_Base.swift in Sources */,
 				FC1459B625131C1F0015DC2F /* Company.swift in Sources */,
 				FC1459AF25131C1F0015DC2F /* Notes.swift in Sources */,
+				FC7E84B725500EFD00720A1F /* FetchedCorePost.swift in Sources */,
 				FCC3BA9E252EDD8C00171D83 /* LocationManager.swift in Sources */,
 				FC4D1FEE2523106600A3678A /* CoreStylist+CoreDataProperties.swift in Sources */,
 				FCDC7DCC252EEAA3003D0072 /* RefreshScrollView.swift in Sources */,
@@ -487,6 +512,7 @@
 				FC1459B025131C1F0015DC2F /* Price.swift in Sources */,
 				FCDCB7F8253D6FC700AE3F68 /* Date.swift in Sources */,
 				FC4D1FEB2523106600A3678A /* CoreCompany+CoreDataClass.swift in Sources */,
+				FCE458032552B271006639B7 /* FavouriteView.swift in Sources */,
 				FC74D5F6250B30A200A6A0CF /* CategoryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -669,7 +695,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.4;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.JonathanNg.Tukang;
 				PRODUCT_NAME = Tukang;
@@ -695,7 +721,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.4;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.JonathanNg.Tukang;
 				PRODUCT_NAME = Tukang;

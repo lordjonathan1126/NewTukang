@@ -3,6 +3,7 @@
     <entity name="CoreCompany" representedClassName="CoreCompany" syncable="YES">
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="fav" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="img" optional="YES" attributeType="String"/>
         <attribute name="imgs" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="Array&lt;Any&gt;"/>
@@ -21,6 +22,7 @@
         <attribute name="discount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="distance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="endDate" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="fav" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="img" optional="YES" attributeType="String"/>
         <attribute name="imgs" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="Array&lt;Any&gt;"/>
         <attribute name="normalPrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -44,6 +46,7 @@
         <attribute name="companyId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="fav" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="img" optional="YES" attributeType="String"/>
         <attribute name="imgs" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="Array&lt;Any&gt;"/>
@@ -62,8 +65,8 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="CoreCompany" positionX="290.92578125" positionY="278.6015625" width="128" height="163"/>
-        <element name="CorePost" positionX="-250.89453125" positionY="-14.0546875" width="128" height="313"/>
-        <element name="CoreStylist" positionX="-10.78125" positionY="32.1796875" width="128" height="253"/>
+        <element name="CoreCompany" positionX="290.92578125" positionY="278.6015625" width="128" height="178"/>
+        <element name="CorePost" positionX="-250.89453125" positionY="-14.0546875" width="128" height="328"/>
+        <element name="CoreStylist" positionX="-10.78125" positionY="32.1796875" width="128" height="268"/>
     </elements>
 </model>

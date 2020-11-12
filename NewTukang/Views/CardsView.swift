@@ -176,7 +176,7 @@ struct HorizontalWidePostCards: View{
             .padding(.bottom)
         }
         //.padding()
-        .frame(width: 280, height: 410)
+        .frame(width: 300, height: 410)
         .background(Color("Background"))
         .cornerRadius(12)
         .shadow(color: Color("DarkShadow"), radius: 3, x: 5, y: 5)
@@ -233,18 +233,24 @@ struct PostCards: View{
                 }
                 VStack(alignment: .leading, spacing: 15) {
                     Text(title)
-                        .font(.headline)
                         .lineLimit(3)
                         .fixedSize(horizontal: false, vertical: true)
                     Text("\(_stylists.wrappedValue.first?.name ?? "Unknown Stylist")")
                         HStack{
-                            Spacer()
-                            Text("\((price - discount), specifier: "%.2f")")
-                                .font(.headline)
-                                .foregroundColor(Color("Accent"))
-                            if (discount != 0){
+                            if (discount == 0){
                                 Text("\(price, specifier: "%.2f")")
+                                    .font(.callout)
+                                    .foregroundColor(Color("Accent"))
+                                   Spacer()
+                            }else{
+                                Text("\((price - discount), specifier: "%.2f")")
+                                    .font(.callout)
+                                    .foregroundColor(Color("Accent"))
+                                Text("\(price, specifier: "%.2f")")
+                                    .font(.callout)
                                     .strikethrough(true)
+                                Spacer()
+                                
                             }
                         }
                     
@@ -272,7 +278,6 @@ struct StylistCard: View{
                     .frame(width: 100, height: 100)
                     .overlay(Circle().stroke(Color("Accent")))
                     .padding()
-                Spacer()
                 VStack(alignment: .trailing){
                     HStack {
                         Spacer()
@@ -310,7 +315,6 @@ struct CompanyCard: View{
                     .frame(width: 100, height: 100)
                     .overlay(Circle().stroke(Color("Accent")))
                     .padding()
-                Spacer()
                 VStack(alignment: .trailing){
                     HStack {
                         Spacer()

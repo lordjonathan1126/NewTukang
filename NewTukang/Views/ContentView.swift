@@ -11,6 +11,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var show_search: Bool = false
     @Environment(\.managedObjectContext) var moc
+    @ObservedObject var webService = WebService()
     
     var body: some View {
         GeometryReader{ geometry in

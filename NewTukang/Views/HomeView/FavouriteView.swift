@@ -1,38 +1,35 @@
 //
-//  CategoryView.swift
+//  FavouriteView.swift
 //  NewTukang
 //
-//  Created by Jonathan Ng on 11/09/2020.
+//  Created by Jonathan Ng on 04/11/2020.
 //  Copyright © 2020 Jonathan Ng. All rights reserved.
 //
 
 import SwiftUI
 
-struct CategoryView: View {
+struct FavouriteView : View{
     @FetchRequest var posts: FetchedResults<CorePost>
-    var title:String
-    var serviceTypeId:String
-    @State var name = ""
     
-    init(serviceTypeId:String, title:String) {
+    init(){
         self._posts = FetchRequest<CorePost>(
             entity: CorePost.entity(),
-            sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.postId, ascending: true)],
-            predicate: NSPredicate(format: "serviceTypeId == %@", serviceTypeId))
-        self.title = title
-        self.serviceTypeId = serviceTypeId
+            sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.serviceName, ascending: true)],
+            predicate: NSPredicate(format: "fav == %@", NSNumber(booleanLiteral: true)))
     }
-    
-    var body: some View {
+    var body : some View{
         ZStack{
             Color("Background")
                 .edgesIgnoringSafeArea(.all)
-            VStack{
-                SearchBar(text: self.$name)
+            if(_posts.wrappedValue.count == 0){
+                VStack{
+                    Text("No favorited items yet.")
+                        .foregroundColor(.secondary)
+                }
+            }else{
                 ScrollView{
                     LazyVStack{
-                        ForEach(_posts.wrappedValue.filter(
-                                    {name.isEmpty ? true : $0.serviceName!.localizedCaseInsensitiveContains(self.name)}), id: \.self){ post in
+                        ForEach(_posts.wrappedValue, id: \.self){ post in
                             NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                                 PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                     .padding()
@@ -41,10 +38,9 @@ struct CategoryView: View {
                         }
                     }
                 }
+                
             }
         }
-        .navigationBarTitle("\(title)", displayMode: .inline)
+        .navigationBarTitle("Favorite", displayMode: .inline)
     }
 }
-
-

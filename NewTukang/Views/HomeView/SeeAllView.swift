@@ -28,7 +28,6 @@ struct MostPurchasedSeeAll: View {
                         Divider()
                     }
                 }
-                
             }
         }
         .navigationBarTitle("Top Sales", displayMode: .inline)
@@ -126,13 +125,13 @@ struct EndingSoonSeeAll:View{
             ScrollView{
                 LazyVStack{
                     ForEach(_posts.wrappedValue, id: \.self){ post in
-                       // if(post.endDate > date ){
-                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                                PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
-                                    .padding()
-                            }.buttonStyle(PlainButtonStyle())
-                            Divider()
-                       //}
+                        // if(post.endDate > date ){
+                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                            PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
+                                .padding()
+                        }.buttonStyle(PlainButtonStyle())
+                        Divider()
+                        //}
                         
                     }
                 }
@@ -155,11 +154,18 @@ struct LocationViewSeeAll: View{
             ScrollView{
                 LazyVStack{
                     ForEach(_posts.wrappedValue, id: \.self){ post in
-                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                            PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
-                                .padding()
-                        }.buttonStyle(PlainButtonStyle())
-                        Divider()
+                        VStack{
+                            HStack{
+                                Image(systemName: "location")
+                                Text("\(post.distance/1000, specifier: "%.1f") km away")
+                            }.foregroundColor(.secondary)
+                            .padding(.top)
+                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
+                                    .padding()
+                            }.buttonStyle(PlainButtonStyle())
+                            Divider()
+                        }
                     }
                 }
             }

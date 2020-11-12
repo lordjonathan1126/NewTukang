@@ -19,14 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+        DispatchQueue.global(qos: .userInteractive).async {
+            self.locationManager.getLocation()
+        }
         DispatchQueue.global(qos: .userInteractive).async {
             self.webService.getPosts()
         }
-        DispatchQueue.global(qos: .userInteractive).async {
-            self.locationManager.getLocation()
-            
-        }
+     
         return true
     }
     
