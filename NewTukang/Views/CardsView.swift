@@ -73,7 +73,6 @@ struct HorizontalPostCards: View{
                 HStack{
                     Text("\(_stylists.wrappedValue.first?.name ?? "Unknown Stylist")")
                             .bold()
-                    
                     Spacer()
                 }
                 HStack {

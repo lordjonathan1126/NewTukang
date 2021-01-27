@@ -17,6 +17,7 @@ struct FavouriteView : View{
             sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.serviceName, ascending: true)],
             predicate: NSPredicate(format: "fav == %@", NSNumber(booleanLiteral: true)))
     }
+    
     var body : some View{
         ZStack{
             Color("Background")

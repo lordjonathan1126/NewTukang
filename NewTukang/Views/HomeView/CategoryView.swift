@@ -12,6 +12,7 @@ struct CategoryView: View {
     @FetchRequest var posts: FetchedResults<CorePost>
     var title:String
     var serviceTypeId:String
+    let date = Date().timeIntervalSince1970
     @State var name = ""
     
     init(serviceTypeId:String, title:String) {
@@ -33,11 +34,13 @@ struct CategoryView: View {
                     LazyVStack{
                         ForEach(_posts.wrappedValue.filter(
                                     {name.isEmpty ? true : $0.serviceName!.localizedCaseInsensitiveContains(self.name)}), id: \.self){ post in
-                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                                PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
-                                    .padding()
-                            }.buttonStyle(PlainButtonStyle())
-                            Divider()
+                            if(post.endDate > date){
+                                NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                    PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
+                                        .padding()
+                                }.buttonStyle(PlainButtonStyle())
+                                Divider()
+                            }
                         }
                     }
                 }

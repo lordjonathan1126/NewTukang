@@ -8,6 +8,7 @@
 
 import Foundation
 import Combine
+
 class DateCalculator : ObservableObject {
     let currentDate = Date()
     func offsetFrom(date: Date) -> String {

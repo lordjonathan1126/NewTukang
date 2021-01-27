@@ -12,10 +12,10 @@ import MapKit
 struct DetailView: View {
     @FetchRequest var posts: FetchedResults<CorePost>
     @FetchRequest var stylists: FetchedResults<CoreStylist>
-    var stylistId:String
-    var title:String
-    var serviceTypeId:String
-    var postId:String
+    var stylistId: String
+    var title: String
+    var serviceTypeId: String
+    var postId: String
     let urlPath = Bundle.main.url(forResource: "Beauty", withExtension: "png")!
     
     @State private var showingSheet = false

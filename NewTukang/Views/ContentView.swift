@@ -9,16 +9,18 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var show_search: Bool = false
     @Environment(\.managedObjectContext) var moc
-    @ObservedObject var webService = WebService()
+    @State private var show_search: Bool = false
     
     var body: some View {
+        //GeometryReader for getting display width and height size
         GeometryReader{ geometry in
             NavigationView{
+                // ZStack to change background color
                 ZStack{
                     Color("Background")
                         .edgesIgnoringSafeArea(.all)
+                    //Calling pulldown to refresh view
                     RefreshScrollView(width: geometry.size.width , height: geometry.size.height)
                         .edgesIgnoringSafeArea(.bottom)
                         .navigationBarTitle("TUKANG", displayMode: .automatic)

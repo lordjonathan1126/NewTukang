@@ -13,6 +13,7 @@ struct MostPurchasedSeeAll: View {
         entity: CorePost.entity(),
         sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.stat_p, ascending: false)]
     ) var posts: FetchedResults<CorePost>
+    let date = Date().timeIntervalSince1970
     
     var body: some View {
         ZStack{
@@ -21,11 +22,13 @@ struct MostPurchasedSeeAll: View {
             ScrollView{
                 LazyVStack{
                     ForEach(_posts.wrappedValue, id: \.self){ post in
+                        if(post.endDate > date){
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
                         Divider()
+                        }
                     }
                 }
             }
@@ -39,6 +42,7 @@ struct MostPopularSeeAll: View {
         entity: CorePost.entity(),
         sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.stat_v, ascending: false)]
     ) var posts: FetchedResults<CorePost>
+    let date = Date().timeIntervalSince1970
     
     var body: some View {
         ZStack{
@@ -47,11 +51,13 @@ struct MostPopularSeeAll: View {
             ScrollView{
                 LazyVStack{
                     ForEach(_posts.wrappedValue, id: \.self){ post in
+                        if(post.endDate > date){
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
                         Divider()
+                    }
                     }
                 }
             }
@@ -65,6 +71,7 @@ struct TopTrendingSeeAll: View {
         entity: CorePost.entity(),
         sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.trending, ascending: false)]
     ) var posts: FetchedResults<CorePost>
+    let date = Date().timeIntervalSince1970
     
     var body: some View {
         ZStack{
@@ -73,11 +80,13 @@ struct TopTrendingSeeAll: View {
             ScrollView{
                 LazyVStack{
                     ForEach(_posts.wrappedValue, id: \.self){ post in
+                        if(post.endDate > date){
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
                         Divider()
+                        }
                     }
                 }
             }
@@ -91,6 +100,7 @@ struct NewPostSeeAll:View{
         entity: CorePost.entity(),
         sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.createDate, ascending: false)]
     ) var posts: FetchedResults<CorePost>
+    let date = Date().timeIntervalSince1970
     
     var body: some View {
         ZStack{
@@ -99,11 +109,13 @@ struct NewPostSeeAll:View{
             ScrollView{
                 LazyVStack{
                     ForEach(_posts.wrappedValue, id: \.self){ post in
+                        if(post.endDate > date){
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
                         Divider()
+                    }
                     }
                 }
             }
@@ -118,6 +130,7 @@ struct EndingSoonSeeAll:View{
         sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.endDate, ascending: true)]
     ) var posts: FetchedResults<CorePost>
     let date = Date().timeIntervalSince1970
+    
     var body: some View {
         ZStack{
             Color("Background")
@@ -125,13 +138,13 @@ struct EndingSoonSeeAll:View{
             ScrollView{
                 LazyVStack{
                     ForEach(_posts.wrappedValue, id: \.self){ post in
-                        // if(post.endDate > date ){
+                         if(post.endDate > date){
                         NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
                             PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
                                 .padding()
                         }.buttonStyle(PlainButtonStyle())
                         Divider()
-                        //}
+                        }
                         
                     }
                 }
@@ -146,6 +159,7 @@ struct LocationViewSeeAll: View{
         entity: CorePost.entity(),
         sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.distance, ascending: true)]
     ) var posts: FetchedResults<CorePost>
+    let date = Date().timeIntervalSince1970
     
     var body: some View{
         ZStack{
@@ -154,6 +168,7 @@ struct LocationViewSeeAll: View{
             ScrollView{
                 LazyVStack{
                     ForEach(_posts.wrappedValue, id: \.self){ post in
+                        if(post.endDate > date){
                         VStack{
                             HStack{
                                 Image(systemName: "location")
@@ -165,6 +180,7 @@ struct LocationViewSeeAll: View{
                                     .padding()
                             }.buttonStyle(PlainButtonStyle())
                             Divider()
+                        }
                         }
                     }
                 }

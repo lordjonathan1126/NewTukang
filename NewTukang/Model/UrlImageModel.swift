@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 class UrlImageModel: ObservableObject {
+    //UrlImageModel for loading images into SwiftUI
     @Published var image: UIImage?
     var urlString: String?
     var imageCache = ImageCache.getImageCache()

@@ -13,6 +13,7 @@ struct StylistDetailView: View {
     var stylists: FetchRequest<CoreStylist>
     var stylistId:String
     var title:String
+    let date = Date().timeIntervalSince1970
     
     @State private var showingActionSheet = false
     @State private var isFavorite = false
@@ -46,11 +47,13 @@ struct StylistDetailView: View {
                             Spacer()
                         }
                         ForEach(posts.wrappedValue, id: \.self){ post in
-                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                                PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
-                                    .padding()
-                            }.buttonStyle(PlainButtonStyle())
-                            Divider()
+                            if(post.endDate > date){
+                                NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                    PostCards(stylistId:"\(post.stylistId)", imageName: "\(post.img!)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", discount: post.discount)
+                                        .padding()
+                                }.buttonStyle(PlainButtonStyle())
+                                Divider()
+                            }
                         }
                     }
                 }
@@ -58,37 +61,37 @@ struct StylistDetailView: View {
         }
         .navigationBarTitle("\(title)", displayMode: .inline)
         .navigationBarItems(trailing:
-                                    Button(action:{
-                                        self.showingActionSheet = true
-                                    }) {
-                                        Image(systemName: "phone.fill")
-                                    }
-                                    .actionSheet(isPresented: $showingActionSheet) {
-                                        ActionSheet(title: Text("Contact stylist to book"), buttons: [
-                                            .default(Text("Call")) {
-                                                let tel = "tel://"
-                                                let phoneString = stylists.wrappedValue.first?.mobile
-                                                let formattedString = tel + phoneString!
-                                                let url: NSURL = URL(string: formattedString)! as NSURL
-                                                UIApplication.shared.open(url as URL)
-                                            },
-                                            .default(Text("SMS")) {
-                                                let tel = "sms://"
-                                                let phoneString = stylists.wrappedValue.first?.mobile
-                                                let formattedString = tel + phoneString!
-                                                let url: NSURL = URL(string: formattedString)! as NSURL
-                                                UIApplication.shared.open(url as URL)
-                                            },
-                                            .default(Text("Whatsapp")) {
-                                                let tel = "https://wa.me/"
-                                                let phoneString = stylists.wrappedValue.first?.mobile
-                                                let formattedString = tel + phoneString!
-                                                let url: NSURL = URL(string: formattedString)! as NSURL
-                                                UIApplication.shared.open(url as URL)
-                                            },
-                                            .cancel()
-                                        ])
-                                    }
+                                Button(action:{
+                                    self.showingActionSheet = true
+                                }) {
+                                    Image(systemName: "phone.fill")
+                                }
+            .actionSheet(isPresented: $showingActionSheet) {
+                ActionSheet(title: Text("Contact stylist to book"), buttons: [
+                    .default(Text("Call")) {
+                        let tel = "tel://"
+                        let phoneString = stylists.wrappedValue.first?.mobile
+                        let formattedString = tel + phoneString!
+                        let url: NSURL = URL(string: formattedString)! as NSURL
+                        UIApplication.shared.open(url as URL)
+                    },
+                    .default(Text("SMS")) {
+                        let tel = "sms://"
+                        let phoneString = stylists.wrappedValue.first?.mobile
+                        let formattedString = tel + phoneString!
+                        let url: NSURL = URL(string: formattedString)! as NSURL
+                        UIApplication.shared.open(url as URL)
+                    },
+                    .default(Text("Whatsapp")) {
+                        let tel = "https://wa.me/"
+                        let phoneString = stylists.wrappedValue.first?.mobile
+                        let formattedString = tel + phoneString!
+                        let url: NSURL = URL(string: formattedString)! as NSURL
+                        UIApplication.shared.open(url as URL)
+                    },
+                    .cancel()
+                ])
+            }
         )
     }
 }

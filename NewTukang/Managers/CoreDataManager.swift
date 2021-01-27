@@ -9,7 +9,8 @@ import SwiftUI
 import CoreData
 import CoreLocation
 
-class CoreDataManager : NSObject{
+class CoreDataManager : NSObject, ObservableObject{
+    
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     var locationManager = LocationManager()
     
@@ -25,6 +26,7 @@ class CoreDataManager : NSObject{
             fetchRequest.fetchLimit = 1
             do{
                 let results = try context.fetch(fetchRequest)
+                // If table is empty, insert as new post
                 if (results.count == 0) {
                     let newPost = NSEntityDescription.insertNewObject(forEntityName: "CorePost", into: context)
                     newPost.setValue(post.postID, forKey: "postId")
@@ -43,6 +45,7 @@ class CoreDataManager : NSObject{
                     newPost.setValue(post.stylistID, forKey: "stylistId")
                     newPost.setValue(post.stat?.trending, forKey: "trending")
                     newPost.setValue(post.imgs, forKey: "imgs")
+                    // Calculate and save distance into post
                     for stylist in stylists{
                         if (stylist.id == post.stylistID){
                             let postLocation = CLLocationCoordinate2DMake(stylist.location?.lat ?? 0, stylist.location?.lon ?? 0)
@@ -54,6 +57,7 @@ class CoreDataManager : NSObject{
                         }
                     }
                 }else{
+                    // If table has the same data, then update data
                     let newPost = results[0] as! NSManagedObject
                     if (newPost.value(forKey: "postId") as? Int == post.postID){
                         newPost.setValue(post.postID, forKey: "postId")
@@ -84,6 +88,7 @@ class CoreDataManager : NSObject{
                             }
                         }
                     } else{
+                     //if new data not in database
                         newPost.setValue(post.postID, forKey: "postId")
                         newPost.setValue(post.price?.normal, forKey: "normalPrice")
                         newPost.setValue(post.price?.discount, forKey: "discount")
@@ -106,7 +111,6 @@ class CoreDataManager : NSObject{
                                 var distance: Double? {
                                     return locationManager.distance(from: userLocation, to: postLocation)
                                 }
-                                //print("User Location: \(userLocation) Post Location: \(postLocation) Distance: \(distance ?? 0)")
                                 newPost.setValue(distance, forKey: "distance")
                             }
                         }
@@ -174,6 +178,7 @@ class CoreDataManager : NSObject{
         }
     }
     
+    //Update post Entity in CoreData when favorite is toggled
     func updatePost(postID: String, isFavorite: Bool){
         let context = self.appDelegate!.persistentContainer.viewContext
         context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
@@ -185,16 +190,36 @@ class CoreDataManager : NSObject{
             let test = try context.fetch(fetchRequest)
             let taskUpdate = test[0] as! NSManagedObject
             taskUpdate.setValue(isFavorite, forKey: "fav")
-//            taskUpdate.setValue(serviceDuration, forKey: "serviceDuration")
-//            taskUpdate.setValue(img, forKey: "img")
-//            taskUpdate.setValue(desc, forKey: "desc")
-//            taskUpdate.setValue(price, forKey: "normalPrice")
-//            taskUpdate.setValue(discount, forKey: "discount")
             
             try context.save()
             print("Updated post")
         } catch {
             print("\(error)")
         }
+    }
+    
+    func deleteEndedPost() {
+        let context = self.appDelegate!.persistentContainer.viewContext
+        let nowDate = Date().timeIntervalSince1970
+        
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CorePost")
+        do{
+        let results = try context.fetch(fetchRequest)
+        for object in results {
+            let endDate = (object as AnyObject).value(forKey: "endDate") as! Double
+              if endDate < nowDate {
+                context.delete(object as! NSManagedObject)
+              }
+          }
+        }catch{
+            print("Error: \(error) \(error.localizedDescription)")
+        }
+        do {
+            try context.save()
+        } catch{
+                print("Error: \(error) \(error.localizedDescription)")
+            
+        }
+        
     }
 }

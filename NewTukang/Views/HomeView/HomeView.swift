@@ -118,6 +118,7 @@ struct MostPurchased: View {
         sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.stat_p, ascending: false)]
     ) var posts: FetchedResults<CorePost>
     var title:String = "Most Purchased"
+    let date = Date().timeIntervalSince1970
     
     var body: some View{
         VStack(alignment:.leading){
@@ -135,9 +136,11 @@ struct MostPurchased: View {
             ScrollView(.horizontal, showsIndicators: false){
                 LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
-                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                            HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
-                        }.buttonStyle(PlainButtonStyle())
+                        if(post.endDate > date ){
+                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                            }.buttonStyle(PlainButtonStyle())
+                        }
                     }
                 }.frame(height: 345, alignment: .center)
                 .padding()
@@ -163,8 +166,8 @@ struct LocationView: View {
         if (locationManager.statusString == "authorizedWhenInUse"){
             if(_posts.wrappedValue.first?.distance ?? 10000001 < 10000000){
                 VStack(alignment:.leading){
-                        LocationTitle(stylistId: Int(_posts.wrappedValue.first!.stylistId))
-                    .padding(.horizontal)
+                    LocationTitle(stylistId: Int(_posts.wrappedValue.first!.stylistId))
+                        .padding(.horizontal)
                     ScrollView(.horizontal, showsIndicators: false){
                         LazyHStack(spacing: 10){
                             ForEach (posts, id: \.self){ post in
@@ -203,9 +206,9 @@ struct LocationTitle: View {
                 .font(.title)
                 .fontWeight(.bold)
             Spacer()
-//            NavigationLink(destination: LocationViewSeeAll()){
-//                Text("See All")
-//            }
+            //            NavigationLink(destination: LocationViewSeeAll()){
+            //                Text("See All")
+            //            }
         }
     }
 }
@@ -216,6 +219,7 @@ struct MostPopular: View {
         sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.stat_v, ascending: false)]
     ) var posts: FetchedResults<CorePost>
     var title:String = "Most Popular"
+    let date = Date().timeIntervalSince1970
     
     var body: some View{
         VStack(alignment:.leading){
@@ -233,9 +237,11 @@ struct MostPopular: View {
             ScrollView(.horizontal, showsIndicators: false){
                 LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
-                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                            HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
-                        }.buttonStyle(PlainButtonStyle())
+                        if(post.endDate > date ){
+                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                            }.buttonStyle(PlainButtonStyle())
+                        }
                     }
                 }.frame(height: 345, alignment: .center)
                 .padding()
@@ -252,6 +258,7 @@ struct TopTrending: View {
         
     ) var posts: FetchedResults<CorePost>
     var title:String = "Top Trending"
+    let date = Date().timeIntervalSince1970
     
     var body: some View{
         VStack(alignment:.leading){
@@ -269,9 +276,11 @@ struct TopTrending: View {
             ScrollView(.horizontal, showsIndicators: false){
                 LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
-                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                            HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
-                        }.buttonStyle(PlainButtonStyle())
+                        if(post.endDate > date ){
+                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                            }.buttonStyle(PlainButtonStyle())
+                        }
                     }
                 }.frame(height: 345, alignment: .center)
                 .padding()
@@ -307,16 +316,16 @@ struct EndingSoon: View {
             ScrollView(.horizontal, showsIndicators: false){
                 LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
-                        //if(post.endDate > date ){
-                        VStack{
-                            HStack{
-                                Image(systemName: "timer")
-                                Text("\(dateCalculator.offsetFrom(date: NSDate(timeIntervalSince1970: post.endDate) as Date))")
-                            }.foregroundColor(.secondary)
-                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                                HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
-                            }.buttonStyle(PlainButtonStyle())
-                            //}
+                        if(post.endDate > date ){
+                            VStack{
+                                HStack{
+                                    Image(systemName: "timer")
+                                    Text("\(dateCalculator.offsetFrom(date: NSDate(timeIntervalSince1970: post.endDate) as Date))")
+                                }.foregroundColor(.secondary)
+                                NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                    HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                                }.buttonStyle(PlainButtonStyle())
+                            }
                         }
                     }
                 }.frame(height: 355, alignment: .center)
@@ -335,6 +344,7 @@ struct NewPost: View {
         sortDescriptors: [ NSSortDescriptor(keyPath: \CorePost.createDate, ascending: false)]
     ) var posts: FetchedResults<CorePost>
     var title:String = "Top Sales"
+    let date = Date().timeIntervalSince1970
     
     var body: some View{
         VStack(alignment:.leading){
@@ -352,10 +362,12 @@ struct NewPost: View {
             ScrollView(.horizontal, showsIndicators: false){
                 LazyHStack(spacing: 12){
                     ForEach (posts, id: \.self){ post in
-                        NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
-                            HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
-                        }.buttonStyle(PlainButtonStyle())
-                    }.id(UUID())
+                        if(post.endDate > date ){
+                            NavigationLink(destination: DetailView(stylistId: "\(post.stylistId)", postId: "\(post.postId)", title:"\(post.serviceName!)", serviceTypeId: "\(post.serviceTypeId)")){
+                                HorizontalPostCards(stylistId: "\(post.stylistId)", title: "\(post.serviceName!)", price: post.normalPrice, desc: "\(post.desc!)", duration:"\(post.serviceDuration)", imageUrl: "\(post.img!)", discount: post.discount)
+                            }.buttonStyle(PlainButtonStyle())
+                        }
+                    }
                 }.frame(height: 345, alignment: .center)
                 .padding()
             }
